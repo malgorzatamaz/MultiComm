@@ -1,0 +1,48 @@
+unit Contacts_Wnd;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  Vcl.ComCtrls;
+
+type
+  TFormContactsList = class(TForm)
+    pnl1: TPanel;
+    ButtonAdd: TSpeedButton;
+    ButtonDelete: TSpeedButton;
+    ButtonEdit: TSpeedButton;
+    Grid: TGridPanel;
+    LabelCallerId: TLabel;
+    LabelUserName: TLabel;
+    edt2: TEdit;
+    LabelImagePath: TLabel;
+    edt4: TEdit;
+    Button1: TSpeedButton;
+    pnl2: TPanel;
+    lv1: TListView;
+    pnl3: TPanel;
+    Button2: TSpeedButton;
+    Button3: TSpeedButton;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormContactsList: TFormContactsList;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFormContactsList.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  Free;
+end;
+
+end.

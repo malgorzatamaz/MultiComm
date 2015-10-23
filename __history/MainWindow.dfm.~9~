@@ -1,0 +1,113 @@
+object Form_MainWindow: TForm_MainWindow
+  Left = 0
+  Top = 0
+  Caption = 'Sip Communicator'
+  ClientHeight = 497
+  ClientWidth = 718
+  Color = clCream
+  Constraints.MinHeight = 400
+  Constraints.MinWidth = 600
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  inline frm: TFrame1
+    Left = 0
+    Top = 0
+    Width = 718
+    Height = 497
+    Align = alClient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    ExplicitWidth = 718
+    ExplicitHeight = 689
+    inherited pnlMenu: TPanel
+      Width = 718
+      ExplicitLeft = 0
+      ExplicitWidth = 694
+      inherited Grid1Grid2: TGridPanel
+        Width = 718
+        ColumnCollection = <
+          item
+            Value = 79.529579364157710000
+          end
+          item
+            Value = 10.135106062163390000
+          end
+          item
+            Value = 10.335314573678910000
+          end>
+        ControlCollection = <
+          item
+            Column = 0
+            Control = frm.pnl1
+            Row = 0
+          end
+          item
+            Column = 1
+            Control = frm.btnButttonCall
+            Row = 0
+          end
+          item
+            Column = 2
+            Control = frm.btnButtonSendMessage
+            Row = 0
+          end>
+        ExplicitWidth = 694
+        inherited pnl1: TPanel
+          Width = 569
+          ExplicitLeft = -5
+          ExplicitTop = 0
+          inherited edtName: TEdit
+            Width = 529
+          end
+        end
+        inherited btnButttonCall: TSpeedButton
+          Left = 570
+          Width = 72
+        end
+        inherited btnButtonSendMessage: TSpeedButton
+          Left = 642
+          Width = 75
+        end
+      end
+    end
+    inherited Grid1Grid: TGridPanel
+      Width = 718
+      Height = 432
+      ControlCollection = <
+        item
+          Column = 0
+          Control = frm.lstMessage
+          Row = 0
+        end
+        item
+          Column = 0
+          Control = frm.pnlVideo
+          Row = 1
+        end>
+      ExplicitLeft = 0
+      ExplicitTop = 65
+      ExplicitWidth = 694
+      ExplicitHeight = 425
+      inherited lstMessage: TListBox
+        Width = 676
+        Height = 119
+      end
+      inherited pnlVideo: TPanel
+        Top = 150
+        Width = 676
+        Height = 271
+      end
+    end
+  end
+end

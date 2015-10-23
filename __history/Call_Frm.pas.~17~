@@ -1,0 +1,87 @@
+unit Call_Frm;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.ComCtrls, SIPVoipSDK_TLB, Vcl.ImgList;
+
+type
+  TFrameCall = class(TFrame)
+    pnlMenu: TPanel;
+    Menu: TGridPanel;
+    GridMain: TGridPanel;
+    ButtonVoice: TSpeedButton;
+    GridMessageSend: TGridPanel;
+    GridVideo: TGridPanel;
+    PanelRecivedVideo: TPanel;
+    PanelSendedVideo: TPanel;
+    SpeedButtonSend: TSpeedButton;
+    ButtonCall: TSpeedButton;
+    ButtonVideo: TSpeedButton;
+    lbl1: TLabel;
+    TrackBarVolume: TTrackBar;
+    lbl2: TLabel;
+    MemoMessage: TMemo;
+    ImageList: TImageList;
+    ListBoxMessage: TListBox;
+    Panel1: TPanel;
+    ButtonClose: TSpeedButton;
+  private
+    pUserName  : string;
+    pUserId : string;
+  public
+  procedure AbtoPhone_OnEstablishedCall(ASender: TObject; const Msg: WideString; LineId: Integer);
+  procedure AbtoPhone_OnIncomingCall(ASender: TObject;
+    const AddrFrom: WideString; LineId: Integer);
+  procedure AbtoPhone_OnTextMessageReceived(ASender: TObject; const address: WideString;
+    const message: WideString);
+  procedure Load(Phone: TCAbtoPhone; UserName, UserId : string);
+
+  property gUserName  : string read pUserName write pUserName;
+  property gUserId : string read pUserName write pUserId;
+  published
+    property ClientHeight;
+    property ClientWidth;
+  end;
+
+  var
+    gIsCallEstablish: Boolean;
+    AbtoPhone : TCAbtoPhone ;
+
+
+implementation
+
+{$R *.dfm}
+
+uses Main_Wnd;
+
+procedure TFrameCall.AbtoPhone_OnIncomingCall(ASender: TObject;
+  const AddrFrom: WideString; LineId: Integer);
+begin
+//
+end;
+
+procedure TFrameCall.AbtoPhone_OnTextMessageReceived(ASender: TObject;
+  const address, message: WideString);
+begin
+  //
+end;
+
+procedure TFrameCall.Load(Phone: TCAbtoPhone; UserName, UserId : string);
+begin
+  AbtoPhone := Phone;
+  gIsCallEstablish := False;
+  gUserName := UserName;
+  gUserId := UserId;
+  AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
+end;
+
+procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject; const Msg: WideString; LineId: Integer);
+begin
+  ImageList.GetBitmap(1, ButtonCall.Glyph);
+  gIsCallEstablish := True;
+end;
+end.

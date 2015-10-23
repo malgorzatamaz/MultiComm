@@ -1,0 +1,38 @@
+unit Chat_Frm;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, SIPVoipSDK_TLB;
+
+type
+  TFrameChat = class(TFrame)
+    pnl1: TPanel;
+    Grid: TGridPanel;
+    ButtonSend: TSpeedButton;
+    SpeedButtonRead: TSpeedButton;
+    SpeedButtonWrite: TSpeedButton;
+    ListBoxMessages: TListBox;
+    MemoMessage: TMemo;
+  private
+    { Private declarations }
+  public
+    procedure Load(Phone: TCAbtoPhone; UserName, UserId : string);
+  end;
+
+  var
+    AbtoPhone : TCAbtoPhone;
+    gUserName  : string;
+    gUserId : string;
+implementation
+{$R *.dfm}
+procedure TFrameChat.Load(Phone: TCAbtoPhone; UserName, UserId : string);
+begin
+  AbtoPhone := Phone;
+  gUserName := UserName;
+  gUserId := UserId;
+end;
+
+end.

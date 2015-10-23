@@ -1,0 +1,31 @@
+unit Chat_Frm;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls;
+
+type
+  TFrameChat = class(TFrame)
+    pnl1: TPanel;
+    Grid: TGridPanel;
+    ButtonSend: TSpeedButton;
+    SpeedButtonRead: TSpeedButton;
+    SpeedButtonWrite: TSpeedButton;
+    ListBoxMessages: TListBox;
+    MemoMessage: TMemo;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+
+
+end.

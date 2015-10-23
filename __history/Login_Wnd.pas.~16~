@@ -1,0 +1,63 @@
+unit Login_Wnd;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
+  System.Actions, Vcl.ActnList,SIPVoipSDK_TLB;
+
+type
+  TFormLog = class(TForm)
+    EditLogin: TEdit;
+    EditPassword: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    ButtonLogin: TSpeedButton;
+    LabelWarning: TLabel;
+    ActionList: TActionList;
+    ActionLogIn: TAction;
+    procedure ActionLogInExecute(Sender: TObject);
+  private
+  public
+    procedure Load(Phone : TCAbtoPhone);
+    procedure AbtoPhone_OnRegistered(ASender: TObject; const Msg: WideString);
+    procedure AbtoPhone_OnUnregistered(ASender: TObject; const Msg: WideString);
+  end;
+
+  var
+    AbtoPhone : TCAbtoPhone;
+implementation
+
+{$R *.dfm}
+
+procedure TFormLog.Load(Phone: TCAbtoPhone);
+begin
+  AbtoPhone := Phone;
+  AbtoPhone.OnRegistered := AbtoPhone_OnRegistered;
+  AbtoPhone.OnUnRegistered := AbtoPhone_OnUnregistered;
+end;
+
+procedure TFormLog.AbtoPhone_OnRegistered(ASender: TObject; const Msg: WideString);
+begin
+  Self.Parent.Enabled := True;
+  Self.Close;
+end;
+
+procedure TFormLog.AbtoPhone_OnUnregistered(ASender: TObject; const Msg: WideString);
+begin
+  LabelWarning.Caption := 'Nieprawid³owe dane logowania!';
+end;
+
+procedure TFormLog.ActionLogInExecute(Sender: TObject);
+var
+  phoneConfig : Variant;
+begin
+  phoneConfig := AbtoPhone.Config;
+  phoneConfig.RegUser(EditLogin.Text);
+  phoneConfig.RegAuthId(EditLogin.Text);
+  phoneConfig.RegPass(EditPassword.Text);
+  AbtoPhone.ApplyConfig;
+end;
+
+end.

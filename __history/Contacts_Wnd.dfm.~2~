@@ -1,0 +1,252 @@
+object FormContactsList: TFormContactsList
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'FormContactsList'
+  ClientHeight = 393
+  ClientWidth = 728
+  Color = clCream
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnl1: TPanel
+    Left = 0
+    Top = 0
+    Width = 377
+    Height = 393
+    Align = alLeft
+    BevelOuter = bvNone
+    Color = clCream
+    ParentBackground = False
+    TabOrder = 0
+    ExplicitHeight = 378
+    object ButtonAdd: TSpeedButton
+      Left = 0
+      Top = 0
+      Width = 377
+      Height = 50
+      Align = alTop
+      Caption = 'Dodaj'
+      Flat = True
+      ExplicitWidth = 185
+    end
+    object ButtonDelete: TSpeedButton
+      Left = 0
+      Top = 50
+      Width = 377
+      Height = 50
+      Align = alTop
+      Caption = 'Usu'#324
+      Flat = True
+      ExplicitTop = 49
+      ExplicitWidth = 185
+    end
+    object ButtonEdit: TSpeedButton
+      Left = 0
+      Top = 100
+      Width = 377
+      Height = 50
+      Align = alTop
+      Caption = 'Edytuj'
+      Flat = True
+      ExplicitLeft = -3
+      ExplicitTop = 92
+      ExplicitWidth = 185
+    end
+    object Grid: TGridPanel
+      Left = 0
+      Top = 247
+      Width = 377
+      Height = 146
+      Align = alBottom
+      ColumnCollection = <
+        item
+          Value = 38.461538461538460000
+        end
+        item
+          Value = 38.461538461538460000
+        end
+        item
+          Value = 23.076923076923080000
+        end>
+      ControlCollection = <
+        item
+          Column = 0
+          Control = LabelCallerId
+          Row = 0
+        end
+        item
+          Column = 0
+          Control = LabelUserName
+          Row = 1
+        end
+        item
+          Column = 1
+          Control = edt2
+          Row = 1
+        end
+        item
+          Column = 0
+          Control = LabelImagePath
+          Row = 2
+        end
+        item
+          Column = 1
+          Control = edt4
+          Row = 2
+        end
+        item
+          Column = 2
+          Control = Button1
+          Row = 2
+        end>
+      RowCollection = <
+        item
+          Value = 35.739814152966400000
+        end
+        item
+          Value = 35.739814152966400000
+        end
+        item
+          Value = 28.520371694067190000
+        end>
+      TabOrder = 0
+      ExplicitTop = 232
+      ExplicitWidth = 334
+      DesignSize = (
+        377
+        146)
+      object LabelCallerId: TLabel
+        Left = 21
+        Top = 20
+        Width = 94
+        Height = 13
+        Align = alCustom
+        Alignment = taRightJustify
+        Caption = 'Nazwa konataktu'
+      end
+      object LabelUserName: TLabel
+        Left = 21
+        Top = 71
+        Width = 94
+        Height = 13
+        Align = alCustom
+        Alignment = taRightJustify
+        Caption = 'Nazwa u'#380'ytkownika'
+      end
+      object edt2: TEdit
+        Left = 156
+        Top = 67
+        Width = 121
+        Height = 21
+        Anchors = []
+        TabOrder = 0
+        ExplicitLeft = 152
+        ExplicitTop = 72
+      end
+      object LabelImagePath: TLabel
+        Left = 21
+        Top = 117
+        Width = 94
+        Height = 13
+        Align = alCustom
+        Alignment = taRightJustify
+        Caption = 'Avatar'
+      end
+      object edt4: TEdit
+        Left = 156
+        Top = 113
+        Width = 121
+        Height = 21
+        Anchors = []
+        TabOrder = 1
+        ExplicitLeft = 272
+        ExplicitTop = 136
+      end
+      object Button1: TSpeedButton
+        AlignWithMargins = True
+        Left = 292
+        Top = 106
+        Width = 81
+        Height = 36
+        Align = alClient
+        Caption = 'Wybierz'
+        Flat = True
+        ExplicitLeft = 293
+        ExplicitTop = 95
+        ExplicitWidth = 23
+        ExplicitHeight = 22
+      end
+    end
+  end
+  object pnl2: TPanel
+    Left = 377
+    Top = 0
+    Width = 351
+    Height = 393
+    Align = alClient
+    BevelOuter = bvNone
+    Caption = 'pnl2'
+    TabOrder = 1
+    ExplicitLeft = 536
+    ExplicitTop = 160
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object lv1: TListView
+      AlignWithMargins = True
+      Left = 10
+      Top = 10
+      Width = 331
+      Height = 332
+      Margins.Left = 10
+      Margins.Top = 10
+      Margins.Right = 10
+      Margins.Bottom = 10
+      Align = alClient
+      Columns = <>
+      TabOrder = 0
+      ExplicitLeft = 390
+      ExplicitTop = 5
+      ExplicitWidth = 163
+      ExplicitHeight = 150
+    end
+    object pnl3: TPanel
+      Left = 0
+      Top = 352
+      Width = 351
+      Height = 41
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 1
+      ExplicitLeft = 2
+      ExplicitTop = 349
+      object Button2: TSpeedButton
+        Left = 0
+        Top = 0
+        Width = 170
+        Height = 41
+        Align = alLeft
+        Caption = 'Anuluj'
+        Flat = True
+        ExplicitLeft = 2
+        ExplicitTop = 3
+      end
+      object Button3: TSpeedButton
+        Left = 181
+        Top = 0
+        Width = 170
+        Height = 41
+        Align = alRight
+        Caption = 'Zapisz'
+        Flat = True
+        ExplicitLeft = 328
+      end
+    end
+  end
+end

@@ -1,0 +1,19 @@
+program SipCommunicator;
+
+uses
+  Vcl.Forms,
+  Call_Frm in 'Call_Frm.pas' {FrameCall: TFrame},
+  Chat_Frm in 'Chat_Frm.pas' {FrameChat: TFrame},
+  SIPVoipSDK_TLB in 'SIPVoipSDK_TLB.pas',
+  Login_Wnd in 'Login_Wnd.pas' {FormLog},
+  Main_Wnd in 'Main_Wnd.pas' {FormMainWindow},
+  Settings_Wnd in 'Settings_Wnd.pas' {FormSettings};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFormMainWindow, FormMainWindow);
+  Application.Run;
+end.
