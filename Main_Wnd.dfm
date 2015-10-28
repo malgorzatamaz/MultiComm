@@ -69,7 +69,6 @@ object FormMainWindow: TFormMainWindow
         Color = clCream
         ParentBackground = False
         TabOrder = 0
-        ExplicitLeft = -3
         object ButtonSettings: TSpeedButton
           AlignWithMargins = True
           Left = 20
@@ -141,7 +140,6 @@ object FormMainWindow: TFormMainWindow
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 0
-          ExplicitWidth = 159
           object ButtonMessage: TSpeedButton
             Left = 0
             Top = 0
@@ -664,7 +662,6 @@ object FormMainWindow: TFormMainWindow
         Color = clCream
         ParentBackground = False
         TabOrder = 1
-        ExplicitLeft = 177
         object ListViewContacts: TListView
           AlignWithMargins = True
           Left = 20
@@ -696,7 +693,6 @@ object FormMainWindow: TFormMainWindow
           SmallImages = ImageList
           TabOrder = 0
           ViewStyle = vsSmallIcon
-          ExplicitWidth = 493
         end
       end
     end
@@ -739,7 +735,7 @@ object FormMainWindow: TFormMainWindow
     Left = 368
     Top = 8
     Bitmap = {
-      494C010107001800680040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010107001800700040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100008000000001002000000000000000
       02000000000000000000000000000000000078687AFF806679FF937B92FF8F76
       93FFA69DB1FFA19AAFFFADA8C5FFBFBBD8FFA299BAFF9B95B4FFB2AFC8FFA195

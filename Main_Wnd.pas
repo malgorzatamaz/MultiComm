@@ -41,8 +41,6 @@ type
     ButtonMessage: TSpeedButton;
     ButtonCall: TSpeedButton;
     ActionContactsList: TAction;
-    procedure Call(userName, CallerId: string);
-    procedure Chat(userName, CallerId: string);
     procedure ActionCallExecute(Sender: TObject);
     procedure ActionChatExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -60,9 +58,11 @@ type
       const Msg: WideString; LineId: Integer);
     procedure AbtoPhone_OnTextMessageReceived(ASender: TObject;
       const address: WideString; const message: WideString);
-    procedure Config();
-    function ExtractBetween(const Value, A, B: string): string;
   private
+    procedure OpenCallFrm(UserName, CallerId: string);
+    procedure OpenChatFrm(userName, CallerId: string);
+    procedure LoadConfig();
+    function ExtractBetween(const Value, A, B: string): string;
   public
     gIsCallEstablish: Boolean;
     AbtoPhone: TCAbtoPhone;
@@ -95,7 +95,7 @@ begin
 
     gContacts[index].OpenPage := High(gTabSheets) + 2;
 
-    Call(userName, CallerId);
+    OpenCallFrm(userName, CallerId);
   end;
 end;
 
@@ -112,7 +112,7 @@ begin
 
     gContacts[index].OpenPage := High(gTabSheets) + 2;
 
-    Chat(userName, CallerId);
+    OpenChatFrm(userName, CallerId);
   end;
 end;
 
@@ -154,9 +154,8 @@ end;
 
 procedure TFormMainWindow.ActionLoginExecute(Sender: TObject);
 begin
-  AbtoPhone.Free;
   AbtoPhone := TCAbtoPhone.Create(Self);
-  Config;
+  LoadConfig;
   AbtoPhone.Initialize;
   LoginWindow := TFormLog.Create(Self);
   LoginWindow.Load(AbtoPhone);
@@ -178,7 +177,7 @@ begin
   SettingsWindow := nil;
 end;
 
-procedure TFormMainWindow.Call(userName, CallerId: string);
+procedure TFormMainWindow.OpenCallFrm(UserName, CallerId: string);
 var
   i, j: Integer;
 begin
@@ -196,15 +195,15 @@ begin
   gFrameCalls[j].Parent := gTabSheets[i];
   gFrameCalls[j].Align := alClient;
   gFrameCalls[j].Name := 'FrameCall' + IntToStr(j);
-  gTabSheets[i].InsertControl(gFrameCalls[j]);
-  gFrameChats[j].PageIndex := gTabSheets[i].PageIndex;
+//  gFrameChats[j].PageIndex := gTabSheets[i].PageIndex;
 
+  gFrameCalls[i].UserName := UserName;
   gFrameCalls[i].Load(AbtoPhone);
-  gFrameCalls[i].userName := userName;
 
+  gTabSheets[i].InsertControl(gFrameCalls[j]);
 end;
 
-procedure TFormMainWindow.Chat(userName, CallerId: string);
+procedure TFormMainWindow.OpenChatFrm(userName, CallerId: string);
 var
   i, j: Integer;
 begin
@@ -232,7 +231,7 @@ begin
   gFrameChats[i].userName := userName;
 end;
 
-procedure TFormMainWindow.Config;
+procedure TFormMainWindow.LoadConfig;
 var
   phoneConfig: Variant;
 begin
@@ -310,7 +309,7 @@ var
   i: Integer;
 begin
   AbtoPhone := TCAbtoPhone.Create(Self);
-  Config;
+  LoadConfig;
   AbtoPhone.Initialize;
   ButtonMessage.Caption := '';
   ButtonCall.Caption := '';
@@ -339,8 +338,9 @@ begin
 
   LoginWindow := TFormLog.Create(nil);
   LoginWindow.Load(AbtoPhone);
-  LoginWindow.Show;
+  Self.Enabled := False;
   LoginWindow.FormStyle := fsStayOnTop;
+  LoginWindow.Show;
 end;
 
 procedure TFormMainWindow.AbtoPhone_OnIncomingCall(ASender: TObject;
@@ -383,7 +383,7 @@ begin
     begin
       if not gExist then
       begin
-        Call(userName, CallerId);
+        OpenCallFrm(userName, CallerId);
       end
       else
       begin
@@ -396,7 +396,6 @@ begin
         end;
       end;
       gIsCallEstablish := True;
-      gFrameCalls[i].Call;
 
       AbtoPhone.AnswerCall;
     end;
@@ -420,6 +419,7 @@ begin
     LoginWindow.Close;
     LoginWindow.Free;
     LoginWindow := nil;
+    self.Enabled := True;
   end
   else
   begin
@@ -461,7 +461,7 @@ begin
 
   if not gExist then
   begin
-    Chat(userName, CallerId);
+    OpenChatFrm(userName, CallerId);
   end
   else
   begin
@@ -480,11 +480,6 @@ procedure TFormMainWindow.AbtoPhone_OnClearedCall(ASender: TObject;
 var
   i: Integer;
 begin
-  for i := 0 to High(gFrameCalls) do
-  begin
-    if gFrameCalls[i].gIsCallEstablish then
-      gFrameCalls[i].HangUp;
-  end;
   gIsCallEstablish := False;
 end;
 

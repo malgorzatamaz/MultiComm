@@ -1,8 +1,7 @@
 object FormLog: TFormLog
   Left = 0
   Top = 0
-  ActiveControl = EditLogin
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Caption = 'Zaloguj si'#281
   ClientHeight = 241
   ClientWidth = 344
@@ -22,9 +21,9 @@ object FormLog: TFormLog
   GlassFrame.Bottom = 5
   OldCreateOrder = False
   Position = poMainFormCenter
-  Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -122,7 +121,7 @@ object FormLog: TFormLog
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Text = 'malgorzatamaz'
+    Text = 'mobile32'
   end
   object EditPassword: TEdit
     AlignWithMargins = True
@@ -141,7 +140,7 @@ object FormLog: TFormLog
     ParentFont = False
     PasswordChar = '*'
     TabOrder = 1
-    Text = 'pqbvcnc1'
+    Text = 'freak18'
   end
   object ActionList: TActionList
     Left = 368

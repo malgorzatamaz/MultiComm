@@ -21,6 +21,7 @@ type
     procedure ActionLogInExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
   public
     procedure Load(Phone: TCAbtoPhone);
@@ -47,14 +48,17 @@ end;
 
 procedure TFormLog.FormCreate(Sender: TObject);
 begin
-  AbtoPhone := FormMainWindow.AbtoPhone;
   gLogged := False;
-  Activate;
-  Self.SetFocusedControl(EditLogin);
+end;
+
+procedure TFormLog.FormShow(Sender: TObject);
+begin
+ self.SetFocus;
 end;
 
 procedure TFormLog.Load(Phone: TCAbtoPhone);
 begin
+  AbtoPhone := Phone;
 end;
 
 procedure TFormLog.LoginSucessfull;

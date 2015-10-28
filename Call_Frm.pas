@@ -15,7 +15,6 @@ type
     Menu: TGridPanel;
     GridMain: TGridPanel;
     ButtonVoice: TSpeedButton;
-    ButtonCall: TSpeedButton;
     ButtonVideo: TSpeedButton;
     lbl1: TLabel;
     TrackBarVolume: TTrackBar;
@@ -31,6 +30,7 @@ type
     ActionList1: TActionList;
     ActionCall: TAction;
     ActionSendMessage: TAction;
+    ButtonCall: TSpeedButton;
     procedure CMRelease(var Message: TMessage); message CM_RELEASE;
     procedure ButtonCloseClick(Sender: TObject);
     procedure ActionSendMessageExecute(Sender: TObject);
@@ -42,11 +42,7 @@ type
   public
     gIsCallEstablish: Boolean;
     procedure Release;
-    procedure AbtoPhone_OnEstablishedCall(ASender: TObject;
-      const Msg: WideString; LineId: Integer);
     procedure Load(Phone: TCAbtoPhone);
-    procedure HangUp();
-    procedure Call();
     procedure ShowMessage(Address, Msg :string);
     constructor Create(AOwner: TComponent); override;
     property UserName: string read FUserName write FUserName;
@@ -67,17 +63,25 @@ implementation
 uses Main_Wnd;
 
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
+var
+  tmpBitmap: TBitmap;
 begin
-  if gIsCallEstablish then
+  if gIsCallEstablish = False then
   begin
+    tmpBitmap := TBitmap.Create();
+    ImageList.GetBitmap(4, tmpBitmap);
+    ButtonCall.Glyph := tmpBitmap;
+    gIsCallEstablish := True;
     AbtoPhone.HangUpLastCall;
-    HangUp;
   end
   else
   begin
+    tmpBitmap := TBitmap.Create();
+    ImageList.GetBitmap(3, tmpBitmap);
+    ButtonCall.Glyph := tmpBitmap;
+    gIsCallEstablish := False;
     AbtoPhone.StartCall(UserName + '@iptel.org');
-    Call;
-  end
+  end;
 end;
 
 procedure TFrameCall.ActionSendMessageExecute(Sender: TObject);
@@ -124,36 +128,11 @@ begin
   ButtonClose.Caption := '';
 end;
 
-procedure TFrameCall.Call;
-var
-  tmpBitmap: TBitmap;
-begin
-  tmpBitmap := TBitmap.Create();
-  ImageList.GetBitmap(3, tmpBitmap);
-  ButtonCall.Glyph := tmpBitmap;
-  gIsCallEstablish := True;
-end;
-
-procedure TFrameCall.HangUp;
-var
-  tmpBitmap: TBitmap;
-begin
-  tmpBitmap := TBitmap.Create();
-  ImageList.GetBitmap(4, tmpBitmap);
-  ButtonCall.Glyph := tmpBitmap;
-  gIsCallEstablish := False;
-end;
-
 procedure TFrameCall.Load(Phone: TCAbtoPhone);
 begin
+  ButtonCall.Caption := '';
   AbtoPhone := Phone;
   gIsCallEstablish := False;
-  AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
 end;
 
-procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject;
-  const Msg: WideString; LineId: Integer);
-begin
-  Call;
-end;
 end.
