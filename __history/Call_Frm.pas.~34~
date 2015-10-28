@@ -36,9 +36,9 @@ type
     procedure ActionSendMessageExecute(Sender: TObject);
     procedure ActionCallExecute(Sender: TObject);
   private
-    FUserName: string;
-    FUserId: string;
-    FPageIndex : Integer;
+    pUserName: string;
+    pUserId: string;
+    pPageIndex : Integer;
   public
     gIsCallEstablish: Boolean;
     procedure Release;
@@ -47,11 +47,11 @@ type
     procedure Load(Phone: TCAbtoPhone);
     procedure HangUp();
     procedure Call();
-    procedure ShowMessage(Address, Msg :string);
+    procedure ShowMessage(Adress, Msg :string);
     constructor Create(AOwner: TComponent); override;
-    property UserName: string read FUserName write FUserName;
-    property UserId: string read FUserName write FUserId;
-    property PageIndex : Integer read FPageIndex write FPageIndex;
+    property UserName: string read pUserName write pUserName;
+    property UserId: string read pUserName write pUserId;
+    property PageIndex : Integer read pPageIndex write pPageIndex;
   published
     property ClientHeight;
     property ClientWidth;
@@ -90,7 +90,7 @@ begin
   ListBoxMessages.Items.Add(cfg.CallerId + ': ');
   for i := 0 to High(MemoMessage.Lines.Count) do
   begin
-    AbtoPhone.SendTextMessage(UserName,MemoMessage.Lines[i],1);
+    AbtoPhone.SendTextMessage(UserName,MemoMessage.Lines[i]);
     ListBoxMessages.Items.Add(MemoMessage.Lines[i]);
   end;
 
@@ -112,9 +112,9 @@ begin
   PostMessage(Handle, CM_RELEASE, 0, 0);
 end;
 
-procedure TFrameCall.ShowMessage(Address, Msg : string);
+procedure TFrameCall.ShowMessage(Addres, Msg : string);
 begin
-  ListBoxMessages.Items.Add(Address + ': ');
+  ListBoxMessages.Items.Add(Adress + ': ');
   ListBoxMessages.Items.Add(Msg);
 end;
 

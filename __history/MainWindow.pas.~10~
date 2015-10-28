@@ -1,0 +1,61 @@
+unit MainWindow;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  Call_Frm, System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls;
+
+type
+  TForm_MainWindow = class(TForm)
+    PageControl: TPageControl;
+    TabSheetContatcs: TTabSheet;
+    PopupMenuOptions: TPopupMenu;
+    Panel1: TPanel;
+    ButtonShowMenu: TSpeedButton;
+    ActionList: TActionList;
+    ShowPopupMenu: TAction;
+    ListViewContacts: TListView;
+    procedure ShowPopupMenuExecute(Sender: TObject);
+    procedure ListViewContactsDblClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form_MainWindow: TForm_MainWindow;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TForm_MainWindow.ListViewContactsDblClick(Sender: TObject);
+var
+  TabSheetCall : TTabSheet;
+  Frame : TFrame;
+  FrameCall : TFrameCall;
+begin
+  TabSheetCall := TTabSheet.Create(Self);
+  TabSheetCall.Caption := 'Zadzwoñ';
+  TabSheetCall.PageControl := PageControl;
+  TabSheetCall.Show;
+  Frame := TFrame.Create(Self);
+  FrameCall := TFrameCall.Create(Self);
+  Frame.Parent := FrameCall;
+  Frame.Visible :=True;
+  Frame.Align := alClient;
+  TabSheetCall.InsertControl(Frame);
+end;
+
+procedure TForm_MainWindow.ShowPopupMenuExecute(Sender: TObject);
+begin
+  PopupMenu := TPopupMenu.Create(Self);
+  PopupMenu.Popup(0,0);
+
+end;
+
+end.

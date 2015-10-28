@@ -6,8 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
-  Vcl.ExtCtrls, Vcl.ComCtrls, SIPVoipSDK_TLB, Vcl.ImgList, System.Actions,
-  Vcl.ActnList;
+  Vcl.ExtCtrls, Vcl.ComCtrls, SIPVoipSDK_TLB, Vcl.ImgList;
 
 type
   TFrameCall = class(TFrame)
@@ -23,22 +22,18 @@ type
     ImageList: TImageList;
     Panel1: TPanel;
     GridMessageSend: TGridPanel;
-    MemoMessage: TMemo;
+    mmoMessage: TMemo;
     ButtonSend: TSpeedButton;
     pnl1: TPanel;
     ListBoxMessages: TListBox;
     ButtonClose: TSpeedButton;
-    ActionList1: TActionList;
-    ActionCall: TAction;
-    ActionSendMessage: TAction;
+    procedure ButtonCallClick(Sender: TObject);
     procedure CMRelease(var Message: TMessage); message CM_RELEASE;
     procedure ButtonCloseClick(Sender: TObject);
-    procedure ActionSendMessageExecute(Sender: TObject);
-    procedure ActionCallExecute(Sender: TObject);
   private
-    FUserName: string;
-    FUserId: string;
-    FPageIndex : Integer;
+    pUserName: string;
+    pUserId: string;
+    pPageIndex : Integer;
   public
     gIsCallEstablish: Boolean;
     procedure Release;
@@ -47,11 +42,11 @@ type
     procedure Load(Phone: TCAbtoPhone);
     procedure HangUp();
     procedure Call();
-    procedure ShowMessage(Address, Msg :string);
+    procedure ShowMessage(msg :string);
     constructor Create(AOwner: TComponent); override;
-    property UserName: string read FUserName write FUserName;
-    property UserId: string read FUserName write FUserId;
-    property PageIndex : Integer read FPageIndex write FPageIndex;
+    property UserName: string read pUserName write pUserName;
+    property UserId: string read pUserName write pUserId;
+    property PageIndex : Integer read pPageIndex write pPageIndex;
   published
     property ClientHeight;
     property ClientWidth;
@@ -66,8 +61,9 @@ implementation
 
 uses Main_Wnd;
 
-procedure TFrameCall.ActionCallExecute(Sender: TObject);
+procedure TFrameCall.ButtonCallClick(Sender: TObject);
 begin
+
   if gIsCallEstablish then
   begin
     AbtoPhone.HangUpLastCall;
@@ -78,23 +74,6 @@ begin
     AbtoPhone.StartCall(UserName + '@iptel.org');
     Call;
   end
-end;
-
-procedure TFrameCall.ActionSendMessageExecute(Sender: TObject);
-var
-  i : Integer;
-  cfg : Variant;
-begin
-  cfg := AbtoPhone.Config;
-
-  ListBoxMessages.Items.Add(cfg.CallerId + ': ');
-  for i := 0 to High(MemoMessage.Lines.Count) do
-  begin
-    AbtoPhone.SendTextMessage(UserName,MemoMessage.Lines[i],1);
-    ListBoxMessages.Items.Add(MemoMessage.Lines[i]);
-  end;
-
-  MemoMessage.Lines.Clear;
 end;
 
 procedure TFrameCall.ButtonCloseClick(Sender: TObject);
@@ -112,10 +91,9 @@ begin
   PostMessage(Handle, CM_RELEASE, 0, 0);
 end;
 
-procedure TFrameCall.ShowMessage(Address, Msg : string);
+procedure TFrameCall.ShowMessage(msg : string);
 begin
-  ListBoxMessages.Items.Add(Address + ': ');
-  ListBoxMessages.Items.Add(Msg);
+  ListBoxMessages.Items.Add(msg);
 end;
 
 constructor TFrameCall.Create(AOwner: TComponent);
