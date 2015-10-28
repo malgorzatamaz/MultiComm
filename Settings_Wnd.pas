@@ -44,6 +44,9 @@ type
     LabelKey: TLabel;
     EditUserId: TEdit;
     EditLicenseKey: TEdit;
+    EditDomain: TEdit;
+    Label1: TLabel;
+    procedure Load(Phone: TCAbtoPhone);
     procedure ButtonMoveUpClick(Sender: TObject);
     procedure ButtonMoveDownClick(Sender: TObject);
     procedure MoveCodec(oldIndex, newIndex: Integer);
@@ -53,6 +56,9 @@ type
     procedure SetSettings(settings: Variant; version:WideString; addr:WideString);
     procedure SetupUserInput;
   end;
+
+  var
+    AbtoPhone : TCAbtoPhone;
 
 implementation
 
@@ -159,6 +165,11 @@ begin
         if Self.ListBoxCodecs.Checked[i] = True
             then result := result + Self.ListBoxCodecs.Items[i] + '|';
     end;
+end;
+
+procedure TFormSettings.Load(Phone: TCAbtoPhone);
+begin
+  AbtoPhone := Phone;
 end;
 
 procedure TFormSettings.SetupUserInput;

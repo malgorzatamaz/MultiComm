@@ -2,7 +2,7 @@ object FormMainWindow: TFormMainWindow
   Left = 0
   Top = 0
   BorderStyle = bsSingle
-  Caption = 'Sip Communicator'
+  Caption = 'MultiComm'
   ClientHeight = 546
   ClientWidth = 728
   Color = clCream
@@ -62,18 +62,19 @@ object FormMainWindow: TFormMainWindow
       object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 177
+        Width = 174
         Height = 510
-        Align = alLeft
+        Align = alClient
         BevelOuter = bvNone
         Color = clCream
         ParentBackground = False
         TabOrder = 0
+        ExplicitLeft = -3
         object ButtonSettings: TSpeedButton
           AlignWithMargins = True
           Left = 20
           Top = 70
-          Width = 154
+          Width = 151
           Height = 50
           Margins.Left = 20
           Margins.Top = 0
@@ -94,7 +95,7 @@ object FormMainWindow: TFormMainWindow
           AlignWithMargins = True
           Left = 20
           Top = 120
-          Width = 154
+          Width = 151
           Height = 50
           Margins.Left = 20
           Margins.Top = 0
@@ -111,12 +112,13 @@ object FormMainWindow: TFormMainWindow
           ParentFont = False
           ExplicitLeft = 17
           ExplicitTop = 180
+          ExplicitWidth = 154
         end
         object ButtonContacts: TSpeedButton
           AlignWithMargins = True
           Left = 20
           Top = 20
-          Width = 154
+          Width = 151
           Height = 50
           Margins.Left = 20
           Margins.Top = 20
@@ -126,18 +128,20 @@ object FormMainWindow: TFormMainWindow
           Caption = 'Edytuj list'#281' kontakt'#243'w'
           Flat = True
           ExplicitTop = 0
+          ExplicitWidth = 154
         end
         object Panel3: TPanel
           AlignWithMargins = True
           Left = 15
           Top = 430
-          Width = 159
+          Width = 156
           Height = 60
           Margins.Left = 15
           Margins.Bottom = 20
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitWidth = 159
           object ButtonMessage: TSpeedButton
             Left = 0
             Top = 0
@@ -392,14 +396,15 @@ object FormMainWindow: TFormMainWindow
             ExplicitLeft = 7
           end
           object ButtonCall: TSpeedButton
-            Left = 99
-            Top = 0
+            AlignWithMargins = True
+            Left = 100
+            Top = 3
             Width = 60
-            Height = 60
-            Margins.Left = 5
+            Height = 54
+            Margins.Left = 40
             Margins.Right = 5
             Action = ActionCall
-            Align = alRight
+            Align = alLeft
             Flat = True
             Glyph.Data = {
               E61D0000424DE61D000000000000360000002800000032000000320000000100
@@ -643,25 +648,28 @@ object FormMainWindow: TFormMainWindow
               FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
               FFFFFFFFFFFFFFFFFFFF}
             ExplicitLeft = 72
+            ExplicitTop = 0
+            ExplicitHeight = 60
           end
         end
       end
       object Panel1: TPanel
-        Left = 177
+        Left = 174
         Top = 0
-        Width = 533
+        Width = 536
         Height = 510
-        Align = alClient
+        Align = alRight
         BevelOuter = bvNone
         Caption = 'Panel1'
         Color = clCream
         ParentBackground = False
         TabOrder = 1
+        ExplicitLeft = 177
         object ListViewContacts: TListView
           AlignWithMargins = True
           Left = 20
           Top = 20
-          Width = 493
+          Width = 496
           Height = 470
           Margins.Left = 20
           Margins.Top = 20
@@ -688,6 +696,7 @@ object FormMainWindow: TFormMainWindow
           SmallImages = ImageList
           TabOrder = 0
           ViewStyle = vsSmallIcon
+          ExplicitWidth = 493
         end
       end
     end
@@ -730,7 +739,7 @@ object FormMainWindow: TFormMainWindow
     Left = 368
     Top = 8
     Bitmap = {
-      494C010107001800580040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010107001800680040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100008000000001002000000000000000
       02000000000000000000000000000000000078687AFF806679FF937B92FF8F76
       93FFA69DB1FFA19AAFFFADA8C5FFBFBBD8FFA299BAFF9B95B4FFB2AFC8FFA195

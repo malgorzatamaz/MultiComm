@@ -16,6 +16,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormMainWindow, FormMainWindow);
-  Application.CreateForm(TFormContactsList, FormContactsList);
   Application.Run;
 end.

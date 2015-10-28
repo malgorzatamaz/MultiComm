@@ -1,6 +1,7 @@
 object FormLog: TFormLog
   Left = 0
   Top = 0
+  ActiveControl = EditLogin
   BorderStyle = bsDialog
   Caption = 'Zaloguj si'#281
   ClientHeight = 241
@@ -22,6 +23,8 @@ object FormLog: TFormLog
   OldCreateOrder = False
   Position = poMainFormCenter
   Visible = True
+  OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -45,7 +48,7 @@ object FormLog: TFormLog
     Font.Name = 'Comic Sans MS'
     Font.Style = []
     ParentFont = False
-    ExplicitWidth = 484
+    ExplicitWidth = 38
   end
   object Label2: TLabel
     AlignWithMargins = True
@@ -68,8 +71,7 @@ object FormLog: TFormLog
     Font.Name = 'Comic Sans MS'
     Font.Style = []
     ParentFont = False
-    ExplicitTop = 72
-    ExplicitWidth = 484
+    ExplicitWidth = 39
   end
   object ButtonLogin: TSpeedButton
     Left = 0
@@ -93,7 +95,7 @@ object FormLog: TFormLog
     Left = 0
     Top = 140
     Width = 344
-    Height = 22
+    Height = 18
     Align = alTop
     Alignment = taCenter
     Font.Charset = DEFAULT_CHARSET
@@ -102,6 +104,7 @@ object FormLog: TFormLog
     Font.Name = 'Comic Sans MS'
     Font.Style = []
     ParentFont = False
+    ExplicitWidth = 4
   end
   object EditLogin: TEdit
     AlignWithMargins = True
@@ -119,6 +122,7 @@ object FormLog: TFormLog
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    Text = 'malgorzatamaz'
   end
   object EditPassword: TEdit
     AlignWithMargins = True
@@ -135,7 +139,9 @@ object FormLog: TFormLog
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
+    PasswordChar = '*'
     TabOrder = 1
+    Text = 'pqbvcnc1'
   end
   object ActionList: TActionList
     Left = 368

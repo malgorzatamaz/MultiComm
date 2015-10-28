@@ -19,28 +19,53 @@ type
     ActionList: TActionList;
     ActionLogIn: TAction;
     procedure ActionLogInExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
   private
   public
     procedure Load(Phone: TCAbtoPhone);
     procedure LoginUnsucessful();
+    procedure LoginSucessfull();
   end;
 
 var
+  FormLog: TFormLog;
   AbtoPhone: TCAbtoPhone;
+  gLogged: Boolean;
 
 implementation
 
+uses Main_Wnd;
+
 {$R *.dfm}
+
+procedure TFormLog.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if not gLogged then
+    Application.Terminate;
+end;
+
+procedure TFormLog.FormCreate(Sender: TObject);
+begin
+  AbtoPhone := FormMainWindow.AbtoPhone;
+  gLogged := False;
+  Activate;
+  Self.SetFocusedControl(EditLogin);
+end;
 
 procedure TFormLog.Load(Phone: TCAbtoPhone);
 begin
-  AbtoPhone := Phone;
-  Self.Activate;
+end;
+
+procedure TFormLog.LoginSucessfull;
+begin
+  gLogged := True;
 end;
 
 procedure TFormLog.LoginUnsucessful;
 begin
   LabelWarning.Caption := 'B³¹d logowania';
+  gLogged := False;
 end;
 
 procedure TFormLog.ActionLogInExecute(Sender: TObject);
@@ -52,8 +77,8 @@ begin
   begin
     phoneConfig.RegUser := EditLogin.Text;
     phoneConfig.RegPass := EditPassword.Text;
-
     AbtoPhone.ApplyConfig;
   end;
 end;
+
 end.

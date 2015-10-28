@@ -164,9 +164,9 @@ object FormSettings: TFormSettings
     Caption = 'Identyfikacja'
     TabOrder = 4
     object LabelUserAgentEdit: TLabel
-      Left = 3
+      Left = 7
       Top = 20
-      Width = 95
+      Width = 91
       Height = 13
       BiDiMode = bdRightToLeft
       Caption = 'Agent u'#380'ytkownika'
@@ -381,6 +381,9 @@ object FormSettings: TFormSettings
     Font.Style = []
     ParentFont = False
     TabOrder = 1
+    DesignSize = (
+      227
+      122)
     object StunLabel: TLabel
       Left = 75
       Top = 43
@@ -392,7 +395,7 @@ object FormSettings: TFormSettings
     end
     object LabelSipPort: TLabel
       Left = 8
-      Top = 20
+      Top = 17
       Width = 93
       Height = 13
       Alignment = taRightJustify
@@ -403,6 +406,14 @@ object FormSettings: TFormSettings
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 48
+      Top = 69
+      Width = 53
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Domena'
     end
     object EditStun: TEdit
       Left = 107
@@ -424,6 +435,14 @@ object FormSettings: TFormSettings
       ParentFont = False
       TabOrder = 0
       Text = '5060'
+    end
+    object EditDomain: TEdit
+      Left = 107
+      Top = 67
+      Width = 110
+      Height = 21
+      Anchors = []
+      TabOrder = 2
     end
   end
   object ComboBoxVideoDevice: TComboBox
@@ -474,9 +493,9 @@ object FormSettings: TFormSettings
     Caption = 'Licencja'
     TabOrder = 8
     object LabelUserId: TLabel
-      Left = 39
+      Left = 49
       Top = 16
-      Width = 45
+      Width = 35
       Height = 13
       Alignment = taRightJustify
       Caption = 'User Id'
@@ -488,10 +507,10 @@ object FormSettings: TFormSettings
       ParentFont = False
     end
     object LabelKey: TLabel
-      Left = 3
+      Left = 28
       Top = 43
-      Width = 81
-      Height = 22
+      Width = 56
+      Height = 13
       Alignment = taRightJustify
       Caption = 'License Key'
       Font.Charset = DEFAULT_CHARSET
