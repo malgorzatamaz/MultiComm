@@ -181,54 +181,54 @@ procedure TFormMainWindow.OpenCallFrm(UserName, CallerId: string);
 var
   i, j: Integer;
 begin
+  i := Length(gTabSheets);
   SetLength(gTabSheets, Length(gTabSheets) + 1);
-  i := High(gTabSheets);
-  gTabSheets[i] := TTabSheet.Create(Self);
+  gTabSheets[i] := TTabSheet.Create(nil);
   gTabSheets[i].Caption := 'Rozmowa z ' + CallerId;
   gTabSheets[i].PageControl := PageControl;
   gTabSheets[i].PageIndex := i + 1;
   gTabSheets[i].Show;
 
+  j := Length(gFrameCalls);
   SetLength(gFrameCalls, Length(gFrameCalls) + 1);
-  j := High(gFrameCalls);
-  gFrameCalls[j] := TFrameCall.Create(Self);
+
+  gFrameCalls[j] := TFrameCall.Create(nil);
   gFrameCalls[j].Parent := gTabSheets[i];
   gFrameCalls[j].Align := alClient;
   gFrameCalls[j].Name := 'FrameCall' + IntToStr(j);
 //  gFrameChats[j].PageIndex := gTabSheets[i].PageIndex;
 
-  gFrameCalls[i].UserName := UserName;
-  gFrameCalls[i].Load(AbtoPhone);
+  gFrameCalls[j].UserName := UserName;
+  gFrameCalls[j].Load(AbtoPhone);
 
-  gTabSheets[i].InsertControl(gFrameCalls[j]);
+  gFrameCalls[j].Parent := gTabSheets[i];
 end;
 
 procedure TFormMainWindow.OpenChatFrm(userName, CallerId: string);
 var
   i, j: Integer;
 begin
+  i := Length(gTabSheets);
   SetLength(gTabSheets, Length(gTabSheets) + 1);
-  i := High(gTabSheets);
-
-  gTabSheets[i] := TTabSheet.Create(Self);
+  gTabSheets[i] := TTabSheet.Create(nil);
   gTabSheets[i].Caption := 'Czat z ' + CallerId;
   gTabSheets[i].PageControl := PageControl;
   gTabSheets[i].PageIndex := i + 1;
   gTabSheets[i].Show;
 
+  j := Length(gFrameChats);
   SetLength(gFrameChats, Length(gFrameChats) + 1);
-  j := High(gFrameChats);
 
-  gFrameChats[j] := TFrameChat.Create(Self);
+  gFrameChats[j] := TFrameChat.Create(nil);
   gFrameChats[j].Parent := gTabSheets[i];
   gFrameChats[j].Align := alClient;
   gFrameChats[j].Name := 'FrameChat' + IntToStr(j);
   gFrameChats[j].PageIndex := gTabSheets[i].PageIndex;
 
-  gTabSheets[i].InsertControl(gFrameChats[j]);
-  gFrameChats[i].Load(AbtoPhone);
+  gFrameChats[j].userName := userName;
+  gFrameChats[j].Load(AbtoPhone);
 
-  gFrameChats[i].userName := userName;
+  gFrameChats[j].Parent := gTabSheets[i];
 end;
 
 procedure TFormMainWindow.LoadConfig;
@@ -277,28 +277,6 @@ var
 begin
   if gIsCallEstablish then
     AbtoPhone.HangUpLastCall;
-
-  for i := Low(gTabSheets) to High(gTabSheets) do
-  begin
-    tmpTabSheet := FindComponent(gTabSheets[i].Name) as TTabSheet;
-    if Assigned(tmpTabSheet) then
-      tmpTabSheet.Free;
-  end;
-
-  for i := Low(gFrameChats) to High(gFrameChats) do
-  begin
-
-    tmpFrameChat := FindComponent(gFrameChats[i].Name) as TFrameChat;
-    if Assigned(tmpFrameChat) then
-      tmpFrameChat.Release;
-  end;
-
-  for i := Low(gFrameCalls) to High(gFrameCalls) do
-  begin
-    tmpFrameCall := FindComponent(gFrameCalls[i].Name) as TFrameCall;
-    if Assigned(tmpFrameCall) then
-      tmpFrameCall.Release;
-  end;
 
   AbtoPhone.Free;
 end;

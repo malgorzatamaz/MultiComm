@@ -31,6 +31,8 @@ type
     ActionCall: TAction;
     ActionSendMessage: TAction;
     ButtonCall: TSpeedButton;
+    procedure CMRelease(var Message: TMessage); message CM_RELEASE;
+    procedure ButtonCloseClick(Sender: TObject);
     procedure ActionSendMessageExecute(Sender: TObject);
     procedure ActionCallExecute(Sender: TObject);
   private
@@ -39,6 +41,7 @@ type
     FPageIndex : Integer;
   public
     gIsCallEstablish: Boolean;
+    procedure Release;
     procedure Load(Phone: TCAbtoPhone);
     procedure ShowMessage(Address, Msg :string);
     constructor Create(AOwner: TComponent); override;
@@ -96,6 +99,21 @@ begin
   end;
 
   MemoMessage.Lines.Clear;
+end;
+
+procedure TFrameCall.ButtonCloseClick(Sender: TObject);
+begin
+  Release;
+end;
+
+procedure TFrameCall.CMRelease(var Message: TMessage);
+begin
+  Free;
+end;
+
+procedure TFrameCall.Release;
+begin
+  PostMessage(Handle, CM_RELEASE, 0, 0);
 end;
 
 procedure TFrameCall.ShowMessage(Address, Msg : string);

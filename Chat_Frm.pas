@@ -26,9 +26,7 @@ type
     FUserName  : string;
     FUserId : string;
     FPageIndex : Integer;
-    procedure CMRelease(var Message: TMessage); message CM_RELEASE;
   public
-    procedure Release;
     procedure Load(Phone: TCAbtoPhone);
     procedure ShowMessage(Address: string;  Msg : string);
     constructor Create(AOwner: TComponent); override;
@@ -61,11 +59,6 @@ begin
   MemoMessage.Lines.Clear;
 end;
 
-procedure TFrameChat.CMRelease(var Message: TMessage);
-begin
-  Free;
-end;
-
 constructor TFrameChat.Create(AOwner: TComponent);
 var
   Bitmap : TBitmap;
@@ -80,11 +73,6 @@ end;
 procedure TFrameChat.Load(Phone: TCAbtoPhone);
 begin
   AbtoPhone := Phone;
-end;
-
-procedure TFrameChat.Release;
-begin
-  PostMessage(Handle, CM_RELEASE, 0, 0);
 end;
 
 procedure TFrameChat.ShowMessage(Address, Msg: string);
