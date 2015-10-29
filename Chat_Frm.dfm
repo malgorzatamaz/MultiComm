@@ -93,7 +93,7 @@ object FrameChat: TFrameChat
       end
       item
         Column = 0
-        Control = MemoMessage
+        Control = EditMessage
         Row = 0
       end>
     RowCollection = <
@@ -353,7 +353,7 @@ object FrameChat: TFrameChat
         E2AD31E7BB50E8BF5AEDCE82F2DEACFBF4E4FFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
         FFFFFFFFFFFFFFFFFFFF}
-      ExplicitLeft = 523
+      ExplicitLeft = 514
       ExplicitTop = 3
     end
     object SpeedButtonRead: TSpeedButton
@@ -862,24 +862,22 @@ object FrameChat: TFrameChat
       ExplicitWidth = 23
       ExplicitHeight = 22
     end
-    object MemoMessage: TMemo
+    object EditMessage: TEdit
       AlignWithMargins = True
       Left = 10
-      Top = 5
+      Top = 10
       Width = 500
-      Height = 61
+      Height = 51
       Margins.Left = 10
-      Margins.Top = 5
+      Margins.Top = 10
       Margins.Right = 10
-      Margins.Bottom = 5
+      Margins.Bottom = 10
       Align = alClient
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
       TabOrder = 0
+      ExplicitLeft = 0
+      ExplicitTop = 25
+      ExplicitWidth = 320
+      ExplicitHeight = 21
     end
   end
   object ImageList: TImageList
@@ -888,7 +886,7 @@ object FrameChat: TFrameChat
     Left = 304
     Top = 16
     Bitmap = {
-      494C010101000C00300020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010101000C00340020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000002000000001002000000000000040
       0000000000000000000000000000000000000000000000000000FAFAFF009797
       FE003A3AFE001212FE001010FE001010FE001010FE001010FE001010FE001010

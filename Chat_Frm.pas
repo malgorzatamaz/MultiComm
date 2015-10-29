@@ -15,12 +15,12 @@ type
     SpeedButtonRead: TSpeedButton;
     SpeedButtonWrite: TSpeedButton;
     ListBoxMessages: TListBox;
-    MemoMessage: TMemo;
     Panel2: TPanel;
     ImageList: TImageList;
     ButtonClose: TSpeedButton;
     ActionList: TActionList;
     ActionSendMessage: TAction;
+    EditMessage: TEdit;
     procedure ActionSendMessageExecute(Sender: TObject);
   private
     FUserName  : string;
@@ -48,15 +48,11 @@ var
   cfg : Variant;
 begin
   cfg := AbtoPhone.Config;
+  AbtoPhone.SendTextMessage(UserName + '@iptel.org',EditMessage.Text,1);
 
-  ListBoxMessages.Items.Add(cfg.CallerId + ': ');
-  for i := 0 to High(MemoMessage.Lines.Count) do
-  begin
-    AbtoPhone.SendTextMessage(UserName,MemoMessage.Lines[i],1);
-    ListBoxMessages.Items.Add(MemoMessage.Lines[i]);
-  end;
-
-  MemoMessage.Lines.Clear;
+  ListBoxMessages.Items.Add(cfg.RegUser + ': ');
+  ListBoxMessages.Items.Add(EditMessage.Text);
+  EditMessage.Text :='';
 end;
 
 constructor TFrameChat.Create(AOwner: TComponent);
@@ -65,6 +61,7 @@ var
 begin
   inherited;
   ButtonClose.Caption := '';
+  ButtonSend.Caption := '';
   Bitmap := TBitmap.Create();
   ImageList.GetBitmap(0,Bitmap);
   ButtonClose.Glyph.Assign(Bitmap);
