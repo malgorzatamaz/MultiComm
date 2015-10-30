@@ -50,8 +50,8 @@ begin
   cfg := AbtoPhone.Config;
   AbtoPhone.SendTextMessage(UserName + '@iptel.org',EditMessage.Text,1);
 
-  ListBoxMessages.Items.Add(cfg.RegUser + ': ');
-  ListBoxMessages.Items.Add(EditMessage.Text);
+  ListBoxMessages.Items.Add('Ja : ');
+  ListBoxMessages.Items.Add(' ' + EditMessage.Text);
   EditMessage.Text :='';
 end;
 

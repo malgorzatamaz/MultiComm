@@ -22,6 +22,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure EnterPressed(Sender: TObject; var Key: Char);
   private
   public
     procedure Load(Phone: TCAbtoPhone);
@@ -39,6 +40,15 @@ implementation
 uses Main_Wnd;
 
 {$R *.dfm}
+
+procedure TFormLog.EnterPressed(Sender: TObject; var Key: Char);
+begin
+ if Key = #13 then
+  begin
+    ActionLogIn.Execute;
+    Key := #0;
+  end;
+end;
 
 procedure TFormLog.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
