@@ -66,8 +66,6 @@ object FormContactsList: TFormContactsList
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitTop = 156
-    ExplicitHeight = 232
     object pnl3: TPanel
       Left = 0
       Top = 296
@@ -78,7 +76,6 @@ object FormContactsList: TFormContactsList
       BevelOuter = bvNone
       BevelWidth = 5
       TabOrder = 0
-      ExplicitTop = 288
       object Button2: TSpeedButton
         Left = 0
         Top = 0
@@ -207,7 +204,6 @@ object FormContactsList: TFormContactsList
         Align = alCustom
         Anchors = []
         TabOrder = 0
-        ExplicitTop = 90
       end
       object LabelImagePath: TLabel
         Left = 66
@@ -250,8 +246,6 @@ object FormContactsList: TFormContactsList
         Height = 21
         Anchors = []
         TabOrder = 2
-        ExplicitLeft = 358
-        ExplicitTop = 15
       end
     end
     object ListView1: TListView
@@ -269,9 +263,6 @@ object FormContactsList: TFormContactsList
       BevelKind = bkSoft
       Columns = <>
       TabOrder = 2
-      ExplicitLeft = 411
-      ExplicitWidth = 307
-      ExplicitHeight = 283
     end
   end
 end

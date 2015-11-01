@@ -18,11 +18,13 @@ type
     LabelWarning: TLabel;
     ActionList: TActionList;
     ActionLogIn: TAction;
+    SpeedButton1: TSpeedButton;
     procedure ActionLogInExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure EnterPressed(Sender: TObject; var Key: Char);
+    procedure SpeedButton1Click(Sender: TObject);
   private
   public
     procedure Load(Phone: TCAbtoPhone);
@@ -80,6 +82,11 @@ procedure TFormLog.LoginUnsucessful;
 begin
   LabelWarning.Caption := 'B³¹d logowania';
   gLogged := False;
+end;
+
+procedure TFormLog.SpeedButton1Click(Sender: TObject);
+begin
+  Application.Terminate;
 end;
 
 procedure TFormLog.ActionLogInExecute(Sender: TObject);

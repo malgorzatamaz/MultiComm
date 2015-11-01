@@ -7,8 +7,11 @@ uses
   System.Classes, Vcl.Graphics, System.UITypes,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls, Chat_Frm, Call_Frm,
-  Vcl.ImgList, Login_Wnd, Settings_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils,
-  Vcl.Styles,Vcl.Tabs;
+  Vcl.ImgList, Login_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils,
+  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd;
+
+const
+  configFileName: String = 'phoneCfg.ini';
 
 type
   TContact = record
@@ -32,16 +35,26 @@ type
     ImageList: TImageList;
     ActionCloseCall: TAction;
     ActionCloseChat: TAction;
-    Panel2: TPanel;
-    ButtonSettings: TSpeedButton;
-    ButtonLogin: TSpeedButton;
-    Panel1: TPanel;
+    PanelContacts: TPanel;
     ListViewContacts: TListView;
-    ButtonContacts: TSpeedButton;
-    Panel3: TPanel;
-    ButtonMessage: TSpeedButton;
-    ButtonCall: TSpeedButton;
     ActionContactsList: TAction;
+    MainMenu: TMainMenu;
+    Plik1: TMenuItem;
+    DodajKonakt1: TMenuItem;
+    Akcje1: TMenuItem;
+    Zadzwo1: TMenuItem;
+    Rozpocznijchat1: TMenuItem;
+    N2: TMenuItem;
+    Usukontakt1: TMenuItem;
+    Usukontakt2: TMenuItem;
+    Ustawienia1: TMenuItem;
+    Wyloguj1: TMenuItem;
+    N1: TMenuItem;
+    Zamknij1: TMenuItem;
+    ActionClose: TAction;
+    PanelActions: TPanel;
+    SpeedButtonCall: TSpeedButton;
+    SpeedButtonChat: TSpeedButton;
     procedure ActionCallExecute(Sender: TObject);
     procedure ActionChatExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -59,7 +72,11 @@ type
       const Msg: WideString; LineId: Integer);
     procedure AbtoPhone_OnTextMessageReceived(ASender: TObject;
       const address: WideString; const message: WideString);
+    procedure ActionCloseExecute(Sender: TObject);
+    procedure ListViewContactsClick(Sender: TObject);
+    procedure PageControlChange(Sender: TObject);
   private
+    isAutoAnswerEnabled: Boolean;
     procedure OpenCallFrm(UserName, CallerId: string);
     procedure OpenChatFrm(UserName, CallerId: string);
     procedure LoadConfig();
@@ -88,7 +105,7 @@ var
   i, j, index: Integer;
   UserName, CallerId: string;
 begin
-  if ListViewContacts.Selected.Selected then
+  if ListViewContacts.ItemIndex <> -1 then
   begin
     index := ListViewContacts.Selected.index;
     UserName := gContacts[index].Name;
@@ -105,7 +122,7 @@ var
   index: Integer;
   CallerId, UserName: string;
 begin
-  if ListViewContacts.Selected.Selected then
+  if ListViewContacts.ItemIndex <> -1 then
   begin
     index := ListViewContacts.Selected.index;
     CallerId := gContacts[index].CallerId;
@@ -125,6 +142,11 @@ var
   i: Integer;
 begin
   //
+end;
+
+procedure TFormMainWindow.ActionCloseExecute(Sender: TObject);
+begin
+  Application.Terminate;
 end;
 
 procedure TFormMainWindow.ActionContactsListExecute(Sender: TObject);
@@ -147,17 +169,26 @@ end;
 
 procedure TFormMainWindow.ActionSettingsExecute(Sender: TObject);
 var
-  SettingsWindow: TFormSettings;
+  settingsForm: TSettingsForm;
+  phoneCfg: Variant;
 begin
-  SettingsWindow := TFormSettings.Create(Self);
-  SettingsWindow.Load(AbtoPhone);
+  Application.CreateForm(TSettingsForm, settingsForm);
 
-  if SettingsWindow.ShowModal() = mrOk then
+  phoneCfg := AbtoPhone.Config;
+  settingsForm.SetSettings(phoneCfg, AbtoPhone.RetrieveVersion,
+    AbtoPhone.RetrieveExternalAddress);
+
+  settingsForm.ShowModal;
+  if settingsForm.ModalResult = mrOk then
   begin
-
+    settingsForm.SetupUserInput;
+    AbtoPhone.ApplyConfig;
+    phoneCfg.Store(configFileName);
+    Self.Caption := 'MultiComm - Zalogowano jako ' + AbtoPhone.Config.RegUser;
   end;
-  SettingsWindow.Free;
-  SettingsWindow := nil;
+  isAutoAnswerEnabled := phoneCfg.AutoAnswerEnabled;
+
+  settingsForm.Free;
 end;
 
 procedure TFormMainWindow.OpenCallFrm(UserName, CallerId: string);
@@ -214,6 +245,26 @@ begin
   gFrameChats[j].Parent := gTabSheets[i];
 end;
 
+procedure TFormMainWindow.PageControlChange(Sender: TObject);
+begin
+  PanelActions.Visible := False;
+  PanelActions.Enabled := False;
+end;
+
+procedure TFormMainWindow.ListViewContactsClick(Sender: TObject);
+begin
+  if ListViewContacts.ItemIndex <> -1 then
+  begin
+    PanelActions.Enabled := True;
+    PanelActions.Visible := True;
+  end
+  else
+  begin
+    PanelActions.Enabled := False;
+    PanelActions.Visible := False;
+  end;
+end;
+
 procedure TFormMainWindow.LoadConfig;
 var
   phoneConfig: Variant;
@@ -227,9 +278,9 @@ begin
   phoneConfig.ListenPort := 5060;
   phoneConfig.RegDomain := 'iptel.org';
   phoneConfig.LicenseUserId :=
-    'Trial3848-8749-FFFF-F3469758-2111-2C1A-E7DB-4FF723D0C845';
+    'Trial3f33-8785-FFFF-F3469758-2111-2C1A-E7DB-4FF723D0C845';
   phoneConfig.LicenseKey :=
-    'wqtVfeWUf3IQLuUojNKRZ4YgW35CaNkTfwiv4LYrLUDk4cAn5NYWR/Kb35y1eZnNdIema0pxBOxhCakcy7LF2A==';
+    'XNFcCTrfMnNWDmYLFgSmx9aeWZ67BZA8EvaUF4CSUkq6TsAAMquJJEtqQ3stk2iFtCA4DdRv64HcPdZOIGCb+g== ';
 
   AbtoPhone.ApplyConfig;
 end;
@@ -269,11 +320,12 @@ var
   Item: TListItem;
   i: Integer;
 begin
+  SpeedButtonCall.Caption := '';
+  SpeedButtonChat.Caption := '';
+
   AbtoPhone := TCAbtoPhone.Create(Self);
   LoadConfig;
   AbtoPhone.Initialize;
-  ButtonMessage.Caption := '';
-  ButtonCall.Caption := '';
 
   SetLength(gContacts, 5);
   gContacts[0].Name := 'mobile32';
@@ -308,7 +360,7 @@ procedure TFormMainWindow.AbtoPhone_OnIncomingCall(ASender: TObject;
   const AddrFrom: WideString; LineId: Integer);
 var
   gExist: Boolean;
-  i, x: Integer;
+  i, X: Integer;
   UserName, CallerId: string;
 begin
   gExist := False;
@@ -325,16 +377,16 @@ begin
 
   if gIsCallEstablish then
   begin
-    x := MessageDlg('Dzwoni ' + AddrFrom + ', przerwaæ poprzedni¹ rozmowê?',
+    X := MessageDlg('Dzwoni ' + AddrFrom + ', przerwaæ poprzedni¹ rozmowê?',
       mtConfirmation, mbYesNo, 0);
   end
   else
   begin
-    x := MessageDlg('Dzwoni ' + AddrFrom + ', odebraæ?', mtConfirmation,
+    X := MessageDlg('Dzwoni ' + AddrFrom + ', odebraæ?', mtConfirmation,
       mbYesNo, 0);
   end;
 
-  if x = mrYes then
+  if X = mrYes then
   begin
     if gIsCallEstablish then
     begin
@@ -392,7 +444,7 @@ procedure TFormMainWindow.AbtoPhone_OnTextMessageReceived(ASender: TObject;
   const address, message: WideString);
 var
   gExist: Boolean;
-  i, x: Integer;
+  i, X: Integer;
   UserName, CallerId: string;
   tmpFrameChat: TFrameChat;
   tmpFrameCall: TFrameCall;

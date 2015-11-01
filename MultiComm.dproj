@@ -104,13 +104,16 @@
             <Form>FormMainWindow</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Settings_Wnd.pas">
+        <DCCReference Include="Settings_Wnd_OLD.pas">
             <Form>FormSettings</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Contacts_Wnd.pas">
             <Form>FormContactsList</Form>
             <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Settings_Wnd.pas">
+            <Form>SettingsForm</Form>
         </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
