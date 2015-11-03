@@ -80,11 +80,6 @@ object FrameCall: TFrameCall
           Row = 0
         end
         item
-          Column = 0
-          Control = ButtonCall
-          Row = 0
-        end
-        item
           Column = 1
           Control = ButtonCamera
           Row = 0
@@ -92,6 +87,11 @@ object FrameCall: TFrameCall
         item
           Column = 2
           Control = ButtonMute
+          Row = 0
+        end
+        item
+          Column = 0
+          Control = PanelButton
           Row = 0
         end>
       RowCollection = <
@@ -153,21 +153,8 @@ object FrameCall: TFrameCall
         Font.Style = []
         ParentFont = False
         OnClick = LabelPlusClick
-        ExplicitLeft = 654
         ExplicitWidth = 19
         ExplicitHeight = 56
-      end
-      object ButtonCall: TButton
-        Left = 0
-        Top = 0
-        Width = 60
-        Height = 65
-        Action = ActionCall
-        Align = alClient
-        ImageAlignment = iaCenter
-        ImageIndex = 1
-        Images = ImageList
-        TabOrder = 1
       end
       object ButtonCamera: TButton
         Left = 60
@@ -179,7 +166,7 @@ object FrameCall: TFrameCall
         ImageAlignment = iaCenter
         ImageIndex = 2
         Images = ImageList
-        TabOrder = 2
+        TabOrder = 1
       end
       object ButtonMute: TButton
         Left = 120
@@ -191,7 +178,48 @@ object FrameCall: TFrameCall
         ImageAlignment = iaCenter
         ImageIndex = 4
         Images = ImageList
+        TabOrder = 2
+      end
+      object PanelButton: TPanel
+        Left = 0
+        Top = 0
+        Width = 60
+        Height = 65
+        Align = alClient
+        BevelEdges = []
         TabOrder = 3
+        ExplicitLeft = -6
+        ExplicitTop = -3
+        object ButtonCall: TButton
+          Left = 1
+          Top = 1
+          Width = 58
+          Height = 63
+          Action = ActionCall
+          Align = alClient
+          ImageAlignment = iaCenter
+          ImageIndex = 1
+          Images = ImageList
+          TabOrder = 0
+          ExplicitLeft = 16
+          ExplicitTop = 16
+          ExplicitWidth = 75
+          ExplicitHeight = 25
+        end
+        object ButtonHangUp: TButton
+          Left = 1
+          Top = 1
+          Width = 58
+          Height = 63
+          Action = ActionHangUp
+          Align = alClient
+          ImageAlignment = iaCenter
+          ImageIndex = 0
+          Images = ImageList
+          TabOrder = 1
+          ExplicitLeft = -4
+          ExplicitTop = -1
+        end
       end
     end
   end
@@ -242,7 +270,8 @@ object FrameCall: TFrameCall
         Value = 60.000000000000000000
       end>
     TabOrder = 1
-    ExplicitTop = 68
+    ExplicitLeft = 3
+    ExplicitTop = 81
     object GridMessageSend: TGridPanel
       Left = 0
       Top = 179
@@ -292,7 +321,7 @@ object FrameCall: TFrameCall
         Margins.Bottom = 10
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 21
+        ExplicitLeft = 7
       end
       object ButtonSendMessage: TButton
         Left = 391
@@ -363,7 +392,7 @@ object FrameCall: TFrameCall
     Left = 249
     Top = 7
     Bitmap = {
-      494C010108001800100040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010108001800140040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000000010000C000000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6723,6 +6752,9 @@ object FrameCall: TFrameCall
     object ActionMute: TAction
       Caption = 'ActionMute'
       OnExecute = ActionMuteExecute
+    end
+    object ActionHangUp: TAction
+      OnExecute = ActionHangUpExecute
     end
   end
 end

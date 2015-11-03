@@ -27,10 +27,13 @@ type
     ActionCamera: TAction;
     EditMessage: TEdit;
     ActionMute: TAction;
-    ButtonCall: TButton;
     ButtonCamera: TButton;
     ButtonMute: TButton;
     ButtonSendMessage: TButton;
+    PanelButton: TPanel;
+    ButtonCall: TButton;
+    ButtonHangUp: TButton;
+    ActionHangUp: TAction;
     procedure ActionSendMessageExecute(Sender: TObject);
     procedure ActionCallExecute(Sender: TObject);
     procedure ActionCameraExecute(Sender: TObject);
@@ -40,21 +43,22 @@ type
     procedure TrackBarVolumeChange(Sender: TObject);
     procedure ActionMuteExecute(Sender: TObject);
     procedure AbtoPhone_OnEstablishedCall(ASender: TObject;
-  const Msg: WideString; LineId: Integer);
-procedure AbtoPhone_OnClearedCall(ASender: TObject;
-  const Msg: WideString; Status, LineId: Integer);
+      const Msg: WideString; LineId: Integer);
+    procedure AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideString;
+      Status, LineId: Integer);
+    procedure ActionHangUpExecute(Sender: TObject);
   private
     FUserName: string;
     FUserId: string;
-    FPageIndex : Integer;
+    FPageIndex: Integer;
   public
     gIsCallEstablish: Boolean;
     procedure Load(Phone: TCAbtoPhone);
-    procedure ShowMessage(Address, Msg :string);
+    procedure ShowMessage(Address, Msg: string);
     constructor Create(AOwner: TComponent); override;
     property UserName: string read FUserName write FUserName;
     property UserId: string read FUserName write FUserId;
-    property PageIndex : Integer read FPageIndex write FPageIndex;
+    property PageIndex: Integer read FPageIndex write FPageIndex;
   published
     property ClientHeight;
     property ClientWidth;
@@ -62,8 +66,8 @@ procedure AbtoPhone_OnClearedCall(ASender: TObject;
 
 var
   AbtoPhone: TCAbtoPhone;
-  gMute,gVideoShow,gShowSelf: Boolean;
-  gLastTrackVolumePosition : Integer;
+  gMute, gVideoShow, gShowSelf: Boolean;
+  gLastTrackVolumePosition: Integer;
 
 implementation
 
@@ -71,48 +75,46 @@ implementation
 
 uses Main_Wnd;
 
-
 procedure TFrameCall.AbtoPhone_OnClearedCall(ASender: TObject;
   const Msg: WideString; Status, LineId: Integer);
 begin
   gIsCallEstablish := False;
-  ButtonCall.ImageIndex := 0;
 end;
 
 procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject;
   const Msg: WideString; LineId: Integer);
 begin
   gIsCallEstablish := True;
-  ButtonCall.ImageIndex := 1;
 end;
 
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
 begin
-  if gIsCallEstablish = True then
+  gIsCallEstablish := True;
+  AbtoPhone.StartCall(UserName + '@iptel.org');
+
+  if not gIsCallEstablish then
   begin
-    ButtonCall.ImageIndex := 0;
-    gIsCallEstablish := False;
-    AbtoPhone.HangUpLastCall;
+    ButtonCall.Visible := True;
+    ButtonHangUp.Visible := False;
   end
   else
   begin
-    ButtonCall.ImageIndex := 1;
-    gIsCallEstablish := True;
-    AbtoPhone.StartCall(UserName + '@iptel.org');
+    ButtonCall.Visible := False;
+    ButtonHangUp.Visible := True;
   end;
 end;
 
 procedure TFrameCall.ActionCameraExecute(Sender: TObject);
 var
-  phoneConfig : Variant;
+  phoneConfig: Variant;
 begin
   phoneConfig := AbtoPhone.Config;
 
   if gVideoShow then
-    begin
+  begin
     phoneConfig.RemoteVideoWindow := PanelVideo.Handle;
     ButtonCamera.ImageIndex := 3;
-    end
+  end
   else
   begin
     ButtonCamera.ImageIndex := 4;
@@ -121,6 +123,23 @@ begin
   end;
 
   AbtoPhone.ApplyConfig;
+end;
+
+procedure TFrameCall.ActionHangUpExecute(Sender: TObject);
+begin
+  AbtoPhone.HangUpLastCall;
+  gIsCallEstablish := False;
+
+    if not gIsCallEstablish then
+  begin
+    ButtonCall.Visible := True;
+    ButtonHangUp.Visible := False;
+  end
+  else
+  begin
+    ButtonCall.Visible := False;
+    ButtonHangUp.Visible := True;
+  end;
 end;
 
 procedure TFrameCall.ActionMuteExecute(Sender: TObject);
@@ -140,18 +159,18 @@ end;
 
 procedure TFrameCall.ActionSendMessageExecute(Sender: TObject);
 var
-  i : Integer;
-  cfg : Variant;
+  i: Integer;
+  cfg: Variant;
 begin
   cfg := AbtoPhone.Config;
-  AbtoPhone.SendTextMessage(UserName + '@iptel.org',EditMessage.Text,1);
+  AbtoPhone.SendTextMessage(UserName + '@iptel.org', EditMessage.Text, 1);
 
   ListBoxMessages.Items.Add('Ja : ');
   ListBoxMessages.Items.Add(' ' + EditMessage.Text);
-  EditMessage.Text :='';
+  EditMessage.Text := '';
 end;
 
-procedure TFrameCall.ShowMessage(Address, Msg : string);
+procedure TFrameCall.ShowMessage(Address, Msg: string);
 begin
   ListBoxMessages.Items.Add(Address + ': ');
   ListBoxMessages.Items.Add(Msg);
@@ -159,16 +178,17 @@ end;
 
 procedure TFrameCall.TrackBarVolumeChange(Sender: TObject);
 begin
-    AbtoPhone.PlaybackVolume := TrackBarVolume.Position
+  AbtoPhone.PlaybackVolume := TrackBarVolume.Position
 end;
 
 constructor TFrameCall.Create(AOwner: TComponent);
 begin
   inherited;
-  ButtonCall.Caption :='';
+  gIsCallEstablish := False;
+  ButtonCall.Caption := '';
   ButtonCamera.Caption := '';
   ButtonMute.Caption := '';
-  ButtonSendMessage.Caption :='';
+  ButtonSendMessage.Caption := '';
   TrackBarVolume.Position := 5;
 end;
 
@@ -187,7 +207,8 @@ end;
 procedure TFrameCall.Load(Phone: TCAbtoPhone);
 begin
   AbtoPhone := Phone;
-  gIsCallEstablish := False;
+  AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
+  AbtoPhone.OnClearedCall := AbtoPhone_OnClearedCall;
   gShowSelf := False;
   TrackBarVolume.Position := 5;
   TrackBarVolume.Position := AbtoPhone.PlaybackVolume;
@@ -195,20 +216,20 @@ end;
 
 procedure TFrameCall.PanelVideoClick(Sender: TObject);
 var
-  phoneConfig : Variant;
+  phoneConfig: Variant;
 begin
   phoneConfig := AbtoPhone.Config;
 
   if gShowSelf and gVideoShow then
-    begin
+  begin
     phoneConfig.LocalVideoWindow := PanelVideo.Handle;
     gShowSelf := False;
-    end
+  end
   else if not gShowSelf and gVideoShow then
-    begin
+  begin
     phoneConfig.RemoteVideoWindow := PanelVideo.Handle;
     gShowSelf := True;
-    end;
+  end;
 
   AbtoPhone.ApplyConfig;
 end;
