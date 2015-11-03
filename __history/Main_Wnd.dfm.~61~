@@ -105,6 +105,8 @@ object FormMainWindow: TFormMainWindow
           TabOrder = 0
           ViewStyle = vsSmallIcon
           OnClick = ListViewContactsClick
+          ExplicitLeft = 1
+          ExplicitTop = 1
         end
         object PanelActions: TPanel
           Left = 0
@@ -130,6 +132,7 @@ object FormMainWindow: TFormMainWindow
             Images = ImageList
             ParentBiDiMode = False
             TabOrder = 0
+            ExplicitLeft = 358
           end
           object ButtonCall: TButton
             Left = 1
@@ -142,6 +145,8 @@ object FormMainWindow: TFormMainWindow
             ImageIndex = 5
             Images = ImageList
             TabOrder = 1
+            ExplicitLeft = 7
+            ExplicitTop = 3
           end
         end
       end
@@ -189,7 +194,7 @@ object FormMainWindow: TFormMainWindow
     Left = 376
     Top = 56
     Bitmap = {
-      494C010107001800280040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010107001800240040004000FFFFFFFF2100FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100008000000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4417,8 +4422,7 @@ object FormMainWindow: TFormMainWindow
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000}
+      00000000000000000000000000000000}
   end
   object MainMenu: TMainMenu
     Left = 313

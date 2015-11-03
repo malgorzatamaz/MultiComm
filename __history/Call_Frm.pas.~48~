@@ -39,10 +39,6 @@ type
     procedure PanelVideoClick(Sender: TObject);
     procedure TrackBarVolumeChange(Sender: TObject);
     procedure ActionMuteExecute(Sender: TObject);
-    procedure AbtoPhone_OnEstablishedCall(ASender: TObject;
-  const Msg: WideString; LineId: Integer);
-procedure AbtoPhone_OnClearedCall(ASender: TObject;
-  const Msg: WideString; Status, LineId: Integer);
   private
     FUserName: string;
     FUserId: string;
@@ -71,27 +67,12 @@ implementation
 
 uses Main_Wnd;
 
-
-procedure TFrameCall.AbtoPhone_OnClearedCall(ASender: TObject;
-  const Msg: WideString; Status, LineId: Integer);
-begin
-  gIsCallEstablish := False;
-  ButtonCall.ImageIndex := 0;
-end;
-
-procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject;
-  const Msg: WideString; LineId: Integer);
-begin
-  gIsCallEstablish := True;
-  ButtonCall.ImageIndex := 1;
-end;
-
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
 begin
   if gIsCallEstablish = True then
   begin
     ButtonCall.ImageIndex := 0;
-    gIsCallEstablish := False;
+    gIsCallEstablish := True;
     AbtoPhone.HangUpLastCall;
   end
   else
@@ -189,7 +170,6 @@ begin
   AbtoPhone := Phone;
   gIsCallEstablish := False;
   gShowSelf := False;
-  TrackBarVolume.Position := 5;
   TrackBarVolume.Position := AbtoPhone.PlaybackVolume;
 end;
 

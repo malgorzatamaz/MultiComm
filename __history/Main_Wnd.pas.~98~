@@ -7,8 +7,11 @@ uses
   System.Classes, Vcl.Graphics, System.UITypes,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls, Chat_Frm, Call_Frm,
-  Vcl.ImgList, Login_Wnd, Settings_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils,
-  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd;
+  Vcl.ImgList, Login_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils,
+  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd;
+
+const
+  configFileName: String = 'phoneCfg.ini';
 
 type
   TContact = record
@@ -50,8 +53,8 @@ type
     Zamknij1: TMenuItem;
     ActionClose: TAction;
     PanelActions: TPanel;
-    SpeedButtonCall: TSpeedButton;
-    SpeedButtonChat: TSpeedButton;
+    ButtonChat: TButton;
+    ButtonCall: TButton;
     procedure ActionCallExecute(Sender: TObject);
     procedure ActionChatExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -73,6 +76,7 @@ type
     procedure ListViewContactsClick(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
   private
+    isAutoAnswerEnabled: Boolean;
     procedure OpenCallFrm(UserName, CallerId: string);
     procedure OpenChatFrm(UserName, CallerId: string);
     procedure LoadConfig();
@@ -165,17 +169,26 @@ end;
 
 procedure TFormMainWindow.ActionSettingsExecute(Sender: TObject);
 var
-  SettingsWindow: TFormSettings;
+  settingsForm: TSettingsForm;
+  phoneCfg: Variant;
 begin
-  SettingsWindow := TFormSettings.Create(Self);
-  SettingsWindow.Load(AbtoPhone);
+  Application.CreateForm(TSettingsForm, settingsForm);
 
-  if SettingsWindow.ShowModal() = mrOk then
+  phoneCfg := AbtoPhone.Config;
+  settingsForm.SetSettings(phoneCfg, AbtoPhone.RetrieveVersion,
+    AbtoPhone.RetrieveExternalAddress);
+
+  settingsForm.ShowModal;
+  if settingsForm.ModalResult = mrOk then
   begin
-
+    settingsForm.SetupUserInput;
+    AbtoPhone.ApplyConfig;
+    phoneCfg.Store(configFileName);
+    Self.Caption := 'MultiComm - Zalogowano jako ' + AbtoPhone.Config.RegUser;
   end;
-  SettingsWindow.Free;
-  SettingsWindow := nil;
+  isAutoAnswerEnabled := phoneCfg.AutoAnswerEnabled;
+
+  settingsForm.Free;
 end;
 
 procedure TFormMainWindow.OpenCallFrm(UserName, CallerId: string);
@@ -194,14 +207,10 @@ begin
   SetLength(gFrameCalls, Length(gFrameCalls) + 1);
 
   gFrameCalls[j] := TFrameCall.Create(nil);
-  gFrameCalls[j].Parent := gTabSheets[i];
-  gFrameCalls[j].Align := alClient;
   gFrameCalls[j].Name := 'FrameCall' + IntToStr(j);
-  // gFrameChats[j].PageIndex := gTabSheets[i].PageIndex;
-
   gFrameCalls[j].UserName := UserName;
+  gFrameCalls[j].Align := alClient;
   gFrameCalls[j].Load(AbtoPhone);
-
   gFrameCalls[j].Parent := gTabSheets[i];
 end;
 
@@ -239,46 +248,16 @@ begin
 end;
 
 procedure TFormMainWindow.ListViewContactsClick(Sender: TObject);
-var
-  hts: THitTests;
-  ht: THitTest;
-  sht: string;
-  ListViewCursosPos: TPoint;
-  selectedItem: TListItem;
-  i, j, index: Integer;
-  UserName, CallerId: string;
-  pt: TPoint;
-  SelectMenuWnd: TSelectMenu;
 begin
-  // position of the mouse cursor related to ListView
-  ListViewCursosPos := ListViewContacts.ScreenToClient(Mouse.CursorPos);
-
-  // double click where?
-  hts := ListViewContacts.GetHitTestInfoAt(ListViewCursosPos.X,
-    ListViewCursosPos.Y);
-
-  // "debug" hit test
-  Caption := '';
-  for ht in hts do
+  if ListViewContacts.ItemIndex <> -1 then
   begin
-    sht := GetEnumName(TypeInfo(THitTest), Integer(ht));
-  end;
-
-  // locate the double-clicked item
-  if hts <= [htOnIcon, htOnItem, htOnLabel, htOnStateIcon] then
+    PanelActions.Enabled := True;
+    PanelActions.Visible := True;
+  end
+  else
   begin
-    selectedItem := ListViewContacts.Selected;
-
-    if (selectedItem.Caption <> '') then
-    begin
-      PanelActions.Enabled := True;
-      PanelActions.Visible := True;
-    end
-    else
-    begin
-      PanelActions.Enabled := False;
-      PanelActions.Visible := False;
-    end;
+    PanelActions.Enabled := False;
+    PanelActions.Visible := False;
   end;
 end;
 
@@ -337,8 +316,11 @@ var
   Item: TListItem;
   i: Integer;
 begin
-  SpeedButtonCall.Caption := '';
-  SpeedButtonChat.Caption := '';
+
+  ButtonChat.Caption := '';
+  ButtonChat.ImageAlignment := iaCenter;
+  ButtonCall.Caption := '';
+  ButtonCall.ImageAlignment := iaCenter;
 
   AbtoPhone := TCAbtoPhone.Create(Self);
   LoadConfig;
@@ -461,7 +443,7 @@ procedure TFormMainWindow.AbtoPhone_OnTextMessageReceived(ASender: TObject;
   const address, message: WideString);
 var
   gExist: Boolean;
-  i, X: Integer;
+  i: Integer;
   UserName, CallerId: string;
   tmpFrameChat: TFrameChat;
   tmpFrameCall: TFrameCall;
@@ -509,8 +491,6 @@ end;
 
 procedure TFormMainWindow.AbtoPhone_OnClearedCall(ASender: TObject;
   const Msg: WideString; Status, LineId: Integer);
-var
-  i: Integer;
 begin
   gIsCallEstablish := False;
 end;
@@ -520,5 +500,4 @@ procedure TFormMainWindow.AbtoPhone_OnEstablishedCall(ASender: TObject;
 begin
   gIsCallEstablish := True;
 end;
-
 end.
