@@ -187,14 +187,15 @@ object FrameCall: TFrameCall
         Height = 65
         Align = alClient
         BevelEdges = []
+        BevelOuter = bvNone
         TabOrder = 3
         ExplicitLeft = -6
         ExplicitTop = -3
         object ButtonCall: TButton
-          Left = 1
-          Top = 1
-          Width = 58
-          Height = 63
+          Left = 0
+          Top = 0
+          Width = 60
+          Height = 65
           Action = ActionCall
           Align = alClient
           ImageAlignment = iaCenter
@@ -207,18 +208,21 @@ object FrameCall: TFrameCall
           ExplicitHeight = 25
         end
         object ButtonHangUp: TButton
-          Left = 1
-          Top = 1
-          Width = 58
-          Height = 63
+          Left = 0
+          Top = 0
+          Width = 60
+          Height = 65
           Action = ActionHangUp
           Align = alClient
           ImageAlignment = iaCenter
           ImageIndex = 0
           Images = ImageList
           TabOrder = 1
+          Visible = False
           ExplicitLeft = -4
           ExplicitTop = -1
+          ExplicitWidth = 58
+          ExplicitHeight = 63
         end
       end
     end
@@ -6742,15 +6746,12 @@ object FrameCall: TFrameCall
       OnExecute = ActionCallExecute
     end
     object ActionSendMessage: TAction
-      Caption = 'ActionSendMessage'
       OnExecute = ActionSendMessageExecute
     end
     object ActionCamera: TAction
-      Caption = 'ActionCamera'
       OnExecute = ActionCameraExecute
     end
     object ActionMute: TAction
-      Caption = 'ActionMute'
       OnExecute = ActionMuteExecute
     end
     object ActionHangUp: TAction

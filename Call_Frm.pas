@@ -53,9 +53,9 @@ type
     FPageIndex: Integer;
   public
     gIsCallEstablish: Boolean;
+    constructor Create(AOwner: TComponent); override;
     procedure Load(Phone: TCAbtoPhone);
     procedure ShowMessage(Address, Msg: string);
-    constructor Create(AOwner: TComponent); override;
     property UserName: string read FUserName write FUserName;
     property UserId: string read FUserName write FUserId;
     property PageIndex: Integer read FPageIndex write FPageIndex;
@@ -87,21 +87,13 @@ begin
   gIsCallEstablish := True;
 end;
 
+
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
 begin
-  gIsCallEstablish := True;
   AbtoPhone.StartCall(UserName + '@iptel.org');
-
-  if not gIsCallEstablish then
-  begin
-    ButtonCall.Visible := True;
-    ButtonHangUp.Visible := False;
-  end
-  else
-  begin
-    ButtonCall.Visible := False;
-    ButtonHangUp.Visible := True;
-  end;
+  gIsCallEstablish := True;
+  ButtonCall.Visible := False;
+  ButtonHangUp.Visible := True;
 end;
 
 procedure TFrameCall.ActionCameraExecute(Sender: TObject);
@@ -129,17 +121,8 @@ procedure TFrameCall.ActionHangUpExecute(Sender: TObject);
 begin
   AbtoPhone.HangUpLastCall;
   gIsCallEstablish := False;
-
-    if not gIsCallEstablish then
-  begin
-    ButtonCall.Visible := True;
-    ButtonHangUp.Visible := False;
-  end
-  else
-  begin
-    ButtonCall.Visible := False;
-    ButtonHangUp.Visible := True;
-  end;
+  ButtonCall.Visible := True;
+  ButtonHangUp.Visible := False;
 end;
 
 procedure TFrameCall.ActionMuteExecute(Sender: TObject);

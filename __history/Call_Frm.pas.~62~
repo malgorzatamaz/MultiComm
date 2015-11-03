@@ -33,6 +33,7 @@ type
     PanelButton: TPanel;
     ButtonCall: TButton;
     ButtonHangUp: TButton;
+    ActionHangUp: TAction;
     procedure ActionSendMessageExecute(Sender: TObject);
     procedure ActionCallExecute(Sender: TObject);
     procedure ActionCameraExecute(Sender: TObject);
@@ -45,7 +46,7 @@ type
       const Msg: WideString; LineId: Integer);
     procedure AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideString;
       Status, LineId: Integer);
-    procedure ActionCallUpdate(Sender: TObject);
+    procedure ActionHangUpExecute(Sender: TObject);
   private
     FUserName: string;
     FUserId: string;
@@ -78,14 +79,12 @@ procedure TFrameCall.AbtoPhone_OnClearedCall(ASender: TObject;
   const Msg: WideString; Status, LineId: Integer);
 begin
   gIsCallEstablish := False;
-  ButtonCall.ImageIndex := 0;
 end;
 
 procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject;
   const Msg: WideString; LineId: Integer);
 begin
   gIsCallEstablish := True;
-  ButtonCall.ImageIndex := 1;
 end;
 
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
@@ -93,31 +92,15 @@ begin
   gIsCallEstablish := True;
   AbtoPhone.StartCall(UserName + '@iptel.org');
 
-//  if gIsCallEstablish = True then
-//  begin
-//    ButtonCall.ImageIndex := 0;
-//    gIsCallEstablish := False;
-//    AbtoPhone.HangUpLastCall;
-//  end
-//  else
-//  begin
-//    ButtonCall.ImageIndex := 1;
-//    gIsCallEstablish := True;
-//    AbtoPhone.StartCall(UserName + '@iptel.org');
-//  end;
-end;
-
-procedure TFrameCall.ActionCallUpdate(Sender: TObject);
-begin
-  if gIsCallEstablish then
-  begin
-    ButtonCall.Visible := False;
-    ButtonHangUp.Visible := True;
-  end;
   if not gIsCallEstablish then
   begin
     ButtonCall.Visible := True;
     ButtonHangUp.Visible := False;
+  end
+  else
+  begin
+    ButtonCall.Visible := False;
+    ButtonHangUp.Visible := True;
   end;
 end;
 
@@ -140,6 +123,23 @@ begin
   end;
 
   AbtoPhone.ApplyConfig;
+end;
+
+procedure TFrameCall.ActionHangUpExecute(Sender: TObject);
+begin
+  AbtoPhone.HangUpLastCall;
+  gIsCallEstablish := False;
+
+    if not gIsCallEstablish then
+  begin
+    ButtonCall.Visible := True;
+    ButtonHangUp.Visible := False;
+  end
+  else
+  begin
+    ButtonCall.Visible := False;
+    ButtonHangUp.Visible := True;
+  end;
 end;
 
 procedure TFrameCall.ActionMuteExecute(Sender: TObject);
@@ -184,6 +184,7 @@ end;
 constructor TFrameCall.Create(AOwner: TComponent);
 begin
   inherited;
+  gIsCallEstablish := False;
   ButtonCall.Caption := '';
   ButtonCamera.Caption := '';
   ButtonMute.Caption := '';
@@ -206,7 +207,8 @@ end;
 procedure TFrameCall.Load(Phone: TCAbtoPhone);
 begin
   AbtoPhone := Phone;
-  gIsCallEstablish := False;
+  AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
+  AbtoPhone.OnClearedCall := AbtoPhone_OnClearedCall;
   gShowSelf := False;
   TrackBarVolume.Position := 5;
   TrackBarVolume.Position := AbtoPhone.PlaybackVolume;
