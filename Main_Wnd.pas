@@ -53,8 +53,8 @@ type
     Zamknij1: TMenuItem;
     ActionClose: TAction;
     PanelActions: TPanel;
-    SpeedButtonCall: TSpeedButton;
-    SpeedButtonChat: TSpeedButton;
+    ButtonChat: TButton;
+    ButtonCall: TButton;
     procedure ActionCallExecute(Sender: TObject);
     procedure ActionChatExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -207,14 +207,10 @@ begin
   SetLength(gFrameCalls, Length(gFrameCalls) + 1);
 
   gFrameCalls[j] := TFrameCall.Create(nil);
-  gFrameCalls[j].Parent := gTabSheets[i];
-  gFrameCalls[j].Align := alClient;
   gFrameCalls[j].Name := 'FrameCall' + IntToStr(j);
-  // gFrameChats[j].PageIndex := gTabSheets[i].PageIndex;
-
   gFrameCalls[j].UserName := UserName;
+  gFrameCalls[j].Align := alClient;
   gFrameCalls[j].Load(AbtoPhone);
-
   gFrameCalls[j].Parent := gTabSheets[i];
 end;
 
@@ -320,8 +316,11 @@ var
   Item: TListItem;
   i: Integer;
 begin
-  SpeedButtonCall.Caption := '';
-  SpeedButtonChat.Caption := '';
+
+  ButtonChat.Caption := '';
+  ButtonChat.ImageAlignment := iaCenter;
+  ButtonCall.Caption := '';
+  ButtonCall.ImageAlignment := iaCenter;
 
   AbtoPhone := TCAbtoPhone.Create(Self);
   LoadConfig;
@@ -444,7 +443,7 @@ procedure TFormMainWindow.AbtoPhone_OnTextMessageReceived(ASender: TObject;
   const address, message: WideString);
 var
   gExist: Boolean;
-  i, X: Integer;
+  i: Integer;
   UserName, CallerId: string;
   tmpFrameChat: TFrameChat;
   tmpFrameCall: TFrameCall;
@@ -492,8 +491,6 @@ end;
 
 procedure TFormMainWindow.AbtoPhone_OnClearedCall(ASender: TObject;
   const Msg: WideString; Status, LineId: Integer);
-var
-  i: Integer;
 begin
   gIsCallEstablish := False;
 end;
@@ -503,5 +500,4 @@ procedure TFormMainWindow.AbtoPhone_OnEstablishedCall(ASender: TObject;
 begin
   gIsCallEstablish := True;
 end;
-
 end.

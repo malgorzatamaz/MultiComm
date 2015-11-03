@@ -18,7 +18,6 @@ type
     LabelWarning: TLabel;
     ActionList: TActionList;
     ActionLogIn: TAction;
-    SpeedButton1: TSpeedButton;
     procedure ActionLogInExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);

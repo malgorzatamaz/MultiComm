@@ -11,14 +11,14 @@ type
   TFrameChat = class(TFrame)
     PanelMessage: TPanel;
     Grid: TGridPanel;
-    ButtonSend: TSpeedButton;
-    SpeedButtonRead: TSpeedButton;
-    SpeedButtonWrite: TSpeedButton;
     ListBoxMessages: TListBox;
     ImageList: TImageList;
     ActionList: TActionList;
     ActionSendMessage: TAction;
     EditMessage: TEdit;
+    ButtonSendMessage: TButton;
+    ButtonSpeak: TButton;
+    ButtonRec: TButton;
     procedure ActionSendMessageExecute(Sender: TObject);
   private
     FUserName  : string;
@@ -58,7 +58,6 @@ var
   Bitmap : TBitmap;
 begin
   inherited;
-  ButtonSend.Caption := '';
   Bitmap := TBitmap.Create();
   ImageList.GetBitmap(0,Bitmap);
 end;

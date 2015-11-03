@@ -14,23 +14,23 @@ type
     PanelMenu: TPanel;
     GridPanelMenu: TGridPanel;
     GridMain: TGridPanel;
-    ButtonVoice: TSpeedButton;
-    ButtonVideo: TSpeedButton;
     LabelMinus: TLabel;
     TrackBarVolume: TTrackBar;
     LabelPlus: TLabel;
     ImageList: TImageList;
     GridMessageSend: TGridPanel;
-    ButtonSend: TSpeedButton;
     PanelVideo: TPanel;
     ListBoxMessages: TListBox;
     ActionList1: TActionList;
     ActionCall: TAction;
     ActionSendMessage: TAction;
-    ButtonCall: TSpeedButton;
     ActionCamera: TAction;
     EditMessage: TEdit;
     ActionMute: TAction;
+    ButtonCall: TButton;
+    ButtonCamera: TButton;
+    ButtonMute: TButton;
+    ButtonSendMessage: TButton;
     procedure ActionSendMessageExecute(Sender: TObject);
     procedure ActionCallExecute(Sender: TObject);
     procedure ActionCameraExecute(Sender: TObject);
@@ -68,24 +68,16 @@ implementation
 uses Main_Wnd;
 
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
-var
-  tmpBitmap: TBitmap;
 begin
-  // 3-czerwona 4-zielona
-
   if gIsCallEstablish = True then
   begin
-    tmpBitmap := TBitmap.Create();
-    ImageList.GetBitmap(4, tmpBitmap);
-    ButtonCall.Glyph := tmpBitmap;
+    ButtonCall.ImageIndex := 0;
     gIsCallEstablish := True;
     AbtoPhone.HangUpLastCall;
   end
   else
   begin
-    tmpBitmap := TBitmap.Create();
-    ImageList.GetBitmap(3, tmpBitmap);
-    ButtonCall.Glyph := tmpBitmap;
+    ButtonCall.ImageIndex := 1;
     gIsCallEstablish := True;
     AbtoPhone.StartCall(UserName + '@iptel.org');
   end;
@@ -100,9 +92,11 @@ begin
   if gVideoShow then
     begin
     phoneConfig.RemoteVideoWindow := PanelVideo.Handle;
+    ButtonCamera.ImageIndex := 3;
     end
   else
   begin
+    ButtonCamera.ImageIndex := 4;
     phoneConfig.RemoteVideoWindow := nil;
     phoneConfig.LocalVideoWindow := nil;
   end;
@@ -116,10 +110,12 @@ begin
   begin
     gLastTrackVolumePosition := TrackBarVolume.Position;
     TrackBarVolume.Position := 0;
+    ButtonMute.ImageIndex := 5;
   end
   else
   begin
     TrackBarVolume.Position := gLastTrackVolumePosition;
+    ButtonMute.ImageIndex := 4;
   end;
 end;
 
@@ -150,10 +146,11 @@ end;
 constructor TFrameCall.Create(AOwner: TComponent);
 begin
   inherited;
-  ButtonSend.Caption :='';
-  ButtonVoice.Caption := '';
-  ButtonCall.Caption := '';
-  ButtonVideo.Caption :='';
+  ButtonCall.Caption :='';
+  ButtonCamera.Caption := '';
+  ButtonMute.Caption := '';
+  ButtonSendMessage.Caption :='';
+  TrackBarVolume.Position := 5;
 end;
 
 procedure TFrameCall.LabelMinusClick(Sender: TObject);

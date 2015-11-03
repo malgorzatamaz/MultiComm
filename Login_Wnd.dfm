@@ -74,11 +74,11 @@ object FormLog: TFormLog
   end
   object ButtonLogin: TSpeedButton
     Left = 0
-    Top = 158
-    Width = 161
-    Height = 83
+    Top = 176
+    Width = 344
+    Height = 65
     Action = ActionLogIn
-    Align = alLeft
+    Align = alBottom
     Caption = 'Zaloguj'
     Flat = True
     Font.Charset = DEFAULT_CHARSET
@@ -102,22 +102,6 @@ object FormLog: TFormLog
     Font.Style = []
     ParentFont = False
     ExplicitWidth = 4
-  end
-  object SpeedButton1: TSpeedButton
-    Left = 167
-    Top = 158
-    Width = 177
-    Height = 83
-    Align = alRight
-    Caption = 'Zamknij'
-    Flat = True
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -20
-    Font.Name = 'Comic Sans MS'
-    Font.Style = []
-    ParentFont = False
-    OnClick = SpeedButton1Click
   end
   object EditLogin: TEdit
     AlignWithMargins = True
