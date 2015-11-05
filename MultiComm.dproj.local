@@ -2,16 +2,16 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>1899.12.30 00:00:00.000.670,C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Contacts_Wnd.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.735,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.941,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.242,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.961,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.377,C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Login_Wng.pas=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.828,C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\MainWindow.pas=C:\Users\malgo\Documents\RAD Studio\Projects\MainWindow.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.889,C:\Users\mobil\Documents\GitHub\MultiComm\Settings_Wnd_OLD.pas=C:\Users\mobil\Documents\GitHub\MultiComm\Settings_Wnd.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.242,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.735,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.324,C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Chat_Frm.pas=</Transaction>
     <Transaction>1899.12.30 00:00:00.000.254,C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Chat_Frm.pas=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit2.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.145,C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Chat_Frm.pas=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.961,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.941,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.147,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.545,=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.094,C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Call_Frm.pas=C:\Users\malgo\Documents\RAD Studio\Projects\SipCommunicator\Unit1.pas</Transaction>

@@ -5,7 +5,7 @@ object FormLog: TFormLog
   Caption = 'Zaloguj si'#281
   ClientHeight = 241
   ClientWidth = 344
-  Color = clCream
+  Color = clWindow
   Constraints.MaxHeight = 270
   Constraints.MaxWidth = 350
   Constraints.MinHeight = 270

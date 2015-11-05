@@ -189,8 +189,6 @@ object FrameCall: TFrameCall
         BevelEdges = []
         BevelOuter = bvNone
         TabOrder = 3
-        ExplicitLeft = -6
-        ExplicitTop = -3
         object ButtonCall: TButton
           Left = 0
           Top = 0
@@ -202,10 +200,6 @@ object FrameCall: TFrameCall
           ImageIndex = 1
           Images = ImageList
           TabOrder = 0
-          ExplicitLeft = 16
-          ExplicitTop = 16
-          ExplicitWidth = 75
-          ExplicitHeight = 25
         end
         object ButtonHangUp: TButton
           Left = 0
@@ -219,10 +213,6 @@ object FrameCall: TFrameCall
           Images = ImageList
           TabOrder = 1
           Visible = False
-          ExplicitLeft = -4
-          ExplicitTop = -1
-          ExplicitWidth = 58
-          ExplicitHeight = 63
         end
       end
     end
@@ -274,8 +264,6 @@ object FrameCall: TFrameCall
         Value = 60.000000000000000000
       end>
     TabOrder = 1
-    ExplicitLeft = 3
-    ExplicitTop = 81
     object GridMessageSend: TGridPanel
       Left = 0
       Top = 179
@@ -325,7 +313,7 @@ object FrameCall: TFrameCall
         Margins.Bottom = 10
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 7
+        ExplicitHeight = 21
       end
       object ButtonSendMessage: TButton
         Left = 391
@@ -396,7 +384,7 @@ object FrameCall: TFrameCall
     Left = 249
     Top = 7
     Bitmap = {
-      494C010108001800140040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010108001800180040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000000010000C000000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

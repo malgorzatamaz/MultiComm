@@ -1,0 +1,237 @@
+unit Settings_Wnd;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ComCtrls, SIPVoipSDK_TLB, CheckLst;
+
+type
+  TSettingsForm = class(TForm)
+    RegistrarGroupBox: TGroupBox;
+    ProxyDomainLabel: TLabel;
+    RegistrarUserLabel: TLabel;
+    RegisrarPasswordLabel: TLabel;
+    AuthIdLabel: TLabel;
+    ExpireTimeLabel: TLabel;
+    RegDomainEdit: TEdit;
+    RegUserEdit: TEdit;
+    RegPassEdit: TEdit;
+    RegAuthIdEdit: TEdit;
+    RegExpireEdit: TEdit;
+    OutboundGroupBox: TGroupBox;
+    OutboundProxyLabel: TLabel;
+    OutboundProxyUserLabel: TLabel;
+    OutboundProxyPasswordLabel: TLabel;
+    OutboundProxyEdit: TEdit;
+    OutboundUserEdit: TEdit;
+    OutboundPasswordEdit: TEdit;
+    SoundGroupBox: TGroupBox;
+    IdentificationGroupBox: TGroupBox;
+    CodecGroupBox: TGroupBox;
+    OkButton: TButton;
+    CancelButton: TButton;
+    UserAgentEditLabel: TLabel;
+    CallerIdLabel: TLabel;
+    EchoCancelationCheckBox: TCheckBox;
+    NoiseReductionCheckBox: TCheckBox;
+    AutoGainControlCheckBox: TCheckBox;
+    MoveUpButton: TButton;
+    MoveDownButton: TButton;
+    UserAgentEdit: TEdit;
+    CallerIdEdit: TEdit;
+    CodecsListBox: TCheckListBox;
+    DevicesGroupBox: TGroupBox;
+    NetworkInterfaceComboBox: TComboBox;
+    RecordDeviceComboBox: TComboBox;
+    SoundDeviceComboBox: TComboBox;
+    Label1: TLabel;
+    SoundRecordLabel: TLabel;
+    SoundDeviceLabel: TLabel;
+    OtherGroupBox: TGroupBox;
+    StunEdit: TEdit;
+    StunLabel: TLabel;
+    SipPortLabel: TLabel;
+    SipPortEdit: TEdit;
+    VideoDeviceComboBox: TComboBox;
+    Label2: TLabel;
+    LabelAddr: TEdit;
+    LabelVersion: TEdit;
+    procedure MoveUpButtonClick(Sender: TObject);
+    procedure MoveDownButtonClick(Sender: TObject);
+    procedure MoveCodec(oldIndex, newIndex: Integer);
+    function GetCodecsString : string;
+  public
+    Settings: Variant;
+    procedure SetSettings(settings: Variant; version:WideString; addr:WideString);
+    procedure SetupUserInput;
+  end;
+
+implementation
+
+{$R *.dfm}
+
+procedure TSettingsForm.SetSettings(settings: Variant; version:WideString; addr:WideString);
+var
+    i : Integer;
+begin
+
+    Self.Settings := settings;
+
+    Self.StunEdit.Text := settings.StunServer;
+    Self.SipPortEdit.Text := IntToStr(settings.ListenPort);
+
+    Self.UserAgentEdit.Text := settings.UserAgent;
+    Self.CallerIdEdit.Text  := settings.CallerId;
+
+    Self.RegDomainEdit.Text := settings.RegDomain;
+    Self.RegUserEdit.Text   := settings.RegUser;
+    Self.RegPassEdit.Text   := settings.RegPass;
+    Self.RegAuthIdEdit.Text := settings.RegAuthId;
+    Self.RegExpireEdit.Text := IntToStr(settings.RegExpire);
+
+    Self.OutboundProxyEdit.Text := settings.ProxyDomain;
+    Self.OutboundUserEdit.Text  := settings.ProxyUser;
+    Self.OutboundPasswordEdit.Text := settings.ProxyPass;
+
+    Self.EchoCancelationCheckBox.Checked := settings.EchoCancelationEnabled <> 0;
+    Self.NoiseReductionCheckBox.Checked  := settings.NoiseReductionEnabled <> 0;
+    Self.AutoGainControlCheckBox.Checked := settings.AutoGainControlEnabled <> 0;
+    Self.LabelVersion.Text := version;
+    Self.LabelAddr.Text := addr;
+
+
+    { Codecs }
+    for i := 0 to settings.CodecCount - 1 do begin
+       CodecsListBox.Items.Add(settings.CodecName[i]);
+       CodecsListBox.Checked[i] := settings.CodecSelected[i] <> 0;
+    end;
+
+    { Playback devices list }
+    for i := 0 to settings.PlaybackDeviceCount - 1 do
+       SoundDeviceComboBox.Items.Add(settings.PlaybackDevice[i]);
+
+    if settings.PlaybackDeviceCount <> 0 then
+       SoundDeviceComboBox.ItemIndex := Self.SoundDeviceComboBox.Items.IndexOf(settings.ActivePlaybackDevice);
+
+    { Record devices list }
+    for i := 0 to settings.RecordDeviceCount - 1 do
+        RecordDeviceComboBox.Items.Add(settings.RecordDevice[i]);
+
+    if settings.RecordDeviceCount <> 0 then
+       Self.RecordDeviceComboBox.ItemIndex := Self.RecordDeviceComboBox.Items.IndexOf(settings.ActiveRecordDevice);
+
+   { Network interfaces list }
+    for i := 0 to settings.NetworkInterfaceCount - 1 do
+        NetworkInterfaceComboBox.Items.Add(settings.NetworkInterface[i]);
+
+    if settings.NetworkInterfaceCount <> 0 then
+       NetworkInterfaceComboBox.ItemIndex := Self.NetworkInterfaceComboBox.Items.IndexOf(settings.ActiveNetworkInterface);
+
+    { Video devices list }
+    for i := 0 to settings.VideoDeviceCount - 1 do
+        VideoDeviceComboBox.Items.Add(settings.VideoDevice[i]);
+
+    if settings.VideoDeviceCount <> 0 then
+       VideoDeviceComboBox.ItemIndex := Self.VideoDeviceComboBox.Items.IndexOf(settings.ActiveVideoDevice);
+
+end;
+
+
+procedure TSettingsForm.MoveUpButtonClick(Sender: TObject);
+var
+    selected : Integer;
+begin
+    selected := Self.CodecsListBox.ItemIndex;
+    if selected >= 1 then  Self.MoveCodec(selected, selected - 1);
+
+end;
+
+procedure TSettingsForm.MoveDownButtonClick(Sender: TObject);
+var
+    selected : Integer;
+begin
+    selected := Self.CodecsListBox.ItemIndex;
+    if (selected <> -1) and (selected < Self.CodecsListBox.Count - 1) then begin
+        Self.MoveCodec(selected, selected + 1);
+    end;
+end;
+
+procedure TSettingsForm.MoveCodec(oldIndex, newIndex: Integer);
+var
+    codecName: string;
+    isChecked: Boolean;
+begin
+    codecName := Self.CodecsListBox.Items[oldIndex];
+    isChecked := Self.CodecsListBox.Checked[oldIndex];
+    Self.CodecsListBox.Items.Delete(oldIndex);
+
+    Self.CodecsListBox.Items.Insert(newIndex, codecName);
+    Self.CodecsListBox.Checked[newIndex] := isChecked;
+    Self.CodecsListBox.ItemIndex := newIndex;
+end;
+
+function TSettingsForm.GetCodecsString : string;
+var
+    i, count : Integer;
+    {codec: string;}
+begin
+    count := Self.CodecsListBox.Count;
+    result := '';
+    for i := 0 to count - 1 do begin
+        if Self.CodecsListBox.Checked[i] = True
+            then result := result + Self.CodecsListBox.Items[i] + '|';
+    end;
+end;
+
+procedure TSettingsForm.SetupUserInput;
+begin
+    Settings.StunServer := StunEdit.Text;
+    try
+        Settings.ListenPort := StrToInt(SipPortEdit.Text);
+    except
+        Settings.ListenPort := 0;
+    end;
+
+    Settings.ActivePlaybackDevice  := SoundDeviceComboBox.Text;
+    Settings.ActiveRecordDevice    := RecordDeviceComboBox.Text;
+    Settings.ActiveNetworkInterface:= NetworkInterfaceComboBox.Text;
+    Settings.ActiveVideoDevice     := VideoDeviceComboBox.Text;
+
+    if EchoCancelationCheckBox.Checked
+        then Settings.EchoCancelationEnabled := 1
+        else Settings.EchoCancelationEnabled := 0;
+
+    if NoiseReductionCheckBox.Checked
+        then Settings.NoiseReductionEnabled := 1
+        else Settings.NoiseReductionEnabled := 0;
+
+    if AutoGainControlCheckBox.Checked
+        then Settings.AutoGainControlEnabled := 1
+        else Settings.AutoGainControlEnabled := 0;
+
+    settings.UserAgent := UserAgentEdit.Text;
+    settings.CallerId := CallerIdEdit.Text;
+
+    settings.RegDomain := RegDomainEdit.Text;
+    settings.RegUser   := RegUserEdit.Text;
+    settings.RegPass   := RegPassEdit.Text;
+    settings.RegAuthId := RegAuthIdEdit.Text;
+
+
+    try
+        settings.RegExpire := StrToInt(RegExpireEdit.Text);
+    except
+        settings.RegExpire := 0;
+    end;
+
+    settings.ProxyDomain := OutboundProxyEdit.Text;
+    settings.ProxyUser := OutboundUserEdit.Text;
+    settings.ProxyPass := OutboundPasswordEdit.Text;
+
+    settings.SetCodecOrder(GetCodecsString, 0);
+end;
+
+
+end.
+

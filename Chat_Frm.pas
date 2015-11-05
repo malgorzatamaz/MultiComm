@@ -21,12 +21,11 @@ type
     ButtonSpeak: TButton;
     ButtonRec: TButton;
     procedure ActionSendMessageExecute(Sender: TObject);
-    procedure AbtoPhone_OnTextMessageReceived(ASender: TObject;
-      const address: WideString; const message: WideString);
   private
     FUserName: string;
     FUserId: string;
     FPageIndex: Integer;
+    fLineNumberOfForm: Integer;
   public
     procedure Load(Phone: TCAbtoPhone);
     procedure ShowMessage(address: string; Msg: string);
@@ -34,6 +33,7 @@ type
     property UserName: string read FUserName write FUserName;
     property UserId: string read FUserId write FUserId;
     property PageIndex: Integer read FPageIndex write FPageIndex;
+    property LineNumberOfForm: Integer read  fLineNumberOfForm write fLineNumberOfForm;
   end;
 
 var
@@ -45,22 +45,17 @@ implementation
 
 uses Main_Wnd;
 
-procedure TFrameChat.AbtoPhone_OnTextMessageReceived(ASender: TObject;
-  const address, message: WideString);
-begin
-  ListBoxMessages.Items.Add(message);
-end;
-
 procedure TFrameChat.ActionSendMessageExecute(Sender: TObject);
 var
   i: Integer;
   cfg: Variant;
 begin
   cfg := AbtoPhone.Config;
-  AbtoPhone.SendTextMessage(UserName + '@iptel.org', EditMessage.Text, 1);
+  AbtoPhone.SendTextMessage(UserName + '@iptel.org', EditMessage.Text, 0);
 
   ListBoxMessages.Items.Add('Ja : ');
   ListBoxMessages.Items.Add(' ' + EditMessage.Text);
+  ListBoxMessages.Items.Add('\n');
   EditMessage.Text := '';
 end;
 
@@ -69,18 +64,19 @@ var
   Bitmap: TBitmap;
 begin
   inherited;
-  AbtoPhone.OnTextMessageReceived := AbtoPhone_OnTextMessageReceived;
 end;
 
 procedure TFrameChat.Load(Phone: TCAbtoPhone);
 begin
   AbtoPhone := Phone;
+  AbtoPhone.SetCurrentLine(LineNumberOfForm);
 end;
 
 procedure TFrameChat.ShowMessage(address, Msg: string);
 begin
   ListBoxMessages.Items.Add(address);
-  ListBoxMessages.Items.Add(Msg);
+  ListBoxMessages.Items.Add(' ' + Msg);
+  ListBoxMessages.Items.Add('\n');
 end;
 
 end.
