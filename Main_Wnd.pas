@@ -588,13 +588,18 @@ begin
   end
   else
   begin
-    if Assigned(tmpFrameChat) then
-      tmpFrameChat.ShowMessage(address, message);
-
     if Assigned(tmpFrameCall) then
+    begin
       tmpFrameCall.ShowMessage(address, message);
+      PageControl.ActivePageIndex := tmpFrameCall.PageIndex;
+    end;
 
-    PageControl.ActivePageIndex := tmpFrameChat.PageIndex;
+    if Assigned(tmpFrameChat) then
+    begin
+      tmpFrameChat.ShowMessage(address, message);
+      PageControl.ActivePageIndex := tmpFrameChat.PageIndex;
+    end;
+
   end;
 end;
 
