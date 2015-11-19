@@ -19,7 +19,6 @@ type
     LabelPlus: TLabel;
     ImageList: TImageList;
     GridMessageSend: TGridPanel;
-    PanelVideo: TPanel;
     ListBoxMessages: TListBox;
     ActionList1: TActionList;
     ActionCall: TAction;
@@ -27,7 +26,6 @@ type
     ActionCamera: TAction;
     EditMessage: TEdit;
     ActionMute: TAction;
-    ButtonCamera: TButton;
     ButtonMute: TButton;
     ButtonSendMessage: TButton;
     PanelButton: TPanel;
@@ -51,17 +49,19 @@ type
     FUserName: string;
     FUserId: string;
     FPageIndex: Integer;
+    fLineNumberOfForm: Integer;
   public
     gIsCallEstablish: Boolean;
+    constructor Create(AOwner: TComponent); override;
     procedure Load(Phone: TCAbtoPhone);
     procedure ShowMessage(Address, Msg: string);
-    constructor Create(AOwner: TComponent); override;
     property UserName: string read FUserName write FUserName;
     property UserId: string read FUserName write FUserId;
     property PageIndex: Integer read FPageIndex write FPageIndex;
   published
     property ClientHeight;
     property ClientWidth;
+    property LineNumberOfForm: Integer read  fLineNumberOfForm write fLineNumberOfForm;
   end;
 
 var
@@ -87,21 +87,13 @@ begin
   gIsCallEstablish := True;
 end;
 
+
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
 begin
-  gIsCallEstablish := True;
   AbtoPhone.StartCall(UserName + '@iptel.org');
-
-  if not gIsCallEstablish then
-  begin
-    ButtonCall.Visible := True;
-    ButtonHangUp.Visible := False;
-  end
-  else
-  begin
-    ButtonCall.Visible := False;
-    ButtonHangUp.Visible := True;
-  end;
+  gIsCallEstablish := True;
+  ButtonCall.Visible := False;
+  ButtonHangUp.Visible := True;
 end;
 
 procedure TFrameCall.ActionCameraExecute(Sender: TObject);
@@ -129,17 +121,8 @@ procedure TFrameCall.ActionHangUpExecute(Sender: TObject);
 begin
   AbtoPhone.HangUpLastCall;
   gIsCallEstablish := False;
-
-    if not gIsCallEstablish then
-  begin
-    ButtonCall.Visible := True;
-    ButtonHangUp.Visible := False;
-  end
-  else
-  begin
-    ButtonCall.Visible := False;
-    ButtonHangUp.Visible := True;
-  end;
+  ButtonCall.Visible := True;
+  ButtonHangUp.Visible := False;
 end;
 
 procedure TFrameCall.ActionMuteExecute(Sender: TObject);
@@ -163,17 +146,19 @@ var
   cfg: Variant;
 begin
   cfg := AbtoPhone.Config;
-  AbtoPhone.SendTextMessage(UserName + '@iptel.org', EditMessage.Text, 1);
+  AbtoPhone.SendTextMessage(UserName + '@iptel.org', EditMessage.Text, 0);
 
   ListBoxMessages.Items.Add('Ja : ');
   ListBoxMessages.Items.Add(' ' + EditMessage.Text);
+  ListBoxMessages.Items.Add('\n');
   EditMessage.Text := '';
 end;
 
 procedure TFrameCall.ShowMessage(Address, Msg: string);
 begin
-  ListBoxMessages.Items.Add(Address + ': ');
-  ListBoxMessages.Items.Add(Msg);
+  ListBoxMessages.Items.Add(address);
+  ListBoxMessages.Items.Add(' ' + Msg);
+  ListBoxMessages.Items.Add('\n');
 end;
 
 procedure TFrameCall.TrackBarVolumeChange(Sender: TObject);
@@ -207,6 +192,7 @@ end;
 procedure TFrameCall.Load(Phone: TCAbtoPhone);
 begin
   AbtoPhone := Phone;
+  AbtoPhone.SetCurrentLine(LineNumberOfForm);
   AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
   AbtoPhone.OnClearedCall := AbtoPhone_OnClearedCall;
   gShowSelf := False;

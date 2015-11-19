@@ -19,7 +19,6 @@ type
     LabelPlus: TLabel;
     ImageList: TImageList;
     GridMessageSend: TGridPanel;
-    PanelVideo: TPanel;
     ListBoxMessages: TListBox;
     ActionList1: TActionList;
     ActionCall: TAction;
@@ -27,7 +26,6 @@ type
     ActionCamera: TAction;
     EditMessage: TEdit;
     ActionMute: TAction;
-    ButtonCamera: TButton;
     ButtonMute: TButton;
     ButtonSendMessage: TButton;
     PanelButton: TPanel;
@@ -36,10 +34,8 @@ type
     ActionHangUp: TAction;
     procedure ActionSendMessageExecute(Sender: TObject);
     procedure ActionCallExecute(Sender: TObject);
-    procedure ActionCameraExecute(Sender: TObject);
     procedure LabelMinusClick(Sender: TObject);
     procedure LabelPlusClick(Sender: TObject);
-    procedure PanelVideoClick(Sender: TObject);
     procedure TrackBarVolumeChange(Sender: TObject);
     procedure ActionMuteExecute(Sender: TObject);
     procedure AbtoPhone_OnEstablishedCall(ASender: TObject;
@@ -98,27 +94,6 @@ begin
   ButtonHangUp.Visible := True;
 end;
 
-procedure TFrameCall.ActionCameraExecute(Sender: TObject);
-var
-  phoneConfig: Variant;
-begin
-  phoneConfig := AbtoPhone.Config;
-
-  if gVideoShow then
-  begin
-    phoneConfig.RemoteVideoWindow := PanelVideo.Handle;
-    ButtonCamera.ImageIndex := 3;
-  end
-  else
-  begin
-    ButtonCamera.ImageIndex := 4;
-    phoneConfig.RemoteVideoWindow := nil;
-    phoneConfig.LocalVideoWindow := nil;
-  end;
-
-  AbtoPhone.ApplyConfig;
-end;
-
 procedure TFrameCall.ActionHangUpExecute(Sender: TObject);
 begin
   AbtoPhone.HangUpLastCall;
@@ -173,7 +148,6 @@ begin
   inherited;
   gIsCallEstablish := False;
   ButtonCall.Caption := '';
-  ButtonCamera.Caption := '';
   ButtonMute.Caption := '';
   ButtonSendMessage.Caption := '';
   TrackBarVolume.Position := 5;
@@ -200,26 +174,6 @@ begin
   gShowSelf := False;
   TrackBarVolume.Position := 5;
   TrackBarVolume.Position := AbtoPhone.PlaybackVolume;
-end;
-
-procedure TFrameCall.PanelVideoClick(Sender: TObject);
-var
-  phoneConfig: Variant;
-begin
-  phoneConfig := AbtoPhone.Config;
-
-  if gShowSelf and gVideoShow then
-  begin
-    phoneConfig.LocalVideoWindow := PanelVideo.Handle;
-    gShowSelf := False;
-  end
-  else if not gShowSelf and gVideoShow then
-  begin
-    phoneConfig.RemoteVideoWindow := PanelVideo.Handle;
-    gShowSelf := True;
-  end;
-
-  AbtoPhone.ApplyConfig;
 end;
 
 end.

@@ -1,4 +1,4 @@
-ï»¿unit Main_Wnd;
+unit Main_Wnd;
 
 interface
 
@@ -82,7 +82,7 @@ type
     procedure OpenChatFrm(UserName, CallerId: string);
     procedure LoadConfig();
     function ExtractBetween(const Value, A, B: string): string;
-    function ReturnNameFromAddress(const clName: string): string;
+    function ReturnNameFromAddress(const clAddress: string): string;
   public
     gIsCallEstablish: Boolean;
     AbtoPhone: TCAbtoPhone;
@@ -300,11 +300,22 @@ begin
   end;
 end;
 
-function TFormMainWindow.ReturnNameFromAddress(const clName: string): string;
+function TFormMainWindow.ReturnNameFromAddress(const clAddress: string): string;
 var
   lStart, lStop: Integer;
+  i: Integer;
+  lName: String;
 begin
-  lStart := AnsiPos(':', clName);
+  lStart := AnsiPos(':', clAddress);
+  lStop := AnsiPos('@', clAddress);
+
+  lName := '';
+  for i := lStart + 1 to lStop - 1 do
+  begin
+    lName := lName + clAddress[i];
+  end;
+
+  Result := lName;
 end;
 
 procedure TFormMainWindow.ListViewContactsClick(Sender: TObject);
@@ -346,7 +357,7 @@ function TFormMainWindow.ExtractBetween(const Value, A, B: string): string;
 var
   aPos, bPos: Integer;
 begin
-  result := '';
+  Result := '';
   aPos := Pos(A, Value);
   if aPos > 0 then
   begin
@@ -354,7 +365,7 @@ begin
     bPos := PosEx(B, Value, aPos);
     if bPos > 0 then
     begin
-      result := Copy(Value, aPos, bPos - aPos);
+      Result := Copy(Value, aPos, bPos - aPos);
     end;
   end;
 end;
@@ -439,12 +450,12 @@ begin
 
   if gIsCallEstablish then
   begin
-    X := MessageDlg('Dzwoni ' + AddrFrom + ', przerwaÄ‡ poprzedniÄ… rozmowÄ™?',
+    X := MessageDlg('Dzwoni ' + AddrFrom + ', przerwaæ poprzedni¹ rozmowê?',
       mtConfirmation, mbYesNo, 0);
   end
   else
   begin
-    X := MessageDlg('Dzwoni ' + AddrFrom + ', odebraÄ‡?', mtConfirmation,
+    X := MessageDlg('Dzwoni ' + AddrFrom + ', odebraæ?', mtConfirmation,
       mbYesNo, 0);
   end;
 
@@ -512,18 +523,41 @@ var
   tmpFrameCall: TFrameCall;
 begin
   gExist := false;
-  UserName := address;
-
-  ShowMessage(address);
+  UserName := ReturnNameFromAddress(address);
 
   for i := 0 to High(gFrameCalls) do
   begin
-    if gFrameCalls[i].UserName = address then
+    if gFrameCalls[i].UserName = UserName then
     begin
       gExist := True;
       CallerId := gFrameCalls[i].UserId;
       tmpFrameCall := gFrameCalls[i];
     end;
+  end;
+
+  for i := 0 to High(gFrameChats) do
+  begin
+    if gFrameChats[i].UserName = UserName then
+    begin
+      gExist := True;
+      CallerId := gFrameChats[i].UserId;
+      tmpFrameChat := gFrameChats[i];
+    end;
+  end;
+
+  if not gExist then
+  begin
+    OpenChatFrm(UserName, CallerId);
+    i := Length(gFrameChats) - 1;
+    gFrameChats[i].ShowMessage(address, message);
+  end
+  else
+  begin
+    if Assigned(tmpFrameChat) then
+      tmpFrameChat.ShowMessage(address, message);
+
+    if Assigned(tmpFrameCall) then
+      tmpFrameCall.ShowMessage(address, message);
   end;
 
   if not gExist then
@@ -542,36 +576,6 @@ begin
 
     PageControl.ActivePageIndex := tmpFrameChat.PageIndex;
   end;
-
-//
-//  gExist := false;
-//
-//  for i := 0 to High(gFrameChats) do
-//  begin
-//    if gFrameChats[i].UserName = address then
-//    begin
-//      gExist := True;
-//      CallerId := gFrameChats[i].UserId;
-//      tmpFrameChat := gFrameChats[i];
-//    end;
-//  end;
-//
-//  if not gExist then
-//  begin
-//    OpenChatFrm(UserName, CallerId);
-//    i := Length(gFrameChats) - 1;
-//    gFrameChats[i].ShowMessage(address, message);
-//  end
-//  else
-//  begin
-//    if Assigned(tmpFrameChat) then
-//      tmpFrameChat.ShowMessage(address, message);
-//
-//    if Assigned(tmpFrameCall) then
-//      tmpFrameCall.ShowMessage(address, message);
-//
-//    PageControl.ActivePageIndex := tmpFrameChat.PageIndex;
-//  end;
 end;
 
 procedure TFormMainWindow.AbtoPhone_OnClearedCall(ASender: TObject;

@@ -7,17 +7,17 @@ uses
   SIPVoipSDK_TLB in 'SIPVoipSDK_TLB.pas',
   Login_Wnd in 'Login_Wnd.pas' {FormLog},
   Main_Wnd in 'Main_Wnd.pas' {FormMainWindow},
-  Settings_Wnd in 'Settings_Wnd.pas' {FormSettings},
+  Settings_Wnd_OLD in 'Settings_Wnd_OLD.pas' {FormSettings},
   Contacts_Wnd in 'Contacts_Wnd.pas' {FormContactsList},
   Vcl.Themes,
-  Vcl.Styles;
+  Vcl.Styles,
+  Settings_Wnd in 'Settings_Wnd.pas' {SettingsForm};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  TStyleManager.TrySetStyle('Slate Classico');
   Application.CreateForm(TFormMainWindow, FormMainWindow);
   Application.Run;
 end.

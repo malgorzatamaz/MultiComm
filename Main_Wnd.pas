@@ -55,6 +55,9 @@ type
     PanelActions: TPanel;
     ButtonChat: TButton;
     ButtonCall: TButton;
+    ButtonResize: TButton;
+    PanelVideo: TPanel;
+    ActionResize: TAction;
     procedure ActionCallExecute(Sender: TObject);
     procedure ActionChatExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -75,9 +78,12 @@ type
     procedure ActionCloseExecute(Sender: TObject);
     procedure ListViewContactsClick(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
+    procedure ActionResizeExecute(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     isAutoAnswerEnabled: Boolean;
     fNumberOfLines: Integer;
+    isFullSize: Boolean;
     procedure OpenCallFrm(UserName, CallerId: string);
     procedure OpenChatFrm(UserName, CallerId: string);
     procedure LoadConfig();
@@ -100,6 +106,22 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TFormMainWindow.ActionResizeExecute(Sender: TObject);
+begin
+  if isFullSize then
+  begin
+    Self.Width := 1324;
+    ButtonResize.Caption := '<<<';
+    isFullSize := False;
+  end
+  else
+  begin
+    Self.Width := 730;
+    ButtonResize.Caption := '>>>';
+    isFullSize := True;
+  end;
+end;
 
 procedure TFormMainWindow.ActionCallExecute(Sender: TObject);
 var
@@ -188,7 +210,6 @@ begin
     Self.Caption := 'MultiComm - Zalogowano jako ' + AbtoPhone.Config.RegUser;
   end;
   isAutoAnswerEnabled := phoneCfg.AutoAnswerEnabled;
-
   settingsForm.Free;
 end;
 
@@ -343,6 +364,7 @@ begin
   AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
   AbtoPhone.OnTextMessageReceived := AbtoPhone_OnTextMessageReceived;
 
+  phoneConfig.RemoteVideoWindow := PanelVideo.Handle;
   phoneConfig.ListenPort := 5060;
   phoneConfig.RegDomain := 'iptel.org';
   phoneConfig.LicenseUserId :=
@@ -388,6 +410,9 @@ var
   Item: TListItem;
   i: Integer;
 begin
+  Self.Width := 730;
+  Self.Height := 530;
+  isFullSize := False;
 
   ButtonChat.Caption := '';
   ButtonChat.ImageAlignment := iaCenter;
@@ -427,6 +452,11 @@ begin
   LoginWindow.Show;
 
   fNumberOfLines := 0;
+end;
+
+procedure TFormMainWindow.FormResize(Sender: TObject);
+begin
+  ActionResizeExecute(nil);
 end;
 
 procedure TFormMainWindow.AbtoPhone_OnIncomingCall(ASender: TObject;

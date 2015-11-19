@@ -53,10 +53,6 @@ object FrameCall: TFrameCall
           Value = 60.000000000000000000
         end
         item
-          SizeStyle = ssAbsolute
-          Value = 60.000000000000000000
-        end
-        item
           Value = 100.000000000000000000
         end
         item
@@ -65,27 +61,22 @@ object FrameCall: TFrameCall
         end>
       ControlCollection = <
         item
-          Column = 3
+          Column = 2
           Control = LabelMinus
           Row = 0
         end
         item
-          Column = 4
+          Column = 3
           Control = TrackBarVolume
           Row = 0
         end
         item
-          Column = 5
+          Column = 4
           Control = LabelPlus
           Row = 0
         end
         item
           Column = 1
-          Control = ButtonCamera
-          Row = 0
-        end
-        item
-          Column = 2
           Control = ButtonMute
           Row = 0
         end
@@ -103,7 +94,7 @@ object FrameCall: TFrameCall
         end>
       TabOrder = 0
       object LabelMinus: TLabel
-        Left = 180
+        Left = 120
         Top = 0
         Width = 60
         Height = 65
@@ -117,14 +108,15 @@ object FrameCall: TFrameCall
         Font.Style = []
         ParentFont = False
         OnClick = LabelMinusClick
+        ExplicitLeft = 180
         ExplicitWidth = 17
         ExplicitHeight = 56
       end
       object TrackBarVolume: TTrackBar
         AlignWithMargins = True
-        Left = 245
+        Left = 185
         Top = 10
-        Width = 141
+        Width = 201
         Height = 45
         Cursor = crHandPoint
         Margins.Left = 5
@@ -137,6 +129,8 @@ object FrameCall: TFrameCall
         TabOrder = 0
         TickMarks = tmBoth
         OnChange = TrackBarVolumeChange
+        ExplicitLeft = 245
+        ExplicitWidth = 141
       end
       object LabelPlus: TLabel
         Left = 391
@@ -156,20 +150,8 @@ object FrameCall: TFrameCall
         ExplicitWidth = 19
         ExplicitHeight = 56
       end
-      object ButtonCamera: TButton
-        Left = 60
-        Top = 0
-        Width = 60
-        Height = 65
-        Action = ActionCamera
-        Align = alClient
-        ImageAlignment = iaCenter
-        ImageIndex = 2
-        Images = ImageList
-        TabOrder = 1
-      end
       object ButtonMute: TButton
-        Left = 120
+        Left = 60
         Top = 0
         Width = 60
         Height = 65
@@ -178,7 +160,8 @@ object FrameCall: TFrameCall
         ImageAlignment = iaCenter
         ImageIndex = 4
         Images = ImageList
-        TabOrder = 2
+        TabOrder = 1
+        ExplicitLeft = 120
       end
       object PanelButton: TPanel
         Left = 0
@@ -188,7 +171,7 @@ object FrameCall: TFrameCall
         Align = alClient
         BevelEdges = []
         BevelOuter = bvNone
-        TabOrder = 3
+        TabOrder = 2
         object ButtonCall: TButton
           Left = 0
           Top = 0
@@ -233,17 +216,12 @@ object FrameCall: TFrameCall
       item
         Column = 0
         Control = GridMessageSend
-        Row = 2
-      end
-      item
-        Column = 0
-        Control = PanelVideo
-        Row = 0
+        Row = 1
       end
       item
         Column = 0
         Control = ListBoxMessages
-        Row = 1
+        Row = 0
       end>
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -254,10 +232,7 @@ object FrameCall: TFrameCall
     ParentFont = False
     RowCollection = <
       item
-        Value = 74.553109576096650000
-      end
-      item
-        Value = 25.446890423903350000
+        Value = 100.000000000000000000
       end
       item
         SizeStyle = ssAbsolute
@@ -266,7 +241,7 @@ object FrameCall: TFrameCall
     TabOrder = 1
     object GridMessageSend: TGridPanel
       Left = 0
-      Top = 179
+      Top = 180
       Width = 451
       Height = 60
       Align = alClient
@@ -301,6 +276,7 @@ object FrameCall: TFrameCall
           Value = 100.000000000000000000
         end>
       TabOrder = 0
+      ExplicitTop = 179
       object EditMessage: TEdit
         AlignWithMargins = True
         Left = 10
@@ -328,36 +304,12 @@ object FrameCall: TFrameCall
         TabOrder = 1
       end
     end
-    object PanelVideo: TPanel
-      AlignWithMargins = True
-      Left = 100
-      Top = 10
-      Width = 251
-      Height = 114
-      Margins.Left = 100
-      Margins.Top = 10
-      Margins.Right = 100
-      Margins.Bottom = 10
-      Align = alClient
-      BevelOuter = bvNone
-      BevelWidth = 3
-      Color = clBtnHighlight
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentBackground = False
-      ParentFont = False
-      TabOrder = 1
-      OnClick = PanelVideoClick
-    end
     object ListBoxMessages: TListBox
       AlignWithMargins = True
       Left = 10
-      Top = 144
+      Top = 10
       Width = 431
-      Height = 25
+      Height = 160
       Margins.Left = 10
       Margins.Top = 10
       Margins.Right = 10
@@ -372,7 +324,9 @@ object FrameCall: TFrameCall
       Font.Style = []
       ItemHeight = 13
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 1
+      ExplicitTop = 144
+      ExplicitHeight = 25
     end
   end
   object ImageList: TImageList
@@ -384,7 +338,7 @@ object FrameCall: TFrameCall
     Left = 249
     Top = 7
     Bitmap = {
-      494C010108001800180040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101080018001C0040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000000010000C000000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6737,7 +6691,6 @@ object FrameCall: TFrameCall
       OnExecute = ActionSendMessageExecute
     end
     object ActionCamera: TAction
-      OnExecute = ActionCameraExecute
     end
     object ActionMute: TAction
       OnExecute = ActionMuteExecute

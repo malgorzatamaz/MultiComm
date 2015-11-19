@@ -51,6 +51,7 @@ type
     FUserName: string;
     FUserId: string;
     FPageIndex: Integer;
+    fLineNumberOfForm: Integer;
   public
     gIsCallEstablish: Boolean;
     constructor Create(AOwner: TComponent); override;
@@ -62,6 +63,7 @@ type
   published
     property ClientHeight;
     property ClientWidth;
+    property LineNumberOfForm: Integer read  fLineNumberOfForm write fLineNumberOfForm;
   end;
 
 var
@@ -146,17 +148,19 @@ var
   cfg: Variant;
 begin
   cfg := AbtoPhone.Config;
-  AbtoPhone.SendTextMessage(UserName + '@iptel.org', EditMessage.Text, 1);
+  AbtoPhone.SendTextMessage(UserName + '@iptel.org', EditMessage.Text, 0);
 
   ListBoxMessages.Items.Add('Ja : ');
   ListBoxMessages.Items.Add(' ' + EditMessage.Text);
+  ListBoxMessages.Items.Add('\n');
   EditMessage.Text := '';
 end;
 
 procedure TFrameCall.ShowMessage(Address, Msg: string);
 begin
-  ListBoxMessages.Items.Add(Address + ': ');
-  ListBoxMessages.Items.Add(Msg);
+  ListBoxMessages.Items.Add(address);
+  ListBoxMessages.Items.Add(' ' + Msg);
+  ListBoxMessages.Items.Add('\n');
 end;
 
 procedure TFrameCall.TrackBarVolumeChange(Sender: TObject);
@@ -190,6 +194,7 @@ end;
 procedure TFrameCall.Load(Phone: TCAbtoPhone);
 begin
   AbtoPhone := Phone;
+  AbtoPhone.SetCurrentLine(LineNumberOfForm);
   AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
   AbtoPhone.OnClearedCall := AbtoPhone_OnClearedCall;
   gShowSelf := False;

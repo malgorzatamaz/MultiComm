@@ -3,8 +3,8 @@ object FormMainWindow: TFormMainWindow
   Top = 0
   BorderStyle = bsSingle
   Caption = 'MultiComm'
-  ClientHeight = 559
-  ClientWidth = 1324
+  ClientHeight = 556
+  ClientWidth = 728
   Color = clMenu
   Constraints.MinHeight = 530
   Constraints.MinWidth = 730
@@ -19,7 +19,6 @@ object FormMainWindow: TFormMainWindow
   Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
-  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 18
   object PageControl: TPageControl
@@ -27,9 +26,9 @@ object FormMainWindow: TFormMainWindow
     Left = 3
     Top = 3
     Width = 722
-    Height = 551
+    Height = 550
     ActivePage = TabSheetContatcs
-    Align = alLeft
+    Align = alClient
     Constraints.MaxHeight = 551
     Constraints.MinHeight = 50
     Constraints.MinWidth = 700
@@ -43,8 +42,8 @@ object FormMainWindow: TFormMainWindow
     TabOrder = 0
     TabPosition = tpBottom
     OnChange = PageControlChange
-    ExplicitLeft = -2
-    ExplicitTop = -1
+    ExplicitLeft = 8
+    ExplicitTop = -2
     object TabSheetContatcs: TTabSheet
       AlignWithMargins = True
       Margins.Left = 0
@@ -60,12 +59,11 @@ object FormMainWindow: TFormMainWindow
       Constraints.MinHeight = 500
       Constraints.MinWidth = 700
       ParentFont = False
-      ExplicitHeight = 519
       object PanelContacts: TPanel
         Left = 0
         Top = 0
         Width = 714
-        Height = 520
+        Height = 519
         Align = alClient
         BevelOuter = bvNone
         Caption = 'PanelContakts'
@@ -78,13 +76,12 @@ object FormMainWindow: TFormMainWindow
         ParentBackground = False
         ParentFont = False
         TabOrder = 0
-        ExplicitHeight = 519
         object ListViewContacts: TListView
           AlignWithMargins = True
           Left = 3
           Top = 3
           Width = 708
-          Height = 447
+          Height = 446
           Align = alClient
           BevelEdges = []
           BevelInner = bvLowered
@@ -110,11 +107,10 @@ object FormMainWindow: TFormMainWindow
           TabOrder = 0
           ViewStyle = vsSmallIcon
           OnClick = ListViewContactsClick
-          ExplicitHeight = 446
         end
         object PanelActions: TPanel
           Left = 0
-          Top = 453
+          Top = 452
           Width = 714
           Height = 67
           Align = alBottom
@@ -123,7 +119,6 @@ object FormMainWindow: TFormMainWindow
           ParentBackground = False
           TabOrder = 1
           Visible = False
-          ExplicitTop = 452
           object ButtonChat: TButton
             Left = 363
             Top = 1
@@ -153,33 +148,6 @@ object FormMainWindow: TFormMainWindow
         end
       end
     end
-  end
-  object ButtonResize: TButton
-    Left = 652
-    Top = 533
-    Width = 66
-    Height = 21
-    Action = ActionResize
-    Align = alCustom
-    TabOrder = 1
-  end
-  object PanelVideo: TPanel
-    AlignWithMargins = True
-    Left = 748
-    Top = 20
-    Width = 556
-    Height = 519
-    Margins.Left = 20
-    Margins.Top = 20
-    Margins.Right = 20
-    Margins.Bottom = 20
-    Align = alClient
-    BevelInner = bvLowered
-    BevelKind = bkTile
-    BevelOuter = bvLowered
-    Color = clWhite
-    ParentBackground = False
-    TabOrder = 2
   end
   object ActionList: TActionList
     Left = 440
@@ -215,10 +183,6 @@ object FormMainWindow: TFormMainWindow
       Caption = 'ActionClose'
       OnExecute = ActionCloseExecute
     end
-    object ActionResize: TAction
-      Caption = '>>>'
-      OnExecute = ActionResizeExecute
-    end
   end
   object ImageList: TImageList
     ColorDepth = cd32Bit
@@ -227,7 +191,7 @@ object FormMainWindow: TFormMainWindow
     Left = 376
     Top = 56
     Bitmap = {
-      494C010107001800340040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010107001800300040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100008000000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
