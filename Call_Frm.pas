@@ -126,16 +126,14 @@ begin
   AbtoPhone.SendTextMessage(UserName + '@iptel.org', EditMessage.Text, 0);
 
   ListBoxMessages.Items.Add('Ja : ');
-  ListBoxMessages.Items.Add(' ' + EditMessage.Text);
-  ListBoxMessages.Items.Add('\n');
+  ListBoxMessages.Items.Add(' ' + EditMessage.Text + sLineBreak);
   EditMessage.Text := '';
 end;
 
 procedure TFrameCall.ShowMessage(Address, Msg: string);
 begin
   ListBoxMessages.Items.Add(address);
-  ListBoxMessages.Items.Add(' ' + Msg);
-  ListBoxMessages.Items.Add('\n');
+  ListBoxMessages.Items.Add(' ' + Msg + sLineBreak);
 end;
 
 procedure TFrameCall.TrackBarVolumeChange(Sender: TObject);

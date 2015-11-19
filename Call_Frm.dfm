@@ -108,7 +108,6 @@ object FrameCall: TFrameCall
         Font.Style = []
         ParentFont = False
         OnClick = LabelMinusClick
-        ExplicitLeft = 180
         ExplicitWidth = 17
         ExplicitHeight = 56
       end
@@ -129,8 +128,6 @@ object FrameCall: TFrameCall
         TabOrder = 0
         TickMarks = tmBoth
         OnChange = TrackBarVolumeChange
-        ExplicitLeft = 245
-        ExplicitWidth = 141
       end
       object LabelPlus: TLabel
         Left = 391
@@ -161,7 +158,6 @@ object FrameCall: TFrameCall
         ImageIndex = 4
         Images = ImageList
         TabOrder = 1
-        ExplicitLeft = 120
       end
       object PanelButton: TPanel
         Left = 0
@@ -276,7 +272,6 @@ object FrameCall: TFrameCall
           Value = 100.000000000000000000
         end>
       TabOrder = 0
-      ExplicitTop = 179
       object EditMessage: TEdit
         AlignWithMargins = True
         Left = 10
@@ -325,8 +320,6 @@ object FrameCall: TFrameCall
       ItemHeight = 13
       ParentFont = False
       TabOrder = 1
-      ExplicitTop = 144
-      ExplicitHeight = 25
     end
   end
   object ImageList: TImageList
@@ -338,7 +331,7 @@ object FrameCall: TFrameCall
     Left = 249
     Top = 7
     Bitmap = {
-      494C0101080018001C0040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010108001800200040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000000010000C000000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

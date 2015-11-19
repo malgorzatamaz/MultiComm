@@ -55,6 +55,9 @@ type
     PanelActions: TPanel;
     ButtonChat: TButton;
     ButtonCall: TButton;
+    ButtonResize: TButton;
+    PanelVideo: TPanel;
+    ActionResize: TAction;
     procedure ActionCallExecute(Sender: TObject);
     procedure ActionChatExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -75,9 +78,12 @@ type
     procedure ActionCloseExecute(Sender: TObject);
     procedure ListViewContactsClick(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
+    procedure ActionResizeExecute(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     isAutoAnswerEnabled: Boolean;
     fNumberOfLines: Integer;
+    isFullSize: Boolean;
     procedure OpenCallFrm(UserName, CallerId: string);
     procedure OpenChatFrm(UserName, CallerId: string);
     procedure LoadConfig();
@@ -100,6 +106,22 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TFormMainWindow.ActionResizeExecute(Sender: TObject);
+begin
+  if isFullSize then
+  begin
+    Self.Width := 1324;
+    ButtonResize.Caption := '<<<';
+    isFullSize := False;
+  end
+  else
+  begin
+    Self.Width := 730;
+    ButtonResize.Caption := '>>>';
+    isFullSize := True;
+  end;
+end;
 
 procedure TFormMainWindow.ActionCallExecute(Sender: TObject);
 var
@@ -188,7 +210,6 @@ begin
     Self.Caption := 'MultiComm - Zalogowano jako ' + AbtoPhone.Config.RegUser;
   end;
   isAutoAnswerEnabled := phoneCfg.AutoAnswerEnabled;
-
   settingsForm.Free;
 end;
 
@@ -304,17 +325,18 @@ function TFormMainWindow.ReturnNameFromAddress(const clAddress: string): string;
 var
   lStart, lStop: Integer;
   i: Integer;
-  lName: String
+  lName: String;
 begin
   lStart := AnsiPos(':', clAddress);
   lStop := AnsiPos('@', clAddress);
 
+  lName := '';
   for i := lStart + 1 to lStop - 1 do
   begin
-
+    lName := lName + clAddress[i];
   end;
 
-   Result :=
+  Result := lName;
 end;
 
 procedure TFormMainWindow.ListViewContactsClick(Sender: TObject);
@@ -342,6 +364,7 @@ begin
   AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
   AbtoPhone.OnTextMessageReceived := AbtoPhone_OnTextMessageReceived;
 
+  phoneConfig.RemoteVideoWindow := PanelVideo.Handle;
   phoneConfig.ListenPort := 5060;
   phoneConfig.RegDomain := 'iptel.org';
   phoneConfig.LicenseUserId :=
@@ -356,7 +379,7 @@ function TFormMainWindow.ExtractBetween(const Value, A, B: string): string;
 var
   aPos, bPos: Integer;
 begin
-  result := '';
+  Result := '';
   aPos := Pos(A, Value);
   if aPos > 0 then
   begin
@@ -364,7 +387,7 @@ begin
     bPos := PosEx(B, Value, aPos);
     if bPos > 0 then
     begin
-      result := Copy(Value, aPos, bPos - aPos);
+      Result := Copy(Value, aPos, bPos - aPos);
     end;
   end;
 end;
@@ -387,6 +410,9 @@ var
   Item: TListItem;
   i: Integer;
 begin
+  Self.Width := 730;
+  Self.Height := 530;
+  isFullSize := False;
 
   ButtonChat.Caption := '';
   ButtonChat.ImageAlignment := iaCenter;
@@ -426,6 +452,11 @@ begin
   LoginWindow.Show;
 
   fNumberOfLines := 0;
+end;
+
+procedure TFormMainWindow.FormResize(Sender: TObject);
+begin
+  ActionResizeExecute(nil);
 end;
 
 procedure TFormMainWindow.AbtoPhone_OnIncomingCall(ASender: TObject;
@@ -522,18 +553,41 @@ var
   tmpFrameCall: TFrameCall;
 begin
   gExist := false;
-  UserName := address;
-
-  ShowMessage(address);
+  UserName := ReturnNameFromAddress(address);
 
   for i := 0 to High(gFrameCalls) do
   begin
-    if gFrameCalls[i].UserName = address then
+    if gFrameCalls[i].UserName = UserName then
     begin
       gExist := True;
       CallerId := gFrameCalls[i].UserId;
       tmpFrameCall := gFrameCalls[i];
     end;
+  end;
+
+  for i := 0 to High(gFrameChats) do
+  begin
+    if gFrameChats[i].UserName = UserName then
+    begin
+      gExist := True;
+      CallerId := gFrameChats[i].UserId;
+      tmpFrameChat := gFrameChats[i];
+    end;
+  end;
+
+  if not gExist then
+  begin
+    OpenChatFrm(UserName, CallerId);
+    i := Length(gFrameChats) - 1;
+    gFrameChats[i].ShowMessage(address, message);
+  end
+  else
+  begin
+    if Assigned(tmpFrameChat) then
+      tmpFrameChat.ShowMessage(address, message);
+
+    if Assigned(tmpFrameCall) then
+      tmpFrameCall.ShowMessage(address, message);
   end;
 
   if not gExist then
@@ -552,36 +606,6 @@ begin
 
     PageControl.ActivePageIndex := tmpFrameChat.PageIndex;
   end;
-
-  //
-  // gExist := false;
-  //
-  // for i := 0 to High(gFrameChats) do
-  // begin
-  // if gFrameChats[i].UserName = address then
-  // begin
-  // gExist := True;
-  // CallerId := gFrameChats[i].UserId;
-  // tmpFrameChat := gFrameChats[i];
-  // end;
-  // end;
-  //
-  // if not gExist then
-  // begin
-  // OpenChatFrm(UserName, CallerId);
-  // i := Length(gFrameChats) - 1;
-  // gFrameChats[i].ShowMessage(address, message);
-  // end
-  // else
-  // begin
-  // if Assigned(tmpFrameChat) then
-  // tmpFrameChat.ShowMessage(address, message);
-  //
-  // if Assigned(tmpFrameCall) then
-  // tmpFrameCall.ShowMessage(address, message);
-  //
-  // PageControl.ActivePageIndex := tmpFrameChat.PageIndex;
-  // end;
 end;
 
 procedure TFormMainWindow.AbtoPhone_OnClearedCall(ASender: TObject;

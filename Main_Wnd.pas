@@ -531,9 +531,14 @@ begin
     Self.Caption := 'MultiComm - Zalogowano jako ' + AbtoPhone.Config.RegUser;
 
     LoginWindow.LoginSucessfull;
-    LoginWindow.Close;
-    LoginWindow.Free;
-    LoginWindow := nil;
+
+    if Assigned(LoginWindow) then
+    begin
+      LoginWindow.Close;
+      LoginWindow.Free;
+      LoginWindow := nil;
+    end;
+
     Self.Enabled := True;
     Self.Activate;
   end
@@ -573,21 +578,6 @@ begin
       CallerId := gFrameChats[i].UserId;
       tmpFrameChat := gFrameChats[i];
     end;
-  end;
-
-  if not gExist then
-  begin
-    OpenChatFrm(UserName, CallerId);
-    i := Length(gFrameChats) - 1;
-    gFrameChats[i].ShowMessage(address, message);
-  end
-  else
-  begin
-    if Assigned(tmpFrameChat) then
-      tmpFrameChat.ShowMessage(address, message);
-
-    if Assigned(tmpFrameCall) then
-      tmpFrameCall.ShowMessage(address, message);
   end;
 
   if not gExist then

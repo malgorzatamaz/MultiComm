@@ -27,10 +27,10 @@ object FormMainWindow: TFormMainWindow
     Left = 3
     Top = 3
     Width = 722
-    Height = 553
+    Height = 551
     ActivePage = TabSheetContatcs
     Align = alLeft
-    Constraints.MaxHeight = 553
+    Constraints.MaxHeight = 551
     Constraints.MinHeight = 50
     Constraints.MinWidth = 700
     Font.Charset = DEFAULT_CHARSET
@@ -43,6 +43,8 @@ object FormMainWindow: TFormMainWindow
     TabOrder = 0
     TabPosition = tpBottom
     OnChange = PageControlChange
+    ExplicitLeft = -2
+    ExplicitTop = -1
     object TabSheetContatcs: TTabSheet
       AlignWithMargins = True
       Margins.Left = 0
@@ -58,11 +60,12 @@ object FormMainWindow: TFormMainWindow
       Constraints.MinHeight = 500
       Constraints.MinWidth = 700
       ParentFont = False
+      ExplicitHeight = 519
       object PanelContacts: TPanel
         Left = 0
         Top = 0
         Width = 714
-        Height = 522
+        Height = 520
         Align = alClient
         BevelOuter = bvNone
         Caption = 'PanelContakts'
@@ -75,12 +78,13 @@ object FormMainWindow: TFormMainWindow
         ParentBackground = False
         ParentFont = False
         TabOrder = 0
+        ExplicitHeight = 519
         object ListViewContacts: TListView
           AlignWithMargins = True
           Left = 3
           Top = 3
           Width = 708
-          Height = 449
+          Height = 447
           Align = alClient
           BevelEdges = []
           BevelInner = bvLowered
@@ -106,10 +110,11 @@ object FormMainWindow: TFormMainWindow
           TabOrder = 0
           ViewStyle = vsSmallIcon
           OnClick = ListViewContactsClick
+          ExplicitHeight = 446
         end
         object PanelActions: TPanel
           Left = 0
-          Top = 455
+          Top = 453
           Width = 714
           Height = 67
           Align = alBottom
@@ -118,6 +123,7 @@ object FormMainWindow: TFormMainWindow
           ParentBackground = False
           TabOrder = 1
           Visible = False
+          ExplicitTop = 452
           object ButtonChat: TButton
             Left = 363
             Top = 1
@@ -221,7 +227,7 @@ object FormMainWindow: TFormMainWindow
     Left = 376
     Top = 56
     Bitmap = {
-      494C010107001800380040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010107001800340040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100008000000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
