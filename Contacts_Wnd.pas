@@ -5,40 +5,63 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, System.Actions, Vcl.ActnList, Add_Edit_Wnd;
 
 type
   TFormContactsList = class(TForm)
-    pnl1: TPanel;
-    ButtonAdd: TSpeedButton;
-    ButtonDelete: TSpeedButton;
-    ButtonEdit: TSpeedButton;
     pnl2: TPanel;
     pnl3: TPanel;
-    Button2: TSpeedButton;
-    Button3: TSpeedButton;
-    Grid1Grid: TGridPanel;
-    LabelCallerId: TLabel;
-    LabelUserName: TLabel;
-    EditUserName: TEdit;
-    LabelImagePath: TLabel;
-    EditAvatarPath: TEdit;
-    ButtonPath: TSpeedButton;
-    EditCallerId: TEdit;
+    ButtonClose: TSpeedButton;
     ListView1: TListView;
+    ButtonEdit: TSpeedButton;
+    ButtonAdd: TSpeedButton;
+    ButtonDelete: TSpeedButton;
+    ActionListContacts: TActionList;
+    ActionAdd: TAction;
+    ActionEdit: TAction;
+    ActionDelete: TAction;
+    ActionClose: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ActionCloseExecute(Sender: TObject);
+    procedure ActionAddExecute(Sender: TObject);
+    procedure ActionEditExecute(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
   end;
 
-var
-  FormContactsList: TFormContactsList;
 
 implementation
 
 {$R *.dfm}
+
+procedure TFormContactsList.ActionAddExecute(Sender: TObject);
+var
+  AddEditWnd: TAddEditForm;
+begin
+  AddEditWnd := TAddEditForm.Create(Self);
+  AddEditWnd.Caption := 'Dodaj u¿ytkownika';
+  AddEditWnd.gAdd := True;
+  Enabled := False;
+  AddEditWnd.Show;
+end;
+
+procedure TFormContactsList.ActionCloseExecute(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TFormContactsList.ActionEditExecute(Sender: TObject);
+var
+  AddEditWnd: TAddEditForm;
+begin
+  AddEditWnd := TAddEditForm.Create(Self);
+  AddEditWnd.Caption := 'Edytuj u¿ytkownika';
+  AddEditWnd.gAdd := False;
+  Enabled := False;
+  AddEditWnd.Show;
+end;
 
 procedure TFormContactsList.FormClose(Sender: TObject;
   var Action: TCloseAction);

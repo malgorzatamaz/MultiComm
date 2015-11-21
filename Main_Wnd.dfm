@@ -106,6 +106,7 @@ object FormMainWindow: TFormMainWindow
           TabOrder = 0
           ViewStyle = vsSmallIcon
           OnClick = ListViewContactsClick
+          OnDblClick = ListViewContactsDblClick
         end
         object PanelActions: TPanel
           Left = 0
@@ -184,7 +185,6 @@ object FormMainWindow: TFormMainWindow
     end
     object ActionChat: TAction
       Caption = 'ActionChat'
-      OnExecute = ActionChatExecute
     end
     object ActionSettings: TAction
       Caption = 'ActionSettings'
@@ -196,7 +196,6 @@ object FormMainWindow: TFormMainWindow
     end
     object ActionCloseChat: TAction
       Caption = 'ActionCloseChat'
-      OnExecute = ActionCloseChatExecute
     end
     object ActionCloseCall: TAction
       Caption = 'ActionCloseCall'
@@ -221,7 +220,7 @@ object FormMainWindow: TFormMainWindow
     Left = 376
     Top = 56
     Bitmap = {
-      494C010107001800380040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010107001800440040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100008000000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4457,9 +4456,6 @@ object FormMainWindow: TFormMainWindow
     Top = 57
     object Plik1: TMenuItem
       Caption = 'Konto'
-      object DodajKonakt1: TMenuItem
-        Caption = 'Dodaj kontakt'
-      end
       object Ustawienia1: TMenuItem
         Action = ActionSettings
         Caption = 'Ustawienia'
@@ -4482,18 +4478,9 @@ object FormMainWindow: TFormMainWindow
         Action = ActionCall
         Caption = 'Zadzwo'#324
       end
-      object Rozpocznijchat1: TMenuItem
-        Action = ActionChat
-        Caption = 'Otw'#243'rz chat'
-      end
-      object N2: TMenuItem
-        Caption = '-'
-      end
-      object Usukontakt1: TMenuItem
-        Caption = 'Edytuj dane'
-      end
-      object Usukontakt2: TMenuItem
-        Caption = 'Usu'#324' kontakt'
+      object MainMenuContacts: TMenuItem
+        Action = ActionContactsList
+        Caption = 'Edytuj list'#281' kontakt'#243'w'
       end
     end
   end

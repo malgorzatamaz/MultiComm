@@ -4,9 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
-  Vcl.ExtCtrls, Vcl.ComCtrls, SIPVoipSDK_TLB, Vcl.ImgList, System.Actions,
+  System.Classes,Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, SIPVoipSDK_TLB, Vcl.ImgList, System.Actions,
   Vcl.ActnList;
 
 type
@@ -18,20 +17,22 @@ type
     TrackBarVolume: TTrackBar;
     LabelPlus: TLabel;
     ImageList: TImageList;
-    GridMessageSend: TGridPanel;
     ListBoxMessages: TListBox;
     ActionList1: TActionList;
     ActionCall: TAction;
     ActionSendMessage: TAction;
     ActionCamera: TAction;
-    EditMessage: TEdit;
     ActionMute: TAction;
     ButtonMute: TButton;
-    ButtonSendMessage: TButton;
     PanelButton: TPanel;
     ButtonCall: TButton;
     ButtonHangUp: TButton;
     ActionHangUp: TAction;
+    Grid: TGridPanel;
+    EditMessage: TEdit;
+    ButtonSendMessage: TButton;
+    ButtonSpeak: TButton;
+    ButtonRec: TButton;
     procedure ActionSendMessageExecute(Sender: TObject);
     procedure ActionCallExecute(Sender: TObject);
     procedure LabelMinusClick(Sender: TObject);
@@ -119,7 +120,6 @@ end;
 
 procedure TFrameCall.ActionSendMessageExecute(Sender: TObject);
 var
-  i: Integer;
   cfg: Variant;
 begin
   cfg := AbtoPhone.Config;

@@ -90,11 +90,6 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="Chat_Frm.pas">
-            <Form>FrameChat</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="SIPVoipSDK_TLB.pas"/>
         <DCCReference Include="Login_Wnd.pas">
             <Form>FormLog</Form>
@@ -114,6 +109,10 @@
         </DCCReference>
         <DCCReference Include="Settings_Wnd.pas">
             <Form>SettingsForm</Form>
+        </DCCReference>
+        <DCCReference Include="Add_Edit_Wnd.pas">
+            <Form>AddEditForm</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
