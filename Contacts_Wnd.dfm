@@ -23,9 +23,6 @@ object FormContactsList: TFormContactsList
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitTop = 41
-    ExplicitWidth = 728
-    ExplicitHeight = 352
     object pnl3: TPanel
       AlignWithMargins = True
       Left = 10
@@ -38,9 +35,6 @@ object FormContactsList: TFormContactsList
       BevelOuter = bvNone
       BevelWidth = 5
       TabOrder = 0
-      ExplicitLeft = 0
-      ExplicitTop = 337
-      ExplicitWidth = 728
       object ButtonClose: TSpeedButton
         Left = 559
         Top = 0
@@ -105,9 +99,6 @@ object FormContactsList: TFormContactsList
       BevelKind = bkSoft
       Columns = <>
       TabOrder = 1
-      ExplicitLeft = 339
-      ExplicitWidth = 379
-      ExplicitHeight = 276
     end
   end
   object ActionListContacts: TActionList

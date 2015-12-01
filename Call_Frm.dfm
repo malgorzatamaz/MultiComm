@@ -1,8 +1,8 @@
 object FrameCall: TFrameCall
   Left = 0
   Top = 0
-  Width = 546
-  Height = 406
+  Width = 451
+  Height = 305
   Align = alClient
   Constraints.MinHeight = 305
   Constraints.MinWidth = 451
@@ -16,12 +16,10 @@ object FrameCall: TFrameCall
   ParentColor = False
   ParentFont = False
   TabOrder = 0
-  ExplicitWidth = 451
-  ExplicitHeight = 305
   object PanelMenu: TPanel
     Left = 0
-    Top = 0
-    Width = 546
+    Top = 41
+    Width = 451
     Height = 65
     Align = alTop
     BevelOuter = bvNone
@@ -34,11 +32,10 @@ object FrameCall: TFrameCall
     ParentBackground = False
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 451
     object GridPanelMenu: TGridPanel
       Left = 0
       Top = 0
-      Width = 546
+      Width = 451
       Height = 65
       Align = alClient
       BevelOuter = bvNone
@@ -96,7 +93,6 @@ object FrameCall: TFrameCall
           SizeStyle = ssAuto
         end>
       TabOrder = 0
-      ExplicitWidth = 451
       object LabelMinus: TLabel
         Left = 120
         Top = 0
@@ -119,7 +115,7 @@ object FrameCall: TFrameCall
         AlignWithMargins = True
         Left = 185
         Top = 10
-        Width = 296
+        Width = 201
         Height = 45
         Cursor = crHandPoint
         Margins.Left = 5
@@ -132,10 +128,9 @@ object FrameCall: TFrameCall
         TabOrder = 0
         TickMarks = tmBoth
         OnChange = TrackBarVolumeChange
-        ExplicitWidth = 201
       end
       object LabelPlus: TLabel
-        Left = 486
+        Left = 391
         Top = 0
         Width = 60
         Height = 65
@@ -149,7 +144,6 @@ object FrameCall: TFrameCall
         Font.Style = []
         ParentFont = False
         OnClick = LabelPlusClick
-        ExplicitLeft = 391
         ExplicitWidth = 19
         ExplicitHeight = 56
       end
@@ -204,9 +198,9 @@ object FrameCall: TFrameCall
   end
   object GridMain: TGridPanel
     Left = 0
-    Top = 65
-    Width = 546
-    Height = 341
+    Top = 106
+    Width = 451
+    Height = 199
     Align = alClient
     BevelOuter = bvNone
     Color = clMenu
@@ -239,16 +233,17 @@ object FrameCall: TFrameCall
       item
         SizeStyle = ssAbsolute
         Value = 60.000000000000000000
+      end
+      item
+        SizeStyle = ssAuto
       end>
     TabOrder = 1
-    ExplicitWidth = 451
-    ExplicitHeight = 240
     object ListBoxMessages: TListBox
       AlignWithMargins = True
       Left = 10
       Top = 10
-      Width = 526
-      Height = 261
+      Width = 431
+      Height = 119
       Margins.Left = 10
       Margins.Top = 10
       Margins.Right = 10
@@ -264,13 +259,11 @@ object FrameCall: TFrameCall
       ItemHeight = 13
       ParentFont = False
       TabOrder = 0
-      ExplicitWidth = 431
-      ExplicitHeight = 160
     end
     object Grid: TGridPanel
       Left = 0
-      Top = 281
-      Width = 546
+      Top = 139
+      Width = 451
       Height = 60
       Align = alClient
       BevelOuter = bvNone
@@ -278,14 +271,6 @@ object FrameCall: TFrameCall
       ColumnCollection = <
         item
           Value = 100.000000000000000000
-        end
-        item
-          SizeStyle = ssAbsolute
-          Value = 60.000000000000000000
-        end
-        item
-          SizeStyle = ssAbsolute
-          Value = 60.000000000000000000
         end
         item
           SizeStyle = ssAbsolute
@@ -301,16 +286,6 @@ object FrameCall: TFrameCall
           Column = 1
           Control = ButtonSendMessage
           Row = 0
-        end
-        item
-          Column = 2
-          Control = ButtonSpeak
-          Row = 0
-        end
-        item
-          Column = 3
-          Control = ButtonRec
-          Row = 0
         end>
       ParentBackground = False
       RowCollection = <
@@ -321,15 +296,12 @@ object FrameCall: TFrameCall
           SizeStyle = ssAuto
         end>
       TabOrder = 1
-      ExplicitLeft = 133
-      ExplicitTop = 189
-      ExplicitWidth = 185
-      ExplicitHeight = 41
+      ExplicitTop = 142
       object EditMessage: TEdit
         AlignWithMargins = True
         Left = 10
         Top = 10
-        Width = 346
+        Width = 371
         Height = 40
         Margins.Left = 10
         Margins.Top = 10
@@ -337,11 +309,11 @@ object FrameCall: TFrameCall
         Margins.Bottom = 10
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 500
+        ExplicitWidth = 251
         ExplicitHeight = 21
       end
       object ButtonSendMessage: TButton
-        Left = 366
+        Left = 391
         Top = 0
         Width = 60
         Height = 60
@@ -351,35 +323,109 @@ object FrameCall: TFrameCall
         ImageIndex = 6
         Images = ImageList
         TabOrder = 1
-        ExplicitLeft = 520
-        ExplicitHeight = 71
+        ExplicitTop = 17
+        ExplicitHeight = 25
       end
-      object ButtonSpeak: TButton
-        Left = 426
-        Top = 0
-        Width = 60
-        Height = 60
-        Align = alClient
-        ImageAlignment = iaCenter
-        ImageIndex = 9
-        Images = ImageList
-        TabOrder = 2
-        ExplicitLeft = 580
-        ExplicitHeight = 71
-      end
-      object ButtonRec: TButton
-        Left = 486
-        Top = 0
-        Width = 60
-        Height = 60
-        Align = alClient
-        ImageAlignment = iaCenter
-        ImageIndex = 8
-        Images = ImageList
-        TabOrder = 3
-        ExplicitLeft = 640
-        ExplicitHeight = 71
-      end
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 451
+    Height = 41
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 2
+    ExplicitTop = -3
+    object ButtonCloseCall: TSpeedButton
+      Left = 413
+      Top = 0
+      Width = 38
+      Height = 41
+      Action = FormMainWindow.ActionCloseCall
+      Align = alRight
+      Flat = True
+      Glyph.Data = {
+        36080000424D3608000000000000360400002800000020000000200000000100
+        08000000000000040000C30E0000C30E000000010000000100000000FF000B0B
+        FE000D0DFE000E0EFE001010FE001111FE001212FE001313FE001515FE001616
+        FE001717FE001818FE001919FE001B1BFE001F1FFE002020FE002121FE002222
+        FE002424FE002525FE002626FE002727FE002828FE002A2AFE002E2EFE002F2F
+        FE003030FE003131FE003535FE003737FE003838FE003A3AFE004444FE004646
+        FE004949FE004A4AFE004B4BFE004C4CFE004D4DFE004E4EFE005050FE005252
+        FE005454FE005656FE005A5AFE006262FE006363FE006464FE006565FE006666
+        FE006767FE009797FE009E9EFE00A1A1FE00D0D0FE00D1D1FE00D2D2FE00E1E1
+        FF00E2E2FE00E3E3FE00F5F5FF00F6F6FE00F8F8FE00F9F9FF00FCFCFF00FDFD
+        FF00FEFEFF00FFFFFF0000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000434343331F06
+        0404040404040404040404040404040404040404061F3343434343431D000000
+        00000000000000000000000000000000000000000000001C4343431F00000000
+        0000000000000000000000000000000000000000000000001E43350000000000
+        0000000000000000000000000000000000000000000000000034210000000000
+        0000000000000000000000000000000000000000000000000020100000000000
+        000000000000000000000000000000000000000000000000000E0D0000000000
+        000000000000000000000000000000000000000000000000000C0A0000000000
+        0000000000000000000000000000000000000000000000000008080000000000
+        000000000C1E00000000000000001E0D00000000000000000007070000000000
+        000000143A402F0000000000002E403B15000000000000000005060000000000
+        000008394343413200000000314143433A090000000000000004040000000000
+        0000143C4343434232000031414343433D160000000000000004040000000000
+        000000223E434343423230414343433E24000000000000000004040000000000
+        00000000243E43434342414343433E2600000000000000000004040000000000
+        0000000000243E4343434343433E260000000000000000000004040000000000
+        000000000000243F434343433F26000000000000000000000004040000000000
+        0000000000003041434343434232000000000000000000000004040000000000
+        0000000000314143434343434342320000000000000000000004040000000000
+        0000000031414343433E3E434343423200000000000000000004040000000000
+        0000002D414343433E26243E434343412F000000000000000004050000000000
+        000018404343433E260000243E434343401A0000000000000004060000000000
+        0000023743433E2600000000243E434338030000000000000004070000000000
+        0000000A363C23000000000000223C370B000000000000000005080000000000
+        00000000010F00000000000000000F02000000000000000000070A0000000000
+        00000000000000000000000000000000000000000000000000090D0000000000
+        000000000000000000000000000000000000000000000000000C110000000000
+        000000000000000000000000000000000000000000000000000F260000000000
+        0000000000000000000000000000000000000000000000000027430000000000
+        0000000000000000000000000000000000000000000000000043432800000000
+        000000000000000000000000000000000000000000000000254343432A000000
+        0000000000000000000000000000000000000000000000294343434343432C19
+        1715131212111111100F0F0F0F0F0F0F101112151B2B43434343}
+      ExplicitLeft = 504
+    end
+    object LabelName: TLabel
+      AlignWithMargins = True
+      Left = 10
+      Top = 10
+      Width = 52
+      Height = 21
+      Margins.Left = 10
+      Margins.Top = 10
+      Margins.Bottom = 10
+      Align = alLeft
+      Caption = 'LabelName'
+      ExplicitHeight = 13
     end
   end
   object ImageList: TImageList
@@ -391,7 +437,7 @@ object FrameCall: TFrameCall
     Left = 249
     Top = 7
     Bitmap = {
-      494C01010A001800300040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A0018003C0040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000000010000C000000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6747,6 +6793,7 @@ object FrameCall: TFrameCall
     end
     object ActionMute: TAction
       OnExecute = ActionMuteExecute
+      OnUpdate = ActionMuteUpdate
     end
     object ActionHangUp: TAction
       OnExecute = ActionHangUpExecute

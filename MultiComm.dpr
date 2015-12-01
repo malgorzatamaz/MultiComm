@@ -11,7 +11,9 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   Settings_Wnd in 'Settings_Wnd.pas' {SettingsForm},
-  Add_Edit_Wnd in 'Add_Edit_Wnd.pas' {AddEditForm};
+  Add_Edit_Wnd in 'Add_Edit_Wnd.pas' {AddEditForm},
+  Contacts in 'Contacts.pas',
+  CallEstablish_Code in 'CallEstablish_Code.pas';
 
 {$R *.res}
 

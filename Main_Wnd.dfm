@@ -42,7 +42,6 @@ object FormMainWindow: TFormMainWindow
     ParentFont = False
     TabOrder = 0
     TabPosition = tpBottom
-    OnChange = PageControlChange
     object TabSheetContatcs: TTabSheet
       AlignWithMargins = True
       Margins.Left = 0
@@ -80,7 +79,7 @@ object FormMainWindow: TFormMainWindow
           Left = 3
           Top = 3
           Width = 708
-          Height = 449
+          Height = 516
           Align = alClient
           BevelEdges = []
           BevelInner = bvLowered
@@ -105,46 +104,7 @@ object FormMainWindow: TFormMainWindow
           SmallImages = ImageList
           TabOrder = 0
           ViewStyle = vsSmallIcon
-          OnClick = ListViewContactsClick
           OnDblClick = ListViewContactsDblClick
-        end
-        object PanelActions: TPanel
-          Left = 0
-          Top = 455
-          Width = 714
-          Height = 67
-          Align = alBottom
-          Color = clMenu
-          Enabled = False
-          ParentBackground = False
-          TabOrder = 1
-          Visible = False
-          object ButtonChat: TButton
-            Left = 363
-            Top = 1
-            Width = 350
-            Height = 65
-            Action = ActionChat
-            Align = alRight
-            BiDiMode = bdLeftToRight
-            ImageAlignment = iaCenter
-            ImageIndex = 6
-            Images = ImageList
-            ParentBiDiMode = False
-            TabOrder = 0
-          end
-          object ButtonCall: TButton
-            Left = 1
-            Top = 1
-            Width = 350
-            Height = 65
-            Action = ActionCall
-            Align = alLeft
-            ImageAlignment = iaCenter
-            ImageIndex = 5
-            Images = ImageList
-            TabOrder = 1
-          end
         end
       end
     end
@@ -194,11 +154,9 @@ object FormMainWindow: TFormMainWindow
       Caption = 'ActionLogin'
       OnExecute = ActionLoginExecute
     end
-    object ActionCloseChat: TAction
-      Caption = 'ActionCloseChat'
-    end
     object ActionCloseCall: TAction
       Caption = 'ActionCloseCall'
+      OnExecute = ActionCloseCallExecute
     end
     object ActionContactsList: TAction
       Caption = 'ActionContactsList'
@@ -220,7 +178,7 @@ object FormMainWindow: TFormMainWindow
     Left = 376
     Top = 56
     Bitmap = {
-      494C010107001800440040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101070018004C0040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100008000000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4454,27 +4412,27 @@ object FormMainWindow: TFormMainWindow
   object MainMenu: TMainMenu
     Left = 313
     Top = 57
-    object Plik1: TMenuItem
+    object MainMenuAccont: TMenuItem
       Caption = 'Konto'
-      object Ustawienia1: TMenuItem
+      object MainMenuSettings: TMenuItem
         Action = ActionSettings
         Caption = 'Ustawienia'
       end
-      object Wyloguj1: TMenuItem
+      object MainMenuLogout: TMenuItem
         Action = ActionLogin
         Caption = 'Wyloguj'
       end
       object N1: TMenuItem
         Caption = '-'
       end
-      object Zamknij1: TMenuItem
+      object MainMenuCloseApp: TMenuItem
         Action = ActionClose
         Caption = 'Zamknij'
       end
     end
-    object Akcje1: TMenuItem
+    object MainMenuActions: TMenuItem
       Caption = 'Akcje'
-      object Zadzwo1: TMenuItem
+      object MainMenuCall: TMenuItem
         Action = ActionCall
         Caption = 'Zadzwo'#324
       end

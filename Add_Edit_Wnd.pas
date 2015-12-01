@@ -43,7 +43,6 @@ implementation
 
 procedure TAddEditForm.ActionCloseExecute(Sender: TObject);
 begin
-  Parent.Enabled := True;
   Close;
   Free;
 end;

@@ -43,7 +43,6 @@ begin
   AddEditWnd := TAddEditForm.Create(Self);
   AddEditWnd.Caption := 'Dodaj u¿ytkownika';
   AddEditWnd.gAdd := True;
-  Enabled := False;
   AddEditWnd.Show;
 end;
 
@@ -59,7 +58,6 @@ begin
   AddEditWnd := TAddEditForm.Create(Self);
   AddEditWnd.Caption := 'Edytuj u¿ytkownika';
   AddEditWnd.gAdd := False;
-  Enabled := False;
   AddEditWnd.Show;
 end;
 

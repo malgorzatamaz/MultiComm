@@ -7,23 +7,13 @@ uses
   System.Classes, Vcl.Graphics, System.UITypes,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls, Call_Frm,
-  Vcl.ImgList, Login_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils,
-  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd;
+  Vcl.ImgList, Login_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils, CallEstablish_Code,
+  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd, Contacts;
 
 const
   configFileName: String = 'phoneCfg.ini';
 
 type
-  TContact = record
-    Id: Integer;
-    Image: string;
-    UserName: string;
-    CallerId: string;
-    OpenPage: Integer;
-  end;
-
-  TContacts = array of TContact;
-
   TFormMainWindow = class(TForm)
     PageControl: TPageControl;
     TabSheetContatcs: TTabSheet;
@@ -34,23 +24,19 @@ type
     ActionLogin: TAction;
     ImageList: TImageList;
     ActionCloseCall: TAction;
-    ActionCloseChat: TAction;
     PanelContacts: TPanel;
     ListViewContacts: TListView;
     ActionContactsList: TAction;
     MainMenu: TMainMenu;
-    Plik1: TMenuItem;
-    Akcje1: TMenuItem;
-    Zadzwo1: TMenuItem;
+    MainMenuAccont: TMenuItem;
+    MainMenuActions: TMenuItem;
+    MainMenuCall: TMenuItem;
     MainMenuContacts: TMenuItem;
-    Ustawienia1: TMenuItem;
-    Wyloguj1: TMenuItem;
+    MainMenuSettings: TMenuItem;
+    MainMenuLogout: TMenuItem;
     N1: TMenuItem;
-    Zamknij1: TMenuItem;
+    MainMenuCloseApp: TMenuItem;
     ActionClose: TAction;
-    PanelActions: TPanel;
-    ButtonChat: TButton;
-    ButtonCall: TButton;
     ButtonResize: TButton;
     PanelVideo: TPanel;
     ActionResize: TAction;
@@ -70,11 +56,10 @@ type
     procedure AbtoPhone_OnTextMessageReceived(ASender: TObject;
       const address: WideString; const message: WideString);
     procedure ActionCloseExecute(Sender: TObject);
-    procedure ListViewContactsClick(Sender: TObject);
-    procedure PageControlChange(Sender: TObject);
     procedure ActionResizeExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure ListViewContactsDblClick(Sender: TObject);
+    procedure ActionCloseCallExecute(Sender: TObject);
   private
     isAutoAnswerEnabled: Boolean;
     fNumberOfLines: Integer;
@@ -83,16 +68,12 @@ type
     procedure LoadConfig();
     function ExtractBetween(const Value, A, B: string): string;
     function ReturnNameFromAddress(const clAddress: string): string;
-  public
-    gIsCallEstablish: Boolean;
-    AbtoPhone: TCAbtoPhone;
   end;
 
 var
   FormMainWindow: TFormMainWindow;
   AbtoPhone: TCAbtoPhone;
   LoginWindow: TFormLog;
-  gContacts: TContacts;
   gFrameCalls: array of TFrameCall;
   gTabSheets: array of TTabSheet;
 
@@ -102,35 +83,64 @@ implementation
 
 procedure TFormMainWindow.ActionResizeExecute(Sender: TObject);
 begin
-  if isFullSize then
+  if gIsCallEstablish then
   begin
-    Self.Width := 1324;
-    ButtonResize.Caption := '<<<';
-    isFullSize := False;
-  end
-  else
-  begin
-    Self.Width := 730;
-    ButtonResize.Caption := '>>>';
-    isFullSize := True;
+    if isFullSize then
+    begin
+      Self.Width := 1324;
+      ButtonResize.Caption := '<<<';
+      isFullSize := False;
+    end
+    else
+    begin
+      Self.Width := 730;
+      ButtonResize.Caption := '>>>';
+      isFullSize := True;
+    end;
   end;
 end;
 
 procedure TFormMainWindow.ActionCallExecute(Sender: TObject);
 var
   i, j, index: Integer;
-  UserName, CallerId: string;
+  lUserName, lCallerId: string;
+  lExist: Boolean;
 begin
   if ListViewContacts.ItemIndex <> -1 then
   begin
+    lExist := False;
     index := ListViewContacts.Selected.index;
-    UserName := gContacts[index].UserName;
-    CallerId := gContacts[index].CallerId;
+    lUserName := gContacts[index].UserName;
+    lCallerId := gContacts[index].CallerId;
 
-    gContacts[index].OpenPage := High(gTabSheets) + 2;
+    for i := 0 to Length(gFrameCalls) do
+    begin
+       if lUserName = gFrameCalls[i].UserName then
+       begin
+        lExist := True;
+        index := gFrameCalls[i].PageIndex;
+       end;
+    end;
 
-    OpenCallFrm(UserName, CallerId);
+    if not lExist then
+    begin
+      OpenCallFrm(lUserName, lCallerId);
+      gContacts[index].OpenPage := Length(gTabSheets);
+    end
+    else
+    begin
+      PageControl.ActivePageIndex := index;
+    end;
   end;
+end;
+
+procedure TFormMainWindow.ActionCloseCallExecute(Sender: TObject);
+var
+  lIndex: Integer;
+begin
+  lIndex := PageControl.ActivePageIndex;
+  PageControl.ActivePageIndex := lIndex - 1;
+  PageControl.Pages[lIndex].Free;
 end;
 
 procedure TFormMainWindow.ActionCloseExecute(Sender: TObject);
@@ -182,34 +192,31 @@ end;
 procedure TFormMainWindow.OpenCallFrm(UserName, CallerId: string);
 var
   i, j: Integer;
-  Exist: Boolean;
+  lExist: Boolean;
 begin
-  Exist := false;
+  lExist := false;
 
   for i := 0 to High(gFrameCalls) do
   begin
     if gFrameCalls[i].UserName = UserName then
     begin
-      Exist := True;
+      lExist := True;
     end;
   end;
 
-  if not Exist then
+  if not lExist then
   begin
     i := Length(gTabSheets);
     SetLength(gTabSheets, Length(gTabSheets) + 1);
     gTabSheets[i] := TTabSheet.Create(nil);
     gTabSheets[i].Caption := 'Rozmowa z ' + CallerId;
     gTabSheets[i].PageControl := PageControl;
-    gTabSheets[i].PageIndex := i + 1;
     gTabSheets[i].Show;
 
     j := Length(gFrameCalls);
     SetLength(gFrameCalls, Length(gFrameCalls) + 1);
 
-    Inc(fNumberOfLines);
     gFrameCalls[j] := TFrameCall.Create(nil);
-    gFrameCalls[j].LineNumberOfForm := fNumberOfLines;
     gFrameCalls[j].Name := 'FrameCall' + IntToStr(j);
     gFrameCalls[j].PageIndex := gTabSheets[i].PageIndex;
     gFrameCalls[j].UserName := UserName;
@@ -217,25 +224,6 @@ begin
     gFrameCalls[j].Load(AbtoPhone);
     gFrameCalls[j].Parent := gTabSheets[i];
   end;
-end;
-
-procedure TFormMainWindow.PageControlChange(Sender: TObject);
-var
-  FrameCall: TFrameCall;
-begin
-  PanelActions.Visible := false;
-  PanelActions.Enabled := false;
-
-  if PageControl.ActivePageIndex <> 0 then
-  begin
-    for FrameCall in gFrameCalls do
-    begin
-      if FrameCall.PageIndex = PageControl.ActivePageIndex then
-      begin
-        AbtoPhone.SetCurrentLine(FrameCall.LineNumberOfForm);
-      end;
-    end;
-    end;
 end;
 
 function TFormMainWindow.ReturnNameFromAddress(const clAddress: string): string;
@@ -254,20 +242,6 @@ begin
   end;
 
   Result := lName;
-end;
-
-procedure TFormMainWindow.ListViewContactsClick(Sender: TObject);
-begin
-  if ListViewContacts.ItemIndex <> -1 then
-  begin
-    PanelActions.Enabled := True;
-    PanelActions.Visible := True;
-  end
-  else
-  begin
-    PanelActions.Enabled := false;
-    PanelActions.Visible := false;
-  end;
 end;
 
 procedure TFormMainWindow.ListViewContactsDblClick(Sender: TObject);
@@ -340,11 +314,6 @@ begin
   Self.Width := 730;
   Self.Height := 530;
   isFullSize := False;
-
-  ButtonChat.Caption := '';
-  ButtonChat.ImageAlignment := iaCenter;
-  ButtonCall.Caption := '';
-  ButtonCall.ImageAlignment := iaCenter;
 
   AbtoPhone := TCAbtoPhone.Create(Self);
   LoadConfig;
@@ -440,6 +409,9 @@ begin
         end;
       end;
       gIsCallEstablish := True;
+      gCallEstablishPage := PageControl.ActivePageIndex;
+      gFrameCalls[gCallEstablishPage -1].IsCallEstablish := True;
+
       AbtoPhone.AnswerCall;
     end;
   end

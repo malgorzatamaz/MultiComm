@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes,Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
   Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, SIPVoipSDK_TLB, Vcl.ImgList, System.Actions,
-  Vcl.ActnList;
+  Vcl.ActnList,CallEstablish_Code;
 
 type
   TFrameCall = class(TFrame)
@@ -30,9 +30,10 @@ type
     ActionHangUp: TAction;
     Grid: TGridPanel;
     EditMessage: TEdit;
+    Panel1: TPanel;
+    ButtonCloseCall: TSpeedButton;
     ButtonSendMessage: TButton;
-    ButtonSpeak: TButton;
-    ButtonRec: TButton;
+    LabelName: TLabel;
     procedure ActionSendMessageExecute(Sender: TObject);
     procedure ActionCallExecute(Sender: TObject);
     procedure LabelMinusClick(Sender: TObject);
@@ -44,28 +45,28 @@ type
     procedure AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideString;
       Status, LineId: Integer);
     procedure ActionHangUpExecute(Sender: TObject);
+    procedure ActionMuteUpdate(Sender: TObject);
   private
     FUserName: string;
-    FUserId: string;
+    FCallerId: string;
     FPageIndex: Integer;
-    fLineNumberOfForm: Integer;
+    fIsCallEstablish: Boolean;
   public
-    gIsCallEstablish: Boolean;
     constructor Create(AOwner: TComponent); override;
     procedure Load(Phone: TCAbtoPhone);
     procedure ShowMessage(Address, Msg: string);
     property UserName: string read FUserName write FUserName;
-    property UserId: string read FUserName write FUserId;
+    property UserId: string read FUserName write FCallerId;
     property PageIndex: Integer read FPageIndex write FPageIndex;
+    property IsCallEstablish: Boolean read fIsCallEstablish write fIsCallEstablish;
   published
     property ClientHeight;
     property ClientWidth;
-    property LineNumberOfForm: Integer read  fLineNumberOfForm write fLineNumberOfForm;
   end;
 
 var
   AbtoPhone: TCAbtoPhone;
-  gMute, gVideoShow, gShowSelf: Boolean;
+  gMuted, gVideoShow, gShowSelf: Boolean;
   gLastTrackVolumePosition: Integer;
 
 implementation
@@ -77,43 +78,64 @@ uses Main_Wnd;
 procedure TFrameCall.AbtoPhone_OnClearedCall(ASender: TObject;
   const Msg: WideString; Status, LineId: Integer);
 begin
-  gIsCallEstablish := False;
+  fIsCallEstablish := False;
 end;
 
 procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject;
   const Msg: WideString; LineId: Integer);
 begin
-  gIsCallEstablish := True;
+  fIsCallEstablish := True;
 end;
 
 
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
 begin
   AbtoPhone.StartCall(UserName + '@iptel.org');
-  gIsCallEstablish := True;
+  fIsCallEstablish := True;
   ButtonCall.Visible := False;
   ButtonHangUp.Visible := True;
+  gIsCallEstablish := False;
 end;
 
 procedure TFrameCall.ActionHangUpExecute(Sender: TObject);
 begin
   AbtoPhone.HangUpLastCall;
-  gIsCallEstablish := False;
+  fIsCallEstablish := False;
   ButtonCall.Visible := True;
   ButtonHangUp.Visible := False;
+  gIsCallEstablish := False;
 end;
 
 procedure TFrameCall.ActionMuteExecute(Sender: TObject);
 begin
-  if gMute then
+  if not gMuted then
   begin
     gLastTrackVolumePosition := TrackBarVolume.Position;
     TrackBarVolume.Position := 0;
+  end
+  else
+  begin
+    if gLastTrackVolumePosition <> 0 then
+    begin
+      TrackBarVolume.Position := gLastTrackVolumePosition;
+    end
+    else
+    begin
+      TrackBarVolume.Position := 1;
+    end;
+  end;
+end;
+
+procedure TFrameCall.ActionMuteUpdate(Sender: TObject);
+begin
+  if TrackBarVolume.Position = 0 then
+  begin
+    gMuted := True;
     ButtonMute.ImageIndex := 5;
   end
   else
   begin
-    TrackBarVolume.Position := gLastTrackVolumePosition;
+    gMuted := False;
     ButtonMute.ImageIndex := 4;
   end;
 end;
@@ -144,11 +166,14 @@ end;
 constructor TFrameCall.Create(AOwner: TComponent);
 begin
   inherited;
-  gIsCallEstablish := False;
+  fIsCallEstablish := False;
+  gMuted := False;
   ButtonCall.Caption := '';
   ButtonMute.Caption := '';
   ButtonSendMessage.Caption := '';
   TrackBarVolume.Position := 5;
+  ButtonCloseCall.Caption := '';
+  LabelName.Caption := fCallerId;
 end;
 
 procedure TFrameCall.LabelMinusClick(Sender: TObject);
@@ -166,7 +191,6 @@ end;
 procedure TFrameCall.Load(Phone: TCAbtoPhone);
 begin
   AbtoPhone := Phone;
-  AbtoPhone.SetCurrentLine(LineNumberOfForm);
   AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
   AbtoPhone.OnClearedCall := AbtoPhone_OnClearedCall;
   gShowSelf := False;
