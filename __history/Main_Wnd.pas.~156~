@@ -68,10 +68,6 @@ type
     procedure LoadConfig();
     function ExtractBetween(const Value, A, B: string): string;
     function ReturnNameFromAddress(const clAddress: string): string;
-  public
-
-
-    AbtoPhone: TCAbtoPhone;
   end;
 
 var
@@ -87,17 +83,20 @@ implementation
 
 procedure TFormMainWindow.ActionResizeExecute(Sender: TObject);
 begin
-  if isFullSize then
+  if gIsCallEstablish then
   begin
-    Self.Width := 1324;
-    ButtonResize.Caption := '<<<';
-    isFullSize := False;
-  end
-  else
-  begin
-    Self.Width := 730;
-    ButtonResize.Caption := '>>>';
-    isFullSize := True;
+    if isFullSize then
+    begin
+      Self.Width := 1324;
+      ButtonResize.Caption := '<<<';
+      isFullSize := False;
+    end
+    else
+    begin
+      Self.Width := 730;
+      ButtonResize.Caption := '>>>';
+      isFullSize := True;
+    end;
   end;
 end;
 

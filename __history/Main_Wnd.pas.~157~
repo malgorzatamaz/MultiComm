@@ -11,7 +11,7 @@ uses
   Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd, Contacts;
 
 const
-  cConfigFileName: String = 'phoneCfg.ini';
+  configFileName: String = 'phoneCfg.ini';
 
 type
   TFormMainWindow = class(TForm)
@@ -62,16 +62,18 @@ type
     procedure ActionCloseCallExecute(Sender: TObject);
   private
     isAutoAnswerEnabled: Boolean;
+    fNumberOfLines: Integer;
     isFullSize: Boolean;
     procedure OpenCallFrm(UserName, CallerId: string);
     procedure LoadConfig();
+    function ExtractBetween(const Value, A, B: string): string;
     function ReturnNameFromAddress(const clAddress: string): string;
   end;
 
 var
   FormMainWindow: TFormMainWindow;
-  gAbtoPhone: TCAbtoPhone;
-  gLoginWindow: TFormLog;
+  AbtoPhone: TCAbtoPhone;
+  LoginWindow: TFormLog;
   gFrameCalls: array of TFrameCall;
   gTabSheets: array of TTabSheet;
 
@@ -148,44 +150,43 @@ end;
 
 procedure TFormMainWindow.ActionContactsListExecute(Sender: TObject);
 var
-  lContactsListWindow: TFormContactsList;
+  ContactsListWindow: TFormContactsList;
 begin
-  lContactsListWindow := TFormContactsList.Create(Self);
-  lContactsListWindow.Show;
+  ContactsListWindow := TFormContactsList.Create(Self);
+  ContactsListWindow.Show;
 end;
 
 procedure TFormMainWindow.ActionLoginExecute(Sender: TObject);
 begin
-  gAbtoPhone := TCAbtoPhone.Create(Self);
+  AbtoPhone := TCAbtoPhone.Create(Self);
   LoadConfig;
-  gAbtoPhone.Initialize;
-  gLoginWindow := TFormLog.Create(Self);
-  gLoginWindow.Load(gAbtoPhone);
-  gLoginWindow.Show;
+  AbtoPhone.Initialize;
+  LoginWindow := TFormLog.Create(Self);
+  LoginWindow.Load(AbtoPhone);
+  LoginWindow.Show;
 end;
 
 procedure TFormMainWindow.ActionSettingsExecute(Sender: TObject);
 var
-  lSettingsForm: TSettingsForm;
+  settingsForm: TSettingsForm;
   lPhoneCfg: Variant;
 begin
-  Application.CreateForm(TSettingsForm, lSettingsForm);
+  Application.CreateForm(TSettingsForm, settingsForm);
 
-  lPhoneCfg := gAbtoPhone.Config;
-  lSettingsForm.SetSettings(lPhoneCfg, gAbtoPhone.RetrieveVersion,
-    gAbtoPhone.RetrieveExternalAddress);
+  lPhoneCfg := AbtoPhone.Config;
+  settingsForm.SetSettings(lPhoneCfg, AbtoPhone.RetrieveVersion,
+    AbtoPhone.RetrieveExternalAddress);
 
-  lSettingsForm.ShowModal;
-  if lSettingsForm.ModalResult = mrOk then
+  settingsForm.ShowModal;
+  if settingsForm.ModalResult = mrOk then
   begin
-    lSettingsForm.SetupUserInput;
-    gAbtoPhone.ApplyConfig;
-    lPhoneCfg.Store(cConfigFileName);
-    Self.Caption := 'MultiComm - Zalogowano jako ' + gAbtoPhone.Config.RegUser;
+    settingsForm.SetupUserInput;
+    AbtoPhone.ApplyConfig;
+    lPhoneCfg.Store(configFileName);
+    Self.Caption := 'MultiComm - Zalogowano jako ' + AbtoPhone.Config.RegUser;
   end;
-
   isAutoAnswerEnabled := lPhoneCfg.AutoAnswerEnabled;
-  lSettingsForm.Free;
+  settingsForm.Free;
 end;
 
 procedure TFormMainWindow.OpenCallFrm(UserName, CallerId: string);
@@ -220,7 +221,7 @@ begin
     gFrameCalls[j].PageIndex := gTabSheets[i].PageIndex;
     gFrameCalls[j].UserName := UserName;
     gFrameCalls[j].Align := alClient;
-    gFrameCalls[j].Load(gAbtoPhone);
+    gFrameCalls[j].Load(AbtoPhone);
     gFrameCalls[j].Parent := gTabSheets[i];
   end;
 end;
@@ -256,50 +257,67 @@ end;
 
 procedure TFormMainWindow.LoadConfig;
 var
-  lPhoneConfig: Variant;
+  phoneConfig: Variant;
 begin
-  lPhoneConfig := gAbtoPhone.Config;
-  gAbtoPhone.OnRegistered := AbtoPhone_OnRegistered;
-  gAbtoPhone.OnIncomingCall := AbtoPhone_OnIncomingCall;
-  gAbtoPhone.OnClearedCall := AbtoPhone_OnClearedCall;
-  gAbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
-  gAbtoPhone.OnTextMessageReceived := AbtoPhone_OnTextMessageReceived;
+  phoneConfig := AbtoPhone.Config;
+  AbtoPhone.OnRegistered := AbtoPhone_OnRegistered;
+  AbtoPhone.OnIncomingCall := AbtoPhone_OnIncomingCall;
+  AbtoPhone.OnClearedCall := AbtoPhone_OnClearedCall;
+  AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
+  AbtoPhone.OnTextMessageReceived := AbtoPhone_OnTextMessageReceived;
 
-  lPhoneConfig.RemoteVideoWindow := PanelVideo.Handle;
-  lPhoneConfig.ListenPort := 5060;
-  lPhoneConfig.RegDomain := 'iptel.org';
-  lPhoneConfig.LicenseUserId :=
+  phoneConfig.RemoteVideoWindow := PanelVideo.Handle;
+  phoneConfig.ListenPort := 5060;
+  phoneConfig.RegDomain := 'iptel.org';
+  phoneConfig.LicenseUserId :=
     'Trial3f33-8785-FFFF-F3469758-2111-2C1A-E7DB-4FF723D0C845';
-  lPhoneConfig.LicenseKey :=
+  phoneConfig.LicenseKey :=
     'XNFcCTrfMnNWDmYLFgSmx9aeWZ67BZA8EvaUF4CSUkq6TsAAMquJJEtqQ3stk2iFtCA4DdRv64HcPdZOIGCb+g== ';
 
-  gAbtoPhone.ApplyConfig;
+  AbtoPhone.ApplyConfig;
+end;
+
+function TFormMainWindow.ExtractBetween(const Value, A, B: string): string;
+var
+  aPos, bPos: Integer;
+begin
+  Result := '';
+  aPos := Pos(A, Value);
+  if aPos > 0 then
+  begin
+    aPos := aPos + Length(A);
+    bPos := PosEx(B, Value, aPos);
+    if bPos > 0 then
+    begin
+      Result := Copy(Value, aPos, bPos - aPos);
+    end;
+  end;
 end;
 
 procedure TFormMainWindow.FormClose(Sender: TObject; var Action: TCloseAction);
 var
-  lTmpTabSheet: TTabSheet;
-  lTmpFrameCall: TFrameCall;
+  tmpTabSheet: TTabSheet;
+  tmpFrameCall: TFrameCall;
   i: Integer;
 begin
   if gIsCallEstablish then
-    gAbtoPhone.HangUpLastCall;
+    AbtoPhone.HangUpLastCall;
 
-  gAbtoPhone.Free;
+  AbtoPhone.Free;
 end;
 
 procedure TFormMainWindow.FormCreate(Sender: TObject);
 var
-  lItem: TListItem;
+  Item: TListItem;
   i: Integer;
 begin
   Self.Width := 730;
   Self.Height := 530;
   isFullSize := False;
 
-  gAbtoPhone := TCAbtoPhone.Create(Self);
+  AbtoPhone := TCAbtoPhone.Create(Self);
   LoadConfig;
-  gAbtoPhone.Initialize;
+  AbtoPhone.Initialize;
 
   SetLength(gContacts, 5);
   gContacts[0].UserName := 'mobile32';
@@ -318,16 +336,18 @@ begin
 
   for i := 0 to High(gContacts) do
   begin
-    lItem := ListViewContacts.Items.Add();
-    lItem.Caption := gContacts[i].CallerId;
-    lItem.ImageIndex := i + 2;
+    Item := ListViewContacts.Items.Add();
+    Item.Caption := gContacts[i].CallerId;
+    Item.ImageIndex := i + 2;
   end;
 
-  gLoginWindow := TFormLog.Create(nil);
-  gLoginWindow.Load(gAbtoPhone);
+  LoginWindow := TFormLog.Create(nil);
+  LoginWindow.Load(AbtoPhone);
   Self.Enabled := false;
-  gLoginWindow.FormStyle := fsStayOnTop;
-  gLoginWindow.Show;
+  LoginWindow.FormStyle := fsStayOnTop;
+  LoginWindow.Show;
+
+  fNumberOfLines := 0;
 end;
 
 procedure TFormMainWindow.FormResize(Sender: TObject);
@@ -338,18 +358,18 @@ end;
 procedure TFormMainWindow.AbtoPhone_OnIncomingCall(ASender: TObject;
   const AddrFrom: WideString; LineId: Integer);
 var
-  lExist: Boolean;
+  gExist: Boolean;
   i, X: Integer;
   UserName, CallerId: string;
 begin
-  lExist := false;
+  gExist := false;
   CallerId := ReturnNameFromAddress(AddrFrom);
 
   for i := 0 to High(gFrameCalls) do
   begin
     if gFrameCalls[i].UserId = CallerId then
     begin
-      lExist := True;
+      gExist := True;
       UserName := gFrameCalls[i].UserName;
     end;
   end;
@@ -369,12 +389,12 @@ begin
   begin
     if gIsCallEstablish then
     begin
-      gAbtoPhone.HangUpLastCall;
-      gAbtoPhone.AnswerCall;
+      AbtoPhone.HangUpLastCall;
+      AbtoPhone.AnswerCall;
     end
     else
     begin
-      if not lExist then
+      if not gExist then
       begin
         OpenCallFrm(UserName, CallerId);
       end
@@ -392,30 +412,30 @@ begin
       gCallEstablishPage := PageControl.ActivePageIndex;
       gFrameCalls[gCallEstablishPage -1].IsCallEstablish := True;
 
-      gAbtoPhone.AnswerCall;
+      AbtoPhone.AnswerCall;
     end;
   end
   else
-    gAbtoPhone.RejectCall;
+    AbtoPhone.RejectCall;
 end;
 
 procedure TFormMainWindow.AbtoPhone_OnRegistered(ASender: TObject;
   const Msg: WideString);
 var
-  lMessage: string;
+  lmessage: string;
 begin
-  lMessage := Msg;
-  if Pos('200', lMessage) > 0 then
+  lmessage := Msg;
+  if Pos('200', lmessage) > 0 then
   begin
-    Self.Caption := 'MultiComm - Zalogowano jako ' + gAbtoPhone.Config.RegUser;
+    Self.Caption := 'MultiComm - Zalogowano jako ' + AbtoPhone.Config.RegUser;
 
-    gLoginWindow.LoginSucessfull;
+    LoginWindow.LoginSucessfull;
 
-    if Assigned(gLoginWindow) then
+    if Assigned(LoginWindow) then
     begin
-      gLoginWindow.Close;
-      gLoginWindow.Free;
-      gLoginWindow := nil;
+      LoginWindow.Close;
+      LoginWindow.Free;
+      LoginWindow := nil;
     end;
 
     Self.Enabled := True;
@@ -423,43 +443,43 @@ begin
   end
   else
   begin
-    gLoginWindow.LoginUnsucessful;
+    LoginWindow.LoginUnsucessful;
   end;
 end;
 
 procedure TFormMainWindow.AbtoPhone_OnTextMessageReceived(ASender: TObject;
   const address, message: WideString);
 var
-  lExist: Boolean;
+  gExist: Boolean;
   i: Integer;
-  lUserName, lCallerId: string;
-  lTmpFrameCall: TFrameCall;
+  UserName, CallerId: string;
+  tmpFrameCall: TFrameCall;
 begin
-  lExist := false;
-  lCallerId := ReturnNameFromAddress(address);
+  gExist := false;
+  CallerId := ReturnNameFromAddress(address);
 
   for i := 0 to High(gFrameCalls) do
   begin
-    if gFrameCalls[i].UserId = lCallerId then
+    if gFrameCalls[i].UserId = CallerId then
     begin
-      lExist := True;
-      lUserName := gFrameCalls[i].UserName;
-      lTmpFrameCall := gFrameCalls[i];
+      gExist := True;
+      UserName := gFrameCalls[i].UserName;
+      tmpFrameCall := gFrameCalls[i];
     end;
   end;
 
-  if not lExist then
+  if not gExist then
   begin
-    OpenCallFrm(lUserName, lCallerId);
+    OpenCallFrm(UserName, CallerId);
     i := Length(gFrameCalls) - 1;
-    gFrameCalls[i].ShowMessage(lCallerId, message);
+    gFrameCalls[i].ShowMessage(CallerId, message);
   end
   else
   begin
-    if Assigned(lTmpFrameCall) then
+    if Assigned(tmpFrameCall) then
     begin
-      lTmpFrameCall.ShowMessage(lCallerId, message);
-      PageControl.ActivePageIndex := lTmpFrameCall.PageIndex;
+      tmpFrameCall.ShowMessage(CallerId, message);
+      PageControl.ActivePageIndex := tmpFrameCall.PageIndex;
     end;
   end;
 end;

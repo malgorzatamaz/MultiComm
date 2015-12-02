@@ -4,10 +4,10 @@ interface
 
 type
 TContact = record
-    Id: Integer;            //
-    Image: string;            // do  bazy
+    Id: Integer;
+    Image: string;
     UserName: string;
-    CallerId: string;       //
+    CallerId: string;
     OpenPage: Integer;
   end;
 

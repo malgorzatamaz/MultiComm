@@ -1,4 +1,4 @@
-unit Main_Wnd;
+ï»¿unit Main_Wnd;
 
 interface
 
@@ -356,12 +356,12 @@ begin
 
   if gIsCallEstablish then
   begin
-    X := MessageDlg('Dzwoni ' + CallerId + ', przerwaæ poprzedni¹ rozmowê?',
+    X := MessageDlg('Dzwoni ' + CallerId + ', przerwaÄ‡ poprzedniÄ… rozmowÄ™?',
       mtConfirmation, mbYesNo, 0);
   end
   else
   begin
-    X := MessageDlg('Dzwoni ' + CallerId + ', odebraæ?', mtConfirmation,
+    X := MessageDlg('Dzwoni ' + CallerId + ', odebraÄ‡?', mtConfirmation,
       mbYesNo, 0);
   end;
 
@@ -430,36 +430,36 @@ end;
 procedure TFormMainWindow.AbtoPhone_OnTextMessageReceived(ASender: TObject;
   const address, message: WideString);
 var
-  lExist: Boolean;
+  gExist: Boolean;
   i: Integer;
-  lUserName, lCallerId: string;
-  lTmpFrameCall: TFrameCall;
+  UserName, CallerId: string;
+  tmpFrameCall: TFrameCall;
 begin
-  lExist := false;
-  lCallerId := ReturnNameFromAddress(address);
+  gExist := false;
+  CallerId := ReturnNameFromAddress(address);
 
   for i := 0 to High(gFrameCalls) do
   begin
-    if gFrameCalls[i].UserId = lCallerId then
+    if gFrameCalls[i].UserId = CallerId then
     begin
-      lExist := True;
-      lUserName := gFrameCalls[i].UserName;
-      lTmpFrameCall := gFrameCalls[i];
+      gExist := True;
+      UserName := gFrameCalls[i].UserName;
+      tmpFrameCall := gFrameCalls[i];
     end;
   end;
 
-  if not lExist then
+  if not gExist then
   begin
-    OpenCallFrm(lUserName, lCallerId);
+    OpenCallFrm(UserName, CallerId);
     i := Length(gFrameCalls) - 1;
-    gFrameCalls[i].ShowMessage(lCallerId, message);
+    gFrameCalls[i].ShowMessage(CallerId, message);
   end
   else
   begin
-    if Assigned(lTmpFrameCall) then
+    if Assigned(tmpFrameCall) then
     begin
-      lTmpFrameCall.ShowMessage(lCallerId, message);
-      PageControl.ActivePageIndex := lTmpFrameCall.PageIndex;
+      tmpFrameCall.ShowMessage(CallerId, message);
+      PageControl.ActivePageIndex := tmpFrameCall.PageIndex;
     end;
   end;
 end;
