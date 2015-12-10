@@ -1,0 +1,92 @@
+unit Contacts;
+
+interface
+
+uses Classes;
+
+type
+  TContact = class
+    Id: Integer; //
+    Image: string; // do  bazy
+    UserName: string;
+    CallerId: string; //
+    OpenPage: Integer;
+  end;
+
+  TContactsList = class(TList)
+  private
+    function GetItem(AIndex: Integer): TContact;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function GetUserByAddress(lAddress: AnsiString): TContact;
+    function Add(lContact: TContact): Integer;
+    function IndexOf(lContact: TContact): Integer;
+    procedure Clear;
+    procedure Delete(AIndex: Integer);
+    procedure Remove(AMyObject: TContact);
+    property Items[AIndex: Integer]: TContact read GetItem;
+
+  end;
+
+implementation
+
+constructor TContactsList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TContactsList.Destroy;
+begin
+  try
+    Clear;
+  finally
+    inherited Destroy;
+  end;
+end;
+
+function TContactsList.Add( lContact : TContact ) : integer;
+begin
+  result := inherited Add( lContact );
+end;
+
+function TContactsList.IndexOf( lContact : TContact ) : integer;
+begin
+  result := inherited IndexOf( lContact );
+end;
+
+procedure TContactsList.Delete( AIndex : integer );
+begin
+  Items[ AIndex ].Free;
+  inherited Delete( AIndex );
+end;
+
+procedure TContactsList.Remove( lContact : TContact );
+begin
+  Items[ IndexOf( AMyObject ) ].Free;
+  inherited Remove( AMyObject );
+end;
+
+function TContactsList.GetItem( AIndex : integer ) : TContact;
+begin
+  result := TContact( inherited Items[ AIndex ] );
+end;
+
+function TContactsList.GetUserByAddress(lAddress: AnsiString): TContact;
+var
+  i,index: Integer;
+begin
+  for i := Low to High do
+  begin
+    if Items[i].UserName = lAddress then
+      index := i;
+  end;
+  result := TContact( inherited Items[ index ] );
+end;
+
+procedure TContactsList.Clear;
+begin
+  while Count <> 0 do
+    Delete( 0 );
+end;
+end.

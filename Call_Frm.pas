@@ -79,12 +79,14 @@ procedure TFrameCall.AbtoPhone_OnClearedCall(ASender: TObject;
   const Msg: WideString; Status, LineId: Integer);
 begin
   fIsCallEstablish := False;
+  gIsCallEstablish := False;
 end;
 
 procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject;
   const Msg: WideString; LineId: Integer);
 begin
   fIsCallEstablish := True;
+  gIsCallEstablish := True;
 end;
 
 
@@ -94,7 +96,7 @@ begin
   fIsCallEstablish := True;
   ButtonCall.Visible := False;
   ButtonHangUp.Visible := True;
-  gIsCallEstablish := False;
+  gIsCallEstablish := True;
 end;
 
 procedure TFrameCall.ActionHangUpExecute(Sender: TObject);

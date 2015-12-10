@@ -95,6 +95,9 @@ begin
       ButtonResize.Caption := '>>>';
       isFullSize := True;
     end;
+
+    Left := (Screen.Width - Width) div 2;
+    Top := (Screen.Height - Height) div 2;
   end;
 end;
 
@@ -269,9 +272,9 @@ begin
   lPhoneConfig.ListenPort := 5060;
   lPhoneConfig.RegDomain := 'iptel.org';
   lPhoneConfig.LicenseUserId :=
-    'Trial3f33-8785-FFFF-F3469758-2111-2C1A-E7DB-4FF723D0C845';
+    'Trial08c2-886A-FFFF-1F0EF5DA-797C-A3A1-1933-2B5B679B847D';
   lPhoneConfig.LicenseKey :=
-    'XNFcCTrfMnNWDmYLFgSmx9aeWZ67BZA8EvaUF4CSUkq6TsAAMquJJEtqQ3stk2iFtCA4DdRv64HcPdZOIGCb+g== ';
+    'mBzWqhu5bfJxbv49Np1McAu/eE4F2DLyZkCRvep1M8pCM2IAjuQw4nLDoGYUgahKrkBUtm2L2XQvuFP8NbiJXA==';
 
   gAbtoPhone.ApplyConfig;
 end;
@@ -296,6 +299,9 @@ begin
   Self.Width := 730;
   Self.Height := 530;
   isFullSize := False;
+
+  Left := (Screen.Width - Width) div 2;
+  Top := (Screen.Height - Height) div 2;
 
   gAbtoPhone := TCAbtoPhone.Create(Self);
   LoadConfig;

@@ -192,6 +192,8 @@ object FrameCall: TFrameCall
           Images = ImageList
           TabOrder = 1
           Visible = False
+          ExplicitLeft = -6
+          ExplicitTop = -3
         end
       end
     end
@@ -296,7 +298,6 @@ object FrameCall: TFrameCall
           SizeStyle = ssAuto
         end>
       TabOrder = 1
-      ExplicitTop = 142
       object EditMessage: TEdit
         AlignWithMargins = True
         Left = 10
@@ -309,7 +310,6 @@ object FrameCall: TFrameCall
         Margins.Bottom = 10
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 251
         ExplicitHeight = 21
       end
       object ButtonSendMessage: TButton
@@ -323,8 +323,6 @@ object FrameCall: TFrameCall
         ImageIndex = 6
         Images = ImageList
         TabOrder = 1
-        ExplicitTop = 17
-        ExplicitHeight = 25
       end
     end
   end
@@ -336,7 +334,6 @@ object FrameCall: TFrameCall
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitTop = -3
     object ButtonCloseCall: TSpeedButton
       Left = 413
       Top = 0
@@ -437,7 +434,7 @@ object FrameCall: TFrameCall
     Left = 249
     Top = 7
     Bitmap = {
-      494C01010A0018003C0040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A001800400040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000000010000C000000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
