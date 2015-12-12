@@ -119,6 +119,7 @@ object FormLog: TFormLog
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    Text = 'mobile32'
   end
   object EditPassword: TEdit
     AlignWithMargins = True
@@ -137,7 +138,7 @@ object FormLog: TFormLog
     ParentFont = False
     PasswordChar = '*'
     TabOrder = 1
-    ExplicitLeft = 55
+    Text = 'freak18'
   end
   object ActionList: TActionList
     Left = 368

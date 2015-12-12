@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls,
-  System.Actions, Vcl.ActnList;
+  System.Actions, Vcl.ActnList, Data.DB, Data.Win.ADODB;
 
 type
   TAddEditForm = class(TForm)
@@ -17,7 +17,6 @@ type
     EditImage: TEdit;
     ButtonSelectImage: TSpeedButton;
     Panel1: TPanel;
-    ButtonSave: TSpeedButton;
     ButtonClose: TSpeedButton;
     Panel2: TPanel;
     ActionListAddEdit: TActionList;
@@ -25,9 +24,13 @@ type
     ActionEdit: TAction;
     ActionClose: TAction;
     ActionSelectImage: TAction;
-    procedure FormCreate(Sender: TObject);
+    ADOConnection: TADOConnection;
+    ADOQuery: TADOQuery;
+    BtnSave: TSpeedButton;
     procedure ActionCloseExecute(Sender: TObject);
     procedure ActionSelectImageExecute(Sender: TObject);
+    procedure ActionAddExecute(Sender: TObject);
+    procedure ActionEditExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,10 +44,36 @@ implementation
 
 {$R *.dfm}
 
+
+procedure TAddEditForm.ActionAddExecute(Sender: TObject);
+var
+number:integer;
+begin
+  ADOConnection.Connected:=true;
+  with ADOQuery do
+  begin
+    Close;
+    Sql.Clear;
+    Sql.Add('exec AddContact  '+EditUserName.Text+', '+EditCallerId.Text);
+    number:=ExecSql;
+    if(number<0) then
+    begin
+      ShowMessage('U¿ytkownik ju¿ istnieje!');
+    end;
+  end;
+end;
+
+
+
 procedure TAddEditForm.ActionCloseExecute(Sender: TObject);
 begin
   Close;
   Free;
+end;
+
+procedure TAddEditForm.ActionEditExecute(Sender: TObject);
+begin
+  ShowMessage('Click to edit');
 end;
 
 procedure TAddEditForm.ActionSelectImageExecute(Sender: TObject);
@@ -63,20 +92,6 @@ begin
     EditImage.Text := openDialog.Files[0];
 
   openDialog.Free;
-end;
-
-procedure TAddEditForm.FormCreate(Sender: TObject);
-begin
-  if gAdd then
-  begin
-    ButtonSave.Action := ActionListAddEdit.Actions[0];
-    ButtonSave.Caption := 'Zapisz';
-  end
-  else
-  begin
-    ButtonSave.Action := ActionListAddEdit.Actions[1];
-    ButtonSave.Caption := 'Zapisz';
-  end;
 end;
 
 end.

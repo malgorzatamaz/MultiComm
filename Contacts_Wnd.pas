@@ -40,9 +40,14 @@ procedure TFormContactsList.ActionAddExecute(Sender: TObject);
 var
   AddEditWnd: TAddEditForm;
 begin
-  AddEditWnd := TAddEditForm.Create(Self);
+  AddEditWnd := TAddEditForm.Create(self);
+  with AddEditWnd do
+  begin
+    BtnSave.Action := ActionAdd ;//ActionListAddEdit.Actions[0]
+    BtnSave.Caption := 'Zapisz';
+    gAdd:=True;
+  end;
   AddEditWnd.Caption := 'Dodaj u¿ytkownika';
-  AddEditWnd.gAdd := True;
   AddEditWnd.Show;
 end;
 
@@ -55,9 +60,14 @@ procedure TFormContactsList.ActionEditExecute(Sender: TObject);
 var
   AddEditWnd: TAddEditForm;
 begin
-  AddEditWnd := TAddEditForm.Create(Self);
+  AddEditWnd := TAddEditForm.Create(self);
+  with AddEditWnd do
+  begin
+    BtnSave.Action := ActionEdit;//ActionListAddEdit.Actions[1];
+    BtnSave.Caption := 'Zapisz';
+    gAdd:=false;
+  end;
   AddEditWnd.Caption := 'Edytuj u¿ytkownika';
-  AddEditWnd.gAdd := False;
   AddEditWnd.Show;
 end;
 

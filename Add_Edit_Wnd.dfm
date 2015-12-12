@@ -15,7 +15,6 @@ object AddEditForm: TAddEditForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object GridPanel1: TGridPanel
@@ -94,7 +93,6 @@ object AddEditForm: TAddEditForm
       Height = 21
       Anchors = []
       TabOrder = 0
-      ExplicitLeft = 13
     end
     object Label1: TLabel
       Left = 288
@@ -113,7 +111,6 @@ object AddEditForm: TAddEditForm
       Height = 21
       Anchors = []
       TabOrder = 1
-      ExplicitLeft = 10
     end
     object Label2: TLabel
       Left = 251
@@ -132,7 +129,6 @@ object AddEditForm: TAddEditForm
       Height = 21
       Anchors = []
       TabOrder = 2
-      ExplicitLeft = 10
     end
     object ButtonSelectImage: TSpeedButton
       AlignWithMargins = True
@@ -159,22 +155,6 @@ object AddEditForm: TAddEditForm
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
-    object ButtonSave: TSpeedButton
-      AlignWithMargins = True
-      Left = 229
-      Top = 5
-      Width = 220
-      Height = 39
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
-      Align = alRight
-      Caption = 'Zapisz'
-      ExplicitLeft = 241
-      ExplicitTop = 0
-      ExplicitHeight = 41
-    end
     object ButtonClose: TSpeedButton
       AlignWithMargins = True
       Left = 5
@@ -192,6 +172,22 @@ object AddEditForm: TAddEditForm
       ExplicitTop = 0
       ExplicitHeight = 41
     end
+    object BtnSave: TSpeedButton
+      Left = 229
+      Top = 5
+      Width = 220
+      Height = 39
+      AlignWithMargins = True
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Bottom = 5
+      Margins.Right = 5
+      Action = ActionAdd
+      Align = alRight
+      ExplicitLeft = 241
+      ExplicitHeight = 41
+      ExplicitHeight = 0
+    end
   end
   object Panel2: TPanel
     Left = 0
@@ -201,19 +197,17 @@ object AddEditForm: TAddEditForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = 104
-    ExplicitTop = 151
-    ExplicitWidth = 185
-    ExplicitHeight = 41
   end
   object ActionListAddEdit: TActionList
     Left = 237
     Top = 11
     object ActionAdd: TAction
       Caption = 'ActionAdd'
+      OnExecute = ActionAddExecute
     end
     object ActionEdit: TAction
       Caption = 'ActionEdit'
+      OnExecute = ActionEditExecute
     end
     object ActionClose: TAction
       Caption = 'ActionClose'
@@ -223,5 +217,22 @@ object AddEditForm: TAddEditForm
       Caption = 'ActionSelectImage'
       OnExecute = ActionSelectImageExecute
     end
+  end
+  object ADOConnection: TADOConnection
+    ConnectionString = 
+      'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
+      'fo=False;Initial Catalog=Contacts;Data Source=DESKTOP-736GSHR\SE' +
+      'RVER'
+    Provider = 'SQLOLEDB.1'
+    Left = 405
+    Top = 11
+  end
+  object ADOQuery: TADOQuery
+    Connection = ADOConnection
+    Parameters = <>
+    SQL.Strings = (
+      'select IdContact from Contact ')
+    Left = 365
+    Top = 59
   end
 end
