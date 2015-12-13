@@ -1,0 +1,108 @@
+unit Contacts_Wnd;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ImgList,  Contacts;
+
+type
+  TFormContactsList = class(TForm)
+    pnl2: TPanel;
+    pnl3: TPanel;
+    ButtonClose: TSpeedButton;
+    ListViewContacts: TListView;
+    ButtonEdit: TSpeedButton;
+    ButtonAdd: TSpeedButton;
+    ButtonDelete: TSpeedButton;
+    ActionListContacts: TActionList;
+    ActionAdd: TAction;
+    ActionEdit: TAction;
+    ActionDelete: TAction;
+    ActionClose: TAction;
+    Action1: TAction;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ActionCloseExecute(Sender: TObject);
+    procedure ActionAddExecute(Sender: TObject);
+    procedure ActionEditExecute(Sender: TObject);
+    procedure ActionDeleteExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+
+implementation
+
+{$R *.dfm}
+uses Add_Edit_Wnd;
+
+procedure TFormContactsList.ActionAddExecute(Sender: TObject);
+var
+  AddEditWnd: TAddEditForm;
+begin
+  AddEditWnd := TAddEditForm.Create(self);
+  AddEditWnd.ParentForm:=self;
+  with AddEditWnd do
+  begin
+    BtnSave.Action := ActionAdd ;//ActionListAddEdit.Actions[0]
+    BtnSave.Caption := 'Zapisz';
+    gAdd:=True;
+  end;
+  AddEditWnd.Caption := 'Dodaj u¿ytkownika';
+  AddEditWnd.Show;
+end;
+
+procedure TFormContactsList.ActionCloseExecute(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TFormContactsList.ActionDeleteExecute(Sender: TObject);
+var
+index:integer;
+begin
+if Assigned(ListViewContacts.Selected) then
+begin
+  index:=ListViewContacts.Selected.Index;
+
+end;
+end;
+
+procedure TFormContactsList.ActionEditExecute(Sender: TObject);
+var
+  AddEditWnd: TAddEditForm;
+  index:integer;
+begin
+if Assigned(ListViewContacts.Selected) then
+begin
+  AddEditWnd := TAddEditForm.Create(self);
+  AddEditWnd.ParentForm:=self;
+  index:=ListViewContacts.Selected.Index;
+  with AddEditWnd do
+  begin
+    BtnSave.Action := ActionEdit;//ActionListAddEdit.Actions[1];
+    BtnSave.Caption := 'Zapisz';
+    gAdd:=false;
+    gCurrentItem:=index;
+    EditCallerId.Text:=  gContacts[index].CallerId;
+    EditUserName.Text:= gContacts[index].UserName;
+    EditUserName.ReadOnly:=true;
+  end;
+  AddEditWnd.Caption := 'Edytuj u¿ytkownika';
+  AddEditWnd.Show;
+  end
+  else
+  begin
+    ShowMessage('Zaznacz u¿ytkownika');
+  end;
+end;
+
+procedure TFormContactsList.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  Free;
+end;
+end.

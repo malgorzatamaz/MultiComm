@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls,
-  System.Actions, Vcl.ActnList, Data.DB, Data.Win.ADODB,Vcl.ComCtrls, Contacts_Wnd;
+  System.Actions, Vcl.ActnList, Data.DB, Data.Win.ADODB,Vcl.ComCtrls, Contacts_Wnd, Contacts;
 
 type
   TAddEditForm = class(TForm)
@@ -69,6 +69,9 @@ begin
     end;
   end;
     cItem := ParentForm.ListViewContacts.Items.Add();
+    SetLength(gContacts, Length(gContacts) + 1);
+    gContacts[Length(gContacts) - 1].UserName:= EditUserName.Text;
+    gContacts[Length(gContacts) - 1].CallerId:= EditCallerId.Text;
     cItem.Caption :=EditCallerId.Text;
     cItem.ImageIndex := 0;
   Close;

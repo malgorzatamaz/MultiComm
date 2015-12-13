@@ -105,8 +105,6 @@ object FormMainWindow: TFormMainWindow
           TabOrder = 0
           ViewStyle = vsSmallIcon
           OnDblClick = ListViewContactsDblClick
-          ExplicitLeft = 10
-          ExplicitTop = 4
         end
       end
     end
@@ -180,7 +178,7 @@ object FormMainWindow: TFormMainWindow
     Left = 376
     Top = 56
     Bitmap = {
-      494C010107001800500040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010107001800580040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100008000000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4448,8 +4446,7 @@ object FormMainWindow: TFormMainWindow
     Connected = True
     ConnectionString = 
       'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
-      'fo=False;Initial Catalog=Contacts;Data Source=DESKTOP-736GSHR\SE' +
-      'RVER'
+      'fo=False;Initial Catalog=Contacts;Data Source=HAPEK-PC'
     Provider = 'SQLOLEDB.1'
     Left = 287
     Top = 127
@@ -4458,7 +4455,7 @@ object FormMainWindow: TFormMainWindow
     Connection = ADOConnectionLoad
     Parameters = <>
     SQL.Strings = (
-      'select * from Contact')
+      'select * from dbo.Contact')
     Left = 271
     Top = 199
   end

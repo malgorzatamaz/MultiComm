@@ -218,10 +218,10 @@ object AddEditForm: TAddEditForm
     end
   end
   object ADOConnection: TADOConnection
+    Connected = True
     ConnectionString = 
       'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
-      'fo=False;Initial Catalog=Contacts;Data Source=DESKTOP-736GSHR\SE' +
-      'RVER'
+      'fo=False;Initial Catalog=Contacts;Data Source=HAPEK-PC'
     Provider = 'SQLOLEDB.1'
     Left = 405
     Top = 11
@@ -230,7 +230,7 @@ object AddEditForm: TAddEditForm
     Connection = ADOConnection
     Parameters = <>
     SQL.Strings = (
-      'select IdContact from Contact ')
+      'select IdContact from dbo.Contact ')
     Left = 365
     Top = 59
   end

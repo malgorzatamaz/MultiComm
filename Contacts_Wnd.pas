@@ -22,6 +22,7 @@ type
     ActionDelete: TAction;
     ActionClose: TAction;
     Action1: TAction;
+
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ActionCloseExecute(Sender: TObject);
     procedure ActionAddExecute(Sender: TObject);
@@ -37,7 +38,7 @@ type
 implementation
 
 {$R *.dfm}
-uses Add_Edit_Wnd;
+uses Add_Edit_Wnd, Main_Wnd;
 
 procedure TFormContactsList.ActionAddExecute(Sender: TObject);
 var
@@ -63,12 +64,39 @@ end;
 procedure TFormContactsList.ActionDeleteExecute(Sender: TObject);
 var
 index:integer;
+i:integer;
+cItem: TListItem;
+number:integer;
 begin
 if Assigned(ListViewContacts.Selected) then
 begin
   index:=ListViewContacts.Selected.Index;
+  FormMainWindow.ADOConnectionLoad.Connected:=true;
+  with FormMainWindow.ADOQuery do
+  begin
+    Close;
+    Sql.Clear;
+    Sql.Add('exec DeleteContact  '+gContacts[index].UserName);
+    number:=ExecSql;
+    if(number>0) then
+    begin
+      ShowMessage('U¿ytkownik zosta³ usuniêty!');
+    end;
+    end;
+  for i := index to Length(gContacts) - 1 do
+  begin
+    gContacts[index]:= gContacts[index + 1];
+  end;
 
-end;
+  SetLength(gContacts, Length(gContacts) - 1);
+  ListViewContacts.Clear;
+  for i := 0 to High(gContacts) do
+  begin
+    cItem := ListViewContacts.Items.Add();
+    cItem.Caption := gContacts[i].CallerId;
+    cItem.ImageIndex := 0;
+  end;
+  end;
 end;
 
 procedure TFormContactsList.ActionEditExecute(Sender: TObject);
