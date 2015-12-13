@@ -78,6 +78,7 @@ var
   gFrameCalls: array of TFrameCall;
   gTabSheets: array of TTabSheet;
 
+
 implementation
 
 {$R *.dfm}
@@ -179,7 +180,7 @@ begin
     cItem.ImageIndex := 0;
   end;
   lContactsListWindow.Show;
-end; ////
+end; ////   fdgdfg  hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 
 procedure TFormMainWindow.ActionLoginExecute(Sender: TObject);
 begin

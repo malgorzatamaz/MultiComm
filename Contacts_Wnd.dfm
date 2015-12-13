@@ -99,6 +99,7 @@ object FormContactsList: TFormContactsList
       BevelKind = bkSoft
       Columns = <>
       TabOrder = 1
+      ViewStyle = vsSmallIcon
     end
   end
   object ActionListContacts: TActionList

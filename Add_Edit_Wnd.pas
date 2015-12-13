@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls,
-  System.Actions, Vcl.ActnList, Data.DB, Data.Win.ADODB;
+  System.Actions, Vcl.ActnList, Data.DB, Data.Win.ADODB,Vcl.ComCtrls, Contacts_Wnd;
 
 type
   TAddEditForm = class(TForm)
@@ -35,6 +35,8 @@ type
     { Private declarations }
   public
     gAdd: Boolean;
+    Name, CallerName:string;
+    ParentForm: TFormContactsList;
   end;
 
 var
@@ -42,25 +44,35 @@ var
 
 implementation
 
+
 {$R *.dfm}
 
 
 procedure TAddEditForm.ActionAddExecute(Sender: TObject);
 var
 number:integer;
+cItem: TListItem;
 begin
-  ADOConnection.Connected:=true;
-  with ADOQuery do
+  if((EditUserName.Text<>'')and (EditCallerId.Text<>'')) then
   begin
-    Close;
-    Sql.Clear;
-    Sql.Add('exec AddContact  '+EditUserName.Text+', '+EditCallerId.Text);
-    number:=ExecSql;
-    if(number<0) then
+    ADOConnection.Connected:=true;
+    with ADOQuery do
     begin
-      ShowMessage('U¿ytkownik ju¿ istnieje!');
+      Close;
+      Sql.Clear;
+      Sql.Add('exec AddContact  '+EditUserName.Text+', '+EditCallerId.Text);
+      number:=ExecSql;
+      if(number<0) then
+      begin
+        ShowMessage('U¿ytkownik ju¿ istnieje!');
+      end;
     end;
   end;
+    cItem := ParentForm.ListViewContacts.Items.Add();
+    cItem.Caption :=EditCallerId.Text;
+    cItem.ImageIndex := 0;
+  Close;
+  Free;
 end;
 
 
@@ -74,6 +86,10 @@ end;
 procedure TAddEditForm.ActionEditExecute(Sender: TObject);
 begin
   ShowMessage('Click to edit');
+  Name:=EditUserName.Text;
+  CallerName:=EditCallerId.Text;
+  Close;
+  Free;
 end;
 
 procedure TAddEditForm.ActionSelectImageExecute(Sender: TObject);

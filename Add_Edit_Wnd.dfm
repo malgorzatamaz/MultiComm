@@ -173,19 +173,18 @@ object AddEditForm: TAddEditForm
       ExplicitHeight = 41
     end
     object BtnSave: TSpeedButton
+      AlignWithMargins = True
       Left = 229
       Top = 5
       Width = 220
       Height = 39
-      AlignWithMargins = True
       Margins.Left = 5
       Margins.Top = 5
-      Margins.Bottom = 5
       Margins.Right = 5
+      Margins.Bottom = 5
       Action = ActionAdd
       Align = alRight
       ExplicitLeft = 241
-      ExplicitHeight = 41
       ExplicitHeight = 0
     end
   end

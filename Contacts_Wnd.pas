@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, System.Actions, Vcl.ActnList, Add_Edit_Wnd;
+  Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ImgList,  Contacts;
 
 type
   TFormContactsList = class(TForm)
@@ -35,12 +35,14 @@ type
 implementation
 
 {$R *.dfm}
+uses Add_Edit_Wnd;
 
 procedure TFormContactsList.ActionAddExecute(Sender: TObject);
 var
   AddEditWnd: TAddEditForm;
 begin
   AddEditWnd := TAddEditForm.Create(self);
+  AddEditWnd.ParentForm:=self;
   with AddEditWnd do
   begin
     BtnSave.Action := ActionAdd ;//ActionListAddEdit.Actions[0]
@@ -59,16 +61,28 @@ end;
 procedure TFormContactsList.ActionEditExecute(Sender: TObject);
 var
   AddEditWnd: TAddEditForm;
+  index:integer;
+begin
+if Assigned(ListViewContacts.Selected) then
 begin
   AddEditWnd := TAddEditForm.Create(self);
+  AddEditWnd.ParentForm:=self;
+  index:=ListViewContacts.Selected.Index;
   with AddEditWnd do
   begin
     BtnSave.Action := ActionEdit;//ActionListAddEdit.Actions[1];
     BtnSave.Caption := 'Zapisz';
     gAdd:=false;
+    EditCallerId.Text:=  gContacts[index].CallerId;
+    EditUserName.Text:= gContacts[index].UserName;
   end;
   AddEditWnd.Caption := 'Edytuj u¿ytkownika';
   AddEditWnd.Show;
+  end
+  else
+  begin
+    ShowMessage('Zaznacz u¿ytkownika');
+  end;
 end;
 
 procedure TFormContactsList.FormClose(Sender: TObject;
