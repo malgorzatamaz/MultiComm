@@ -12,7 +12,7 @@ type
     pnl2: TPanel;
     pnl3: TPanel;
     ButtonClose: TSpeedButton;
-    ListView1: TListView;
+    ListViewContacts: TListView;
     ButtonEdit: TSpeedButton;
     ButtonAdd: TSpeedButton;
     ButtonDelete: TSpeedButton;

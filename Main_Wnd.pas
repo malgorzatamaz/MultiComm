@@ -8,7 +8,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls, Call_Frm,
   Vcl.ImgList, Login_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils, CallEstablish_Code,
-  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd, Contacts;
+  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd, Contacts, Data.DB,
+  Data.Win.ADODB;
 
 const
   cConfigFileName: String = 'phoneCfg.ini';
@@ -40,6 +41,8 @@ type
     ButtonResize: TButton;
     PanelVideo: TPanel;
     ActionResize: TAction;
+    ADOConnectionLoad: TADOConnection;
+    ADOQuery: TADOQuery;
     procedure ActionCallExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -152,10 +155,31 @@ end;
 procedure TFormMainWindow.ActionContactsListExecute(Sender: TObject);
 var
   lContactsListWindow: TFormContactsList;
+  i:integer;
+  cItem: TListItem;
 begin
   lContactsListWindow := TFormContactsList.Create(Self);
+  ADOConnectionLoad.Connected:=true;
+  ADOQuery.Active:=true;
+  i:=0;
+   while(not ADOQuery.Eof) do
+   begin
+     SetLength(gContacts, i+1);
+     gContacts[i].UserName := ADOQuery.FieldByName('Name').AsString;
+     gContacts[i].CallerId := ADOQuery.FieldByName('CallerName').AsString;
+     i:=i+1;
+     ADOQuery.Next;
+   end;
+   lContactsListWindow.ListViewContacts.SmallImages := ImageList;
+
+  for i := 0 to High(gContacts) do
+  begin
+    cItem := lContactsListWindow.ListViewContacts.Items.Add();
+    cItem.Caption := gContacts[i].CallerId;
+    cItem.ImageIndex := 0;
+  end;
   lContactsListWindow.Show;
-end;
+end; ////
 
 procedure TFormMainWindow.ActionLoginExecute(Sender: TObject);
 begin

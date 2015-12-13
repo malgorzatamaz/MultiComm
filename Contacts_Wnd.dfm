@@ -84,7 +84,7 @@ object FormContactsList: TFormContactsList
         Caption = 'Usu'#324
       end
     end
-    object ListView1: TListView
+    object ListViewContacts: TListView
       AlignWithMargins = True
       Left = 10
       Top = 10
