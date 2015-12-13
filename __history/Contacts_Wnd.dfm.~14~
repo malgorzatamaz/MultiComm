@@ -81,6 +81,7 @@ object FormContactsList: TFormContactsList
         Margins.Right = 0
         Action = ActionDelete
         Align = alLeft
+        Caption = 'Usu'#324
       end
     end
     object ListViewContacts: TListView
@@ -114,14 +115,10 @@ object FormContactsList: TFormContactsList
     end
     object ActionDelete: TAction
       Caption = 'ActionDelete'
-      OnExecute = ActionDeleteExecute
     end
     object ActionClose: TAction
       Caption = 'ActionClose'
       OnExecute = ActionCloseExecute
-    end
-    object Action1: TAction
-      Caption = 'Action1'
     end
   end
 end

@@ -21,10 +21,12 @@ type
     ActionEdit: TAction;
     ActionDelete: TAction;
     ActionClose: TAction;
+    Action1: TAction;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ActionCloseExecute(Sender: TObject);
     procedure ActionAddExecute(Sender: TObject);
     procedure ActionEditExecute(Sender: TObject);
+    procedure ActionDeleteExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -58,6 +60,17 @@ begin
   Close;
 end;
 
+procedure TFormContactsList.ActionDeleteExecute(Sender: TObject);
+var
+index:integer;
+begin
+if Assigned(ListViewContacts.Selected) then
+begin
+  index:=ListViewContacts.Selected.Index;
+
+end;
+end;
+
 procedure TFormContactsList.ActionEditExecute(Sender: TObject);
 var
   AddEditWnd: TAddEditForm;
@@ -73,8 +86,10 @@ begin
     BtnSave.Action := ActionEdit;//ActionListAddEdit.Actions[1];
     BtnSave.Caption := 'Zapisz';
     gAdd:=false;
+    gCurrentItem:=index;
     EditCallerId.Text:=  gContacts[index].CallerId;
     EditUserName.Text:= gContacts[index].UserName;
+    EditUserName.ReadOnly:=true;
   end;
   AddEditWnd.Caption := 'Edytuj u¿ytkownika';
   AddEditWnd.Show;

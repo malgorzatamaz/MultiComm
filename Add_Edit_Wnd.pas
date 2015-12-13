@@ -35,7 +35,7 @@ type
     { Private declarations }
   public
     gAdd: Boolean;
-    Name, CallerName:string;
+    gCurrentItem:integer;
     ParentForm: TFormContactsList;
   end;
 
@@ -84,10 +84,19 @@ begin
 end;
 
 procedure TAddEditForm.ActionEditExecute(Sender: TObject);
+var
+cItem: TListItem;
 begin
-  ShowMessage('Click to edit');
-  Name:=EditUserName.Text;
-  CallerName:=EditCallerId.Text;
+   ADOConnection.Connected:=true;
+    with ADOQuery do
+    begin
+      Close;
+      Sql.Clear;
+      Sql.Add('exec UpdateContact  '+EditUserName.Text+', '+EditCallerId.Text);
+      ExecSql;
+    end;
+     cItem := ParentForm.ListViewContacts.Items[gCurrentItem];
+     cItem.Caption :=EditCallerId.Text;
   Close;
   Free;
 end;
