@@ -218,10 +218,10 @@ object AddEditForm: TAddEditForm
     end
   end
   object ADOConnection: TADOConnection
-    Connected = True
     ConnectionString = 
       'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
-      'fo=False;Initial Catalog=Contacts;Data Source=HAPEK-PC'
+      'fo=False;Initial Catalog=Contacts;Data Source=DESKTOP-736GSHR\SE' +
+      'RVER'
     Provider = 'SQLOLEDB.1'
     Left = 405
     Top = 11

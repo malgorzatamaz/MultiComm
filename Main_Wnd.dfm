@@ -178,7 +178,7 @@ object FormMainWindow: TFormMainWindow
     Left = 376
     Top = 56
     Bitmap = {
-      494C010107001800580040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101070018005C0040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100008000000001002000000000000000
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4443,10 +4443,10 @@ object FormMainWindow: TFormMainWindow
     end
   end
   object ADOConnectionLoad: TADOConnection
-    Connected = True
     ConnectionString = 
       'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
-      'fo=False;Initial Catalog=Contacts;Data Source=HAPEK-PC'
+      'fo=False;Initial Catalog=Contacts;Data Source=DESKTOP-736GSHR\SE' +
+      'RVER'
     Provider = 'SQLOLEDB.1'
     Left = 287
     Top = 127

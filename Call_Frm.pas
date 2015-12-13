@@ -46,6 +46,7 @@ type
       Status, LineId: Integer);
     procedure ActionHangUpExecute(Sender: TObject);
     procedure ActionMuteUpdate(Sender: TObject);
+    procedure EditMessageKeyPress(Sender: TObject; var Key: Char);
   private
     FUserName: string;
     FCallerId: string;
@@ -176,6 +177,12 @@ begin
   TrackBarVolume.Position := 5;
   ButtonCloseCall.Caption := '';
   LabelName.Caption := fCallerId;
+end;
+
+procedure TFrameCall.EditMessageKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#$D then  // Enter
+    ActionSendMessageExecute(sender);
 end;
 
 procedure TFrameCall.LabelMinusClick(Sender: TObject);
