@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\Add_Edit_Wnd.dfm=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas=C:\Users\malgo\Documents\GitHub\MultiComm\CallEstablish_Code.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.808,C:\Users\malgo\Documents\GitHub\MultiComm\Contacts.pas=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\Add_Edit_Wnd.pas=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.824,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.808,C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas=C:\Users\malgo\Documents\GitHub\MultiComm\Contacts.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.955,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.523,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.592,C:\Users\malgo\Documents\GitHub\MultiComm\Chat_Frm.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.dfm=C:\Users\malgo\Documents\GitHub\MultiComm\Add_Edit_Wnd.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas=C:\Users\malgo\Documents\GitHub\MultiComm\Add_Edit_Wnd.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\CallEstablish_Code.pas=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.523,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.955,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

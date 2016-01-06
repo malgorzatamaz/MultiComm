@@ -79,7 +79,6 @@ object FormLog: TFormLog
     Height = 65
     Action = ActionLogIn
     Align = alBottom
-    Caption = 'Zaloguj'
     Flat = True
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -144,7 +143,8 @@ object FormLog: TFormLog
     Left = 368
     Top = 104
     object ActionLogIn: TAction
-      Caption = 'ActionLogIn'
+      Caption = 'Zaloguj'
+      ShortCut = 13
       OnExecute = ActionLoginExecute
     end
   end

@@ -5,7 +5,7 @@ object FormLog: TFormLog
   Caption = 'Zaloguj si'#281
   ClientHeight = 241
   ClientWidth = 344
-  Color = clCream
+  Color = clWindow
   Constraints.MaxHeight = 270
   Constraints.MaxWidth = 350
   Constraints.MinHeight = 270
@@ -21,7 +21,9 @@ object FormLog: TFormLog
   GlassFrame.Bottom = 5
   OldCreateOrder = False
   Position = poMainFormCenter
-  Visible = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -45,7 +47,7 @@ object FormLog: TFormLog
     Font.Name = 'Comic Sans MS'
     Font.Style = []
     ParentFont = False
-    ExplicitWidth = 484
+    ExplicitWidth = 38
   end
   object Label2: TLabel
     AlignWithMargins = True
@@ -68,14 +70,13 @@ object FormLog: TFormLog
     Font.Name = 'Comic Sans MS'
     Font.Style = []
     ParentFont = False
-    ExplicitTop = 72
-    ExplicitWidth = 484
+    ExplicitWidth = 39
   end
   object ButtonLogin: TSpeedButton
     Left = 0
-    Top = 168
+    Top = 176
     Width = 344
-    Height = 73
+    Height = 65
     Action = ActionLogIn
     Align = alBottom
     Caption = 'Zaloguj'
@@ -86,14 +87,12 @@ object FormLog: TFormLog
     Font.Name = 'Comic Sans MS'
     Font.Style = []
     ParentFont = False
-    ExplicitTop = 198
-    ExplicitWidth = 494
   end
   object LabelWarning: TLabel
     Left = 0
     Top = 140
     Width = 344
-    Height = 22
+    Height = 18
     Align = alTop
     Alignment = taCenter
     Font.Charset = DEFAULT_CHARSET
@@ -102,6 +101,7 @@ object FormLog: TFormLog
     Font.Name = 'Comic Sans MS'
     Font.Style = []
     ParentFont = False
+    ExplicitWidth = 4
   end
   object EditLogin: TEdit
     AlignWithMargins = True
@@ -119,6 +119,7 @@ object FormLog: TFormLog
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    Text = 'mobile32'
   end
   object EditPassword: TEdit
     AlignWithMargins = True
@@ -135,7 +136,9 @@ object FormLog: TFormLog
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
+    PasswordChar = '*'
     TabOrder = 1
+    Text = 'freak18'
   end
   object ActionList: TActionList
     Left = 368

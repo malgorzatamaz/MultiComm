@@ -320,7 +320,8 @@ object FrameCall: TFrameCall
         Margins.Bottom = 10
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 371
+
+        OnKeyPress = EditMessageKeyPress
         ExplicitHeight = 21
       end
       object ButtonSendMessage: TButton
@@ -334,7 +335,10 @@ object FrameCall: TFrameCall
         ImageIndex = 6
         Images = ImageList
         TabOrder = 1
-        ExplicitLeft = 391
+
+
+        ExplicitLeft = 394
+        ExplicitTop = 3
       end
     end
   end
