@@ -63,11 +63,13 @@ type
     procedure FormResize(Sender: TObject);
     procedure ListViewContactsDblClick(Sender: TObject);
     procedure ActionCloseCallExecute(Sender: TObject);
+    procedure FillForm();
   private
     isAutoAnswerEnabled: Boolean;
     isFullSize: Boolean;
     procedure OpenCallFrm(UserName, CallerId: string);
     procedure LoadConfig();
+    procedure GetDatabaseContacts();
     function ReturnNameFromAddress(const clAddress: string): string;
   end;
 
@@ -153,13 +155,11 @@ begin
   Application.Terminate;
 end;
 
-procedure TFormMainWindow.ActionContactsListExecute(Sender: TObject);
+procedure TFormMainWindow.GetDatabaseContacts;
 var
-  lContactsListWindow: TFormContactsList;
+  contactsNumber: Integer;
   i:integer;
-  cItem: TListItem;
 begin
-  lContactsListWindow := TFormContactsList.Create(Self);
   ADOConnectionLoad.Connected:=true;
   ADOQuery.Active:=true;
   i:=0;
@@ -171,16 +171,26 @@ begin
      i:=i+1;
      ADOQuery.Next;
    end;
-   lContactsListWindow.ListViewContacts.SmallImages := ImageList;
+end;
+
+procedure TFormMainWindow.ActionContactsListExecute(Sender: TObject);
+var
+  lContactsListWindow: TFormContactsList;
+  i:integer;
+  cItem: TListItem;
+begin
+  lContactsListWindow := TFormContactsList.Create(Self);
+  GetDatabaseContacts;
+  lContactsListWindow.ListViewContacts.SmallImages := ImageList;
 
   for i := 0 to High(gContacts) do
   begin
     cItem := lContactsListWindow.ListViewContacts.Items.Add();
     cItem.Caption := gContacts[i].CallerId;
-    cItem.ImageIndex := 0;
+    cItem.ImageIndex := i + 1;
   end;
   lContactsListWindow.Show;
-end; ////   fdgdfg  hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+end;
 
 procedure TFormMainWindow.ActionLoginExecute(Sender: TObject);
 begin
@@ -316,10 +326,8 @@ begin
   gAbtoPhone.Free;
 end;
 
+
 procedure TFormMainWindow.FormCreate(Sender: TObject);
-var
-  lItem: TListItem;
-  i: Integer;
 begin
   Self.Width := 730;
   Self.Height := 530;
@@ -332,34 +340,32 @@ begin
   LoadConfig;
   gAbtoPhone.Initialize;
 
-  SetLength(gContacts, 5);
-  gContacts[0].UserName := 'mobile32';
-  gContacts[1].UserName := 'janfri';
-  gContacts[2].UserName := 'malgorzatamaz';
-  gContacts[3].UserName := 'hpereverzieva';
-  gContacts[4].UserName := 'music';
-
-  gContacts[0].CallerId := 'Grzesiek';
-  gContacts[1].CallerId := 'Janek';
-  gContacts[2].CallerId := 'Gosia';
-  gContacts[3].CallerId := 'Ania';
-  gContacts[4].CallerId := 'Muzyka';
-
-  ListViewContacts.SmallImages := ImageList;
-
-  for i := 0 to High(gContacts) do
-  begin
-    lItem := ListViewContacts.Items.Add();
-    lItem.Caption := gContacts[i].CallerId;
-    lItem.ImageIndex := i + 2;
-  end;
+  GetDatabaseContacts;
+  FillForm;
 
   gLoginWindow := TFormLog.Create(nil);
   gLoginWindow.Load(gAbtoPhone);
   Self.Enabled := false;
   gLoginWindow.FormStyle := fsStayOnTop;
   gLoginWindow.Show;
+
 end;
+
+procedure TFormMainWindow.FillForm();
+var
+  lItem: TListItem;
+  i: Integer;
+begin
+  ListViewContacts.Clear;
+  ListViewContacts.SmallImages := ImageList;
+  for i := 0 to High(gContacts) do
+  begin
+    lItem := ListViewContacts.Items.Add();
+    lItem.Caption := gContacts[i].CallerId;
+    lItem.ImageIndex := i + 2;
+ end;
+end;
+
 
 procedure TFormMainWindow.FormResize(Sender: TObject);
 begin

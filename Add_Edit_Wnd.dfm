@@ -22,7 +22,7 @@ object AddEditForm: TAddEditForm
     Left = 5
     Top = 3
     Width = 444
-    Height = 158
+    Height = 152
     Margins.Left = 5
     Margins.Right = 5
     Margins.Bottom = 5
@@ -85,7 +85,7 @@ object AddEditForm: TAddEditForm
     TabOrder = 0
     DesignSize = (
       444
-      158)
+      152)
     object EditUserName: TEdit
       Left = 11
       Top = 14
@@ -190,16 +190,18 @@ object AddEditForm: TAddEditForm
   end
   object Panel2: TPanel
     Left = 0
-    Top = 166
+    Top = 160
     Width = 454
-    Height = 26
+    Height = 32
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitTop = 163
+    ExplicitHeight = 26
   end
   object ActionListAddEdit: TActionList
-    Left = 237
-    Top = 11
+    Left = 213
+    Top = 155
     object ActionAdd: TAction
       Caption = 'ActionAdd'
       OnExecute = ActionAddExecute
@@ -223,15 +225,15 @@ object AddEditForm: TAddEditForm
       'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
       'fo=False;Initial Catalog=Contacts;Data Source=HAPEK-PC'
     Provider = 'SQLOLEDB.1'
-    Left = 405
-    Top = 11
+    Left = 373
+    Top = 155
   end
   object ADOQuery: TADOQuery
     Connection = ADOConnection
     Parameters = <>
     SQL.Strings = (
       'select IdContact from dbo.Contact ')
-    Left = 365
-    Top = 59
+    Left = 285
+    Top = 155
   end
 end

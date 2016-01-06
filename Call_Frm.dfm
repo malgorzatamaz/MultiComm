@@ -1,8 +1,8 @@
 object FrameCall: TFrameCall
   Left = 0
   Top = 0
-  Width = 451
-  Height = 305
+  Width = 478
+  Height = 334
   Align = alClient
   Constraints.MinHeight = 305
   Constraints.MinWidth = 451
@@ -16,10 +16,12 @@ object FrameCall: TFrameCall
   ParentColor = False
   ParentFont = False
   TabOrder = 0
+  ExplicitWidth = 471
+  ExplicitHeight = 318
   object PanelMenu: TPanel
     Left = 0
     Top = 41
-    Width = 451
+    Width = 478
     Height = 65
     Align = alTop
     BevelOuter = bvNone
@@ -32,10 +34,11 @@ object FrameCall: TFrameCall
     ParentBackground = False
     ParentFont = False
     TabOrder = 0
+    ExplicitWidth = 451
     object GridPanelMenu: TGridPanel
       Left = 0
       Top = 0
-      Width = 451
+      Width = 478
       Height = 65
       Align = alClient
       BevelOuter = bvNone
@@ -93,6 +96,7 @@ object FrameCall: TFrameCall
           SizeStyle = ssAuto
         end>
       TabOrder = 0
+      ExplicitWidth = 451
       object LabelMinus: TLabel
         Left = 120
         Top = 0
@@ -115,7 +119,7 @@ object FrameCall: TFrameCall
         AlignWithMargins = True
         Left = 185
         Top = 10
-        Width = 201
+        Width = 228
         Height = 45
         Cursor = crHandPoint
         Margins.Left = 5
@@ -128,9 +132,10 @@ object FrameCall: TFrameCall
         TabOrder = 0
         TickMarks = tmBoth
         OnChange = TrackBarVolumeChange
+        ExplicitWidth = 201
       end
       object LabelPlus: TLabel
-        Left = 391
+        Left = 418
         Top = 0
         Width = 60
         Height = 65
@@ -144,6 +149,7 @@ object FrameCall: TFrameCall
         Font.Style = []
         ParentFont = False
         OnClick = LabelPlusClick
+        ExplicitLeft = 391
         ExplicitWidth = 19
         ExplicitHeight = 56
       end
@@ -192,8 +198,6 @@ object FrameCall: TFrameCall
           Images = ImageList
           TabOrder = 1
           Visible = False
-          ExplicitLeft = -6
-          ExplicitTop = -3
         end
       end
     end
@@ -201,8 +205,8 @@ object FrameCall: TFrameCall
   object GridMain: TGridPanel
     Left = 0
     Top = 106
-    Width = 451
-    Height = 199
+    Width = 478
+    Height = 228
     Align = alClient
     BevelOuter = bvNone
     Color = clMenu
@@ -240,12 +244,14 @@ object FrameCall: TFrameCall
         SizeStyle = ssAuto
       end>
     TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 199
     object ListBoxMessages: TListBox
       AlignWithMargins = True
       Left = 10
       Top = 10
-      Width = 431
-      Height = 119
+      Width = 458
+      Height = 148
       Margins.Left = 10
       Margins.Top = 10
       Margins.Right = 10
@@ -261,11 +267,13 @@ object FrameCall: TFrameCall
       ItemHeight = 13
       ParentFont = False
       TabOrder = 0
+      ExplicitWidth = 431
+      ExplicitHeight = 119
     end
     object Grid: TGridPanel
       Left = 0
-      Top = 139
-      Width = 451
+      Top = 168
+      Width = 478
       Height = 60
       Align = alClient
       BevelOuter = bvNone
@@ -298,11 +306,13 @@ object FrameCall: TFrameCall
           SizeStyle = ssAuto
         end>
       TabOrder = 1
+      ExplicitTop = 139
+      ExplicitWidth = 451
       object EditMessage: TEdit
         AlignWithMargins = True
         Left = 10
         Top = 10
-        Width = 371
+        Width = 398
         Height = 40
         Margins.Left = 10
         Margins.Top = 10
@@ -310,10 +320,11 @@ object FrameCall: TFrameCall
         Margins.Bottom = 10
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 371
         ExplicitHeight = 21
       end
       object ButtonSendMessage: TButton
-        Left = 391
+        Left = 418
         Top = 0
         Width = 60
         Height = 60
@@ -323,19 +334,21 @@ object FrameCall: TFrameCall
         ImageIndex = 6
         Images = ImageList
         TabOrder = 1
+        ExplicitLeft = 391
       end
     end
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 451
+    Width = 478
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitWidth = 451
     object ButtonCloseCall: TSpeedButton
-      Left = 413
+      Left = 440
       Top = 0
       Width = 38
       Height = 41
@@ -434,7 +447,7 @@ object FrameCall: TFrameCall
     Left = 249
     Top = 7
     Bitmap = {
-      494C01010A001800400040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A001800440040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000000010000C000000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

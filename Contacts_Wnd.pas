@@ -58,6 +58,7 @@ end;
 
 procedure TFormContactsList.ActionCloseExecute(Sender: TObject);
 begin
+  FormMainWindow.FillForm;
   Close;
 end;
 

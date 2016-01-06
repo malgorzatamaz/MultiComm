@@ -1,4 +1,4 @@
-ï»¿unit Main_Wnd;
+unit Main_Wnd;
 
 interface
 
@@ -8,7 +8,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls, Call_Frm,
   Vcl.ImgList, Login_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils, CallEstablish_Code,
-  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd, Contacts;
+  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd, Contacts, Data.DB,
+  Data.Win.ADODB;
 
 const
   cConfigFileName: String = 'phoneCfg.ini';
@@ -40,6 +41,8 @@ type
     ButtonResize: TButton;
     PanelVideo: TPanel;
     ActionResize: TAction;
+    ADOConnectionLoad: TADOConnection;
+    ADOQuery: TADOQuery;
     procedure ActionCallExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -65,6 +68,7 @@ type
     isFullSize: Boolean;
     procedure OpenCallFrm(UserName, CallerId: string);
     procedure LoadConfig();
+    procedure GetDatabaseContacts();
     function ReturnNameFromAddress(const clAddress: string): string;
   end;
 
@@ -74,6 +78,7 @@ var
   gLoginWindow: TFormLog;
   gFrameCalls: array of TFrameCall;
   gTabSheets: array of TTabSheet;
+
 
 implementation
 
@@ -95,6 +100,9 @@ begin
       ButtonResize.Caption := '>>>';
       isFullSize := True;
     end;
+
+    Left := (Screen.Width - Width) div 2;
+    Top := (Screen.Height - Height) div 2;
   end;
 end;
 
@@ -146,11 +154,41 @@ begin
   Application.Terminate;
 end;
 
+procedure TFormMainWindow.GetDatabaseContacts;
+var
+  contactsNumber: Integer;
+  i:integer;
+begin
+  SetLength(gContacts,0);
+  ADOConnectionLoad.Connected:=true;
+  ADOQuery.Active:=true;
+  i:=0;
+   while(not ADOQuery.Eof) do
+   begin
+     SetLength(gContacts, i+1);
+     gContacts[i].UserName := ADOQuery.FieldByName('Name').AsString;
+     gContacts[i].CallerId := ADOQuery.FieldByName('CallerName').AsString;
+     i:=i+1;
+     ADOQuery.Next;
+   end;
+end;
+
 procedure TFormMainWindow.ActionContactsListExecute(Sender: TObject);
 var
   lContactsListWindow: TFormContactsList;
+  i:integer;
+  cItem: TListItem;
 begin
   lContactsListWindow := TFormContactsList.Create(Self);
+  GetDatabaseContacts;
+  lContactsListWindow.ListViewContacts.SmallImages := ImageList;
+
+  for i := 0 to High(gContacts) do
+  begin
+    cItem := lContactsListWindow.ListViewContacts.Items.Add();
+    cItem.Caption := gContacts[i].CallerId;
+    cItem.ImageIndex := i + 1;
+  end;
   lContactsListWindow.Show;
 end;
 
@@ -269,9 +307,9 @@ begin
   lPhoneConfig.ListenPort := 5060;
   lPhoneConfig.RegDomain := 'iptel.org';
   lPhoneConfig.LicenseUserId :=
-    'Trial3f33-8785-FFFF-F3469758-2111-2C1A-E7DB-4FF723D0C845';
+    'Trial08c2-886A-FFFF-1F0EF5DA-797C-A3A1-1933-2B5B679B847D';
   lPhoneConfig.LicenseKey :=
-    'XNFcCTrfMnNWDmYLFgSmx9aeWZ67BZA8EvaUF4CSUkq6TsAAMquJJEtqQ3stk2iFtCA4DdRv64HcPdZOIGCb+g== ';
+    'mBzWqhu5bfJxbv49Np1McAu/eE4F2DLyZkCRvep1M8pCM2IAjuQw4nLDoGYUgahKrkBUtm2L2XQvuFP8NbiJXA==';
 
   gAbtoPhone.ApplyConfig;
 end;
@@ -288,32 +326,26 @@ begin
   gAbtoPhone.Free;
 end;
 
+
 procedure TFormMainWindow.FormCreate(Sender: TObject);
 var
   lItem: TListItem;
   i: Integer;
 begin
+
   Self.Width := 730;
   Self.Height := 530;
   isFullSize := False;
+
+  Left := (Screen.Width - Width) div 2;
+  Top := (Screen.Height - Height) div 2;
 
   gAbtoPhone := TCAbtoPhone.Create(Self);
   LoadConfig;
   gAbtoPhone.Initialize;
 
-  SetLength(gContacts, 5);
-  gContacts[0].UserName := 'mobile32';
-  gContacts[1].UserName := 'janfri';
-  gContacts[2].UserName := 'malgorzatamaz';
-  gContacts[3].UserName := 'hpereverzieva';
-  gContacts[4].UserName := 'music';
-
-  gContacts[0].CallerId := 'Grzesiek';
-  gContacts[1].CallerId := 'Janek';
-  gContacts[2].CallerId := 'Gosia';
-  gContacts[3].CallerId := 'Ania';
-  gContacts[4].CallerId := 'Muzyka';
-
+  GetDatabaseContacts;
+  ListViewContacts.Clear();
   ListViewContacts.SmallImages := ImageList;
 
   for i := 0 to High(gContacts) do
@@ -356,12 +388,12 @@ begin
 
   if gIsCallEstablish then
   begin
-    X := MessageDlg('Dzwoni ' + CallerId + ', przerwaÄ‡ poprzedniÄ… rozmowÄ™?',
+    X := MessageDlg('Dzwoni ' + CallerId + ', przerwaæ poprzedni¹ rozmowê?',
       mtConfirmation, mbYesNo, 0);
   end
   else
   begin
-    X := MessageDlg('Dzwoni ' + CallerId + ', odebraÄ‡?', mtConfirmation,
+    X := MessageDlg('Dzwoni ' + CallerId + ', odebraæ?', mtConfirmation,
       mbYesNo, 0);
   end;
 
@@ -402,10 +434,10 @@ end;
 procedure TFormMainWindow.AbtoPhone_OnRegistered(ASender: TObject;
   const Msg: WideString);
 var
-  lmessage: string;
+  lMessage: string;
 begin
-  lmessage := Msg;
-  if Pos('200', lmessage) > 0 then
+  lMessage := Msg;
+  if Pos('200', lMessage) > 0 then
   begin
     Self.Caption := 'MultiComm - Zalogowano jako ' + gAbtoPhone.Config.RegUser;
 
@@ -430,36 +462,36 @@ end;
 procedure TFormMainWindow.AbtoPhone_OnTextMessageReceived(ASender: TObject;
   const address, message: WideString);
 var
-  gExist: Boolean;
+  lExist: Boolean;
   i: Integer;
-  UserName, CallerId: string;
-  tmpFrameCall: TFrameCall;
+  lUserName, lCallerId: string;
+  lTmpFrameCall: TFrameCall;
 begin
-  gExist := false;
-  CallerId := ReturnNameFromAddress(address);
+  lExist := false;
+  lCallerId := ReturnNameFromAddress(address);
 
   for i := 0 to High(gFrameCalls) do
   begin
-    if gFrameCalls[i].UserId = CallerId then
+    if gFrameCalls[i].UserId = lCallerId then
     begin
-      gExist := True;
-      UserName := gFrameCalls[i].UserName;
-      tmpFrameCall := gFrameCalls[i];
+      lExist := True;
+      lUserName := gFrameCalls[i].UserName;
+      lTmpFrameCall := gFrameCalls[i];
     end;
   end;
 
-  if not gExist then
+  if not lExist then
   begin
-    OpenCallFrm(UserName, CallerId);
+    OpenCallFrm(lUserName, lCallerId);
     i := Length(gFrameCalls) - 1;
-    gFrameCalls[i].ShowMessage(CallerId, message);
+    gFrameCalls[i].ShowMessage(lCallerId, message);
   end
   else
   begin
-    if Assigned(tmpFrameCall) then
+    if Assigned(lTmpFrameCall) then
     begin
-      tmpFrameCall.ShowMessage(CallerId, message);
-      PageControl.ActivePageIndex := tmpFrameCall.PageIndex;
+      lTmpFrameCall.ShowMessage(lCallerId, message);
+      PageControl.ActivePageIndex := lTmpFrameCall.PageIndex;
     end;
   end;
 end;
