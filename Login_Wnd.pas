@@ -64,7 +64,7 @@ end;
 
 procedure TFormLog.FormShow(Sender: TObject);
 begin
- self.SetFocus;
+  self.SetFocus;
 end;
 
 procedure TFormLog.Load(Phone: TCAbtoPhone);

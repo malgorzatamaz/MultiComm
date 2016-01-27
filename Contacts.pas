@@ -3,13 +3,15 @@ unit Contacts;
 interface
 
 type
-TContact = record
-    Id: Integer;            //
-    Image: string;            // do  bazy
+
+TContact = record           //
+    ImageIndex: Integer;            // do  bazy
     UserName: string;
     CallerId: string;       //
     OpenPage: Integer;
   end;
+
+  TImageType = (ifUnknown, ifJPG, ifGIF, ifBMP, ifPNG, ifTIF);
 
 var
   gContacts: array of TContact;

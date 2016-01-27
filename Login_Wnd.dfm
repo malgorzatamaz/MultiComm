@@ -8,7 +8,7 @@ object FormLog: TFormLog
   Color = clWindow
   Constraints.MaxHeight = 270
   Constraints.MaxWidth = 350
-  Constraints.MinHeight = 270
+  Constraints.MinHeight = 269
   Constraints.MinWidth = 350
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
