@@ -5,7 +5,7 @@ object FormContactsList: TFormContactsList
   Caption = 'Lista kontakt'#243'w'
   ClientHeight = 393
   ClientWidth = 729
-  Color = clCream
+  Color = clMenu
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11

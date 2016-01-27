@@ -3,10 +3,10 @@ unit Call_Frm;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes,Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.ComCtrls, SIPVoipSDK_TLB, Vcl.ImgList, System.Actions,
-  Vcl.ActnList,CallEstablish_Code;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.ComCtrls, SIPVoipSDK_TLB, Vcl.ImgList, System.Actions, Vcl.ActnList,
+  CallEstablish_Code;
 
 type
   TFrameCall = class(TFrame)
@@ -40,10 +40,8 @@ type
     procedure LabelPlusClick(Sender: TObject);
     procedure TrackBarVolumeChange(Sender: TObject);
     procedure ActionMuteExecute(Sender: TObject);
-    procedure AbtoPhone_OnEstablishedCall(ASender: TObject;
-      const Msg: WideString; LineId: Integer);
-    procedure AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideString;
-      Status, LineId: Integer);
+    procedure AbtoPhone_OnEstablishedCall(ASender: TObject; const Msg: WideString; LineId: Integer);
+    procedure AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideString; Status, LineId: Integer);
     procedure ActionHangUpExecute(Sender: TObject);
     procedure ActionMuteUpdate(Sender: TObject);
     procedure EditMessageKeyPress(Sender: TObject; var Key: Char);
@@ -74,22 +72,27 @@ implementation
 
 {$R *.dfm}
 
-uses Main_Wnd;
 
-procedure TFrameCall.AbtoPhone_OnClearedCall(ASender: TObject;
-  const Msg: WideString; Status, LineId: Integer);
+uses
+  Main_Wnd;
+
+procedure TFrameCall.AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideString; Status, LineId: Integer);
 begin
   fIsCallEstablish := False;
   gIsCallEstablish := False;
+
+  ButtonCall.Visible := True;
+  ButtonHangUp.Visible := False;
 end;
 
-procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject;
-  const Msg: WideString; LineId: Integer);
+procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject; const Msg: WideString; LineId: Integer);
 begin
   fIsCallEstablish := True;
   gIsCallEstablish := True;
-end;
 
+  ButtonCall.Visible := False;
+  ButtonHangUp.Visible := True;
+end;
 
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
 begin
@@ -187,7 +190,9 @@ end;
 
 procedure TFrameCall.EditMessageKeyPress(Sender: TObject; var Key: Char);
 begin
-  if Key=#$D then  // Enter
+  if Key = #$D then  // Enter
+
+
     ActionSendMessageExecute(sender);
 end;
 
@@ -214,3 +219,4 @@ begin
 end;
 
 end.
+
