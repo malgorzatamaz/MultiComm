@@ -1,0 +1,57 @@
+unit Common_Code;
+
+interface
+
+uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, System.UITypes, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.Buttons, System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls,
+  Vcl.ImgList, Vcl.Styles,  Vcl.Imaging.pngimage, Vcl.Imaging.jpeg;
+
+
+function ScaleBmp(bitmp: TBitmap;w,h: Real): Boolean;
+
+type
+TContact = record           //
+    ImageIndex: Integer;            // do  bazy
+    UserName: string;
+    CallerId: string;       //
+    OpenPage: Integer;
+  end;
+
+  TImageType = (ifUnknown, ifJPG, ifGIF, ifBMP, ifPNG, ifTIF);
+
+var
+  gContacts: array of TContact;
+implementation
+
+function ScaleBmp(bitmp: TBitmap;w,h: Real): Boolean;
+var
+  TmpBmp: TBitmap;
+  ARect: TRect;
+  hi, wi: Integer;
+begin
+  Result := False;
+  try
+    TmpBmp := TBitmap.Create;
+    try
+      h := bitmp.Height;
+      w := bitmp.Width;
+      hi := StrToInt(FormatFloat('#', h)) + bitmp.Height;
+      wi := StrToInt(FormatFloat('#', w)) + bitmp.Width;
+      TmpBmp.Width := wi;
+      TmpBmp.Height := hi;
+      ARect := Rect(0, 0, wi, hi);
+      TmpBmp.Canvas.StretchDraw(ARect, Bitmp);
+      bitmp.Assign(TmpBmp);
+    finally
+      TmpBmp.Free;
+    end;
+    Result := True;
+  except
+    Result := False;
+  end;
+end;
+
+
+
+end.

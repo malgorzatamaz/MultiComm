@@ -8,7 +8,7 @@ object FormLog: TFormLog
   Color = clWindow
   Constraints.MaxHeight = 270
   Constraints.MaxWidth = 350
-  Constraints.MinHeight = 270
+  Constraints.MinHeight = 269
   Constraints.MinWidth = 350
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -118,7 +118,6 @@ object FormLog: TFormLog
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    Text = 'mobile32'
   end
   object EditPassword: TEdit
     AlignWithMargins = True
@@ -137,7 +136,6 @@ object FormLog: TFormLog
     ParentFont = False
     PasswordChar = '*'
     TabOrder = 1
-    Text = 'freak18'
   end
   object ActionList: TActionList
     Left = 368

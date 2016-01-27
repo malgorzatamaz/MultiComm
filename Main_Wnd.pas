@@ -1,18 +1,17 @@
 unit Main_Wnd;
-
+
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, Vcl.Graphics, System.UITypes,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls, Call_Frm,
-  Vcl.ImgList, Login_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils, CallEstablish_Code,
-  Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd, Contacts, Data.DB,
-  Data.Win.ADODB;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, System.UITypes, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.Buttons, System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls,
+  Call_Frm, Vcl.ImgList, Login_Wnd, SipVoipSDK_TLB, Contacts_Wnd, StrUtils,
+  CallEstablish_Code, Vcl.Styles, Vcl.Tabs, TypInfo, SelectMenuWnd, Settings_Wnd,
+  Common_Code, Data.DB, Data.Win.ADODB, Vcl.Imaging.pngimage, Vcl.Imaging.jpeg;
 
 const
-  cConfigFileName: String = 'phoneCfg.ini';
+  cConfigFileName: string = 'phoneCfg.ini';
 
 type
   TFormMainWindow = class(TForm)
@@ -23,7 +22,6 @@ type
     ActionChat: TAction;
     ActionSettings: TAction;
     ActionLogin: TAction;
-    ImageList: TImageList;
     ActionCloseCall: TAction;
     PanelContacts: TPanel;
     ListViewContacts: TListView;
@@ -40,9 +38,10 @@ type
     ActionClose: TAction;
     ButtonResize: TButton;
     PanelVideo: TPanel;
+    ImageList: TImageList;
     ActionResize: TAction;
-    ADOConnectionLoad: TADOConnection;
     ADOQuery: TADOQuery;
+    ADOConnectionLoad: TADOConnection;
     procedure ActionCallExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -50,14 +49,10 @@ type
     procedure ActionLoginExecute(Sender: TObject);
     procedure ActionContactsListExecute(Sender: TObject);
     procedure AbtoPhone_OnRegistered(ASender: TObject; const Msg: WideString);
-    procedure AbtoPhone_OnIncomingCall(ASender: TObject;
-      const AddrFrom: WideString; LineId: Integer);
-    procedure AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideString;
-      Status, LineId: Integer);
-    procedure AbtoPhone_OnEstablishedCall(ASender: TObject;
-      const Msg: WideString; LineId: Integer);
-    procedure AbtoPhone_OnTextMessageReceived(ASender: TObject;
-      const address: WideString; const message: WideString);
+    procedure AbtoPhone_OnIncomingCall(ASender: TObject; const AddrFrom: WideString; LineId: Integer);
+    procedure AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideString; Status, LineId: Integer);
+    procedure AbtoPhone_OnEstablishedCall(ASender: TObject; const Msg: WideString; LineId: Integer);
+    procedure AbtoPhone_OnTextMessageReceived(ASender: TObject; const address: WideString; const message: WideString);
     procedure ActionCloseExecute(Sender: TObject);
     procedure ActionResizeExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -71,6 +66,7 @@ type
     procedure LoadConfig();
     procedure GetDatabaseContacts();
     function ReturnNameFromAddress(const clAddress: string): string;
+  public
   end;
 
 var
@@ -80,10 +76,10 @@ var
   gFrameCalls: array of TFrameCall;
   gTabSheets: array of TTabSheet;
 
-
 implementation
 
 {$R *.dfm}
+
 
 procedure TFormMainWindow.ActionResizeExecute(Sender: TObject);
 begin
@@ -109,7 +105,7 @@ end;
 
 procedure TFormMainWindow.ActionCallExecute(Sender: TObject);
 var
-  i, j, index: Integer;
+  i, index: Integer;
   lUserName, lCallerId: string;
   lExist: Boolean;
 begin
@@ -122,11 +118,11 @@ begin
 
     for i := 0 to Length(gFrameCalls) do
     begin
-       if lUserName = gFrameCalls[i].UserName then
-       begin
+      if lUserName = gFrameCalls[i].UserName then
+      begin
         lExist := True;
         index := gFrameCalls[i].PageIndex;
-       end;
+      end;
     end;
 
     if not lExist then
@@ -157,32 +153,84 @@ end;
 
 procedure TFormMainWindow.GetDatabaseContacts;
 var
-  contactsNumber: Integer;
-  i:integer;
+  lContactsNumber: Integer;
+  i, lTypeValue: integer;
+  lImageType: TImageType;
+  lImage: TGraphic;
+  lBitmap: TBitmap;
+  lScale, lHeight, lWidth: Double;
+  phoneConfig: Variant;
+  lUserName: string;
 begin
-  ADOConnectionLoad.Connected:=true;
-  ADOQuery.Active:=true;
-  i:=0;
-   while(not ADOQuery.Eof) do
-   begin
-     SetLength(gContacts, i+1);
-     gContacts[i].UserName := ADOQuery.FieldByName('Name').AsString;
-     gContacts[i].CallerId := ADOQuery.FieldByName('CallerName').AsString;
-     i:=i+1;
-     ADOQuery.Next;
-   end;
+  phoneConfig := AbtoPhone.Config;
+  lUserName := phoneConfig.RegUser;
+  ADOConnectionLoad.Connected := true;
+  ADOQuery.Connection := ADOConnectionLoad;
+  ADOQuery.Active := true;
+  ADOQuery.Sql.Text := 'exec SelectContacts ''' + lUserName + '''';
+  ADOQuery.Open;
+
+  SetLength(gContacts, 0);
+  i := 0;
+  while (not ADOQuery.Eof) do
+  begin
+    SetLength(gContacts, i + 1);
+    gContacts[i].UserName := ADOQuery.FieldByName('Name').AsString;
+    gContacts[i].CallerId := ADOQuery.FieldByName('CallerName').AsString;
+    lTypeValue := Ord(ADOQuery.FieldByName('ImageType').AsInteger);
+    lImageType := TImageType(lTypeValue);
+
+    lBitmap := TBitmap.Create;
+    case lImageType of
+      ifBMP:
+        lImage := TBitmap.Create;
+      ifJPG:
+        lImage := TJPEGImage.Create;
+      ifPNG:
+        lImage := TPNGImage.Create;
+    end;
+
+    if Assigned(lImage) then
+    begin
+      lImage.Assign(ADOQuery.FieldByName('Image'));
+
+      if FormMainWindow.ImageList.Count = 0 then
+        FormMainWindow.ImageList.SetSize(100, 100);
+
+      lScale := lImage.Height / lImage.Width;
+      if lImage.Width > 100 then
+      begin
+        lWidth := (100 * lScale);
+      end
+      else
+      begin
+        lWidth := lImage.Width;
+      end;
+      if lImage.Height > 100 then
+        lHeight := 100
+      else
+        lHeight := lImage.Height;
+
+      lBitmap.Assign(lImage);
+      lBitmap.SetSize(100, 100);
+      gContacts[Length(gContacts) - 1].ImageIndex := FormMainWindow.ImageList.Add(lBitmap, nil);
+    end;
+    Inc(i);
+    ADOQuery.Next;
+  end;
 end;
 
 procedure TFormMainWindow.ActionContactsListExecute(Sender: TObject);
 var
   lContactsListWindow: TFormContactsList;
-  i:integer;
+  i: integer;
   cItem: TListItem;
 begin
   lContactsListWindow := TFormContactsList.Create(Self);
   GetDatabaseContacts;
-  lContactsListWindow.ListViewContacts.SmallImages := ImageList;
+  FillForm;
 
+  lContactsListWindow.ListViewContacts.SmallImages := ImageList;
   for i := 0 to High(gContacts) do
   begin
     cItem := lContactsListWindow.ListViewContacts.Items.Add();
@@ -210,8 +258,7 @@ begin
   Application.CreateForm(TSettingsForm, lSettingsForm);
 
   lPhoneCfg := gAbtoPhone.Config;
-  lSettingsForm.SetSettings(lPhoneCfg, gAbtoPhone.RetrieveVersion,
-    gAbtoPhone.RetrieveExternalAddress);
+  lSettingsForm.SetSettings(lPhoneCfg, gAbtoPhone.RetrieveVersion, gAbtoPhone.RetrieveExternalAddress);
 
   lSettingsForm.ShowModal;
   if lSettingsForm.ModalResult = mrOk then
@@ -267,7 +314,7 @@ function TFormMainWindow.ReturnNameFromAddress(const clAddress: string): string;
 var
   lStart, lStop: Integer;
   i: Integer;
-  lName: String;
+  lName: string;
 begin
   lStart := AnsiPos(':', clAddress);
   lStop := AnsiPos('@', clAddress);
@@ -277,7 +324,6 @@ begin
   begin
     lName := lName + clAddress[i];
   end;
-
   Result := lName;
 end;
 
@@ -288,7 +334,7 @@ begin
   if ListViewContacts.SelCount = 1 then
   begin
     i := ListViewContacts.Selected.Index;
-    OpenCallFrm(gContacts[i].UserName,gContacts[i].CallerId);
+    OpenCallFrm(gContacts[i].UserName, gContacts[i].CallerId);
   end;
 end;
 
@@ -306,18 +352,14 @@ begin
   lPhoneConfig.RemoteVideoWindow := PanelVideo.Handle;
   lPhoneConfig.ListenPort := 5060;
   lPhoneConfig.RegDomain := 'iptel.org';
-  lPhoneConfig.LicenseUserId :=
-    'Trial08c2-886A-FFFF-1F0EF5DA-797C-A3A1-1933-2B5B679B847D';
-  lPhoneConfig.LicenseKey :=
-    'mBzWqhu5bfJxbv49Np1McAu/eE4F2DLyZkCRvep1M8pCM2IAjuQw4nLDoGYUgahKrkBUtm2L2XQvuFP8NbiJXA==';
+  lPhoneConfig.LicenseUserId := 'Trial28d8-896C-FFFF-1F0EF5DA-797C-A3A1-1933-2B5B679B847D';
+  lPhoneConfig.LicenseKey := 'ml2LHApnDqhJ0DGgzPQOfhWj0nYDRw79jm6asY+/74LXL2IPDlAl1Xqzy29ynU3A3vNoJNcvXo4JSbLdXGBnSA==';
 
   gAbtoPhone.ApplyConfig;
 end;
 
 procedure TFormMainWindow.FormClose(Sender: TObject; var Action: TCloseAction);
 var
-  lTmpTabSheet: TTabSheet;
-  lTmpFrameCall: TFrameCall;
   i: Integer;
 begin
   if gIsCallEstablish then
@@ -325,7 +367,6 @@ begin
 
   gAbtoPhone.Free;
 end;
-
 
 procedure TFormMainWindow.FormCreate(Sender: TObject);
 begin
@@ -340,15 +381,11 @@ begin
   LoadConfig;
   gAbtoPhone.Initialize;
 
-  GetDatabaseContacts;
-  FillForm;
-
   gLoginWindow := TFormLog.Create(nil);
   gLoginWindow.Load(gAbtoPhone);
   Self.Enabled := false;
   gLoginWindow.FormStyle := fsStayOnTop;
   gLoginWindow.Show;
-
 end;
 
 procedure TFormMainWindow.FillForm();
@@ -362,18 +399,16 @@ begin
   begin
     lItem := ListViewContacts.Items.Add();
     lItem.Caption := gContacts[i].CallerId;
-    lItem.ImageIndex := i + 2;
- end;
+    lItem.ImageIndex := gContacts[i].ImageIndex;
+  end;
 end;
-
 
 procedure TFormMainWindow.FormResize(Sender: TObject);
 begin
   ActionResizeExecute(nil);
 end;
 
-procedure TFormMainWindow.AbtoPhone_OnIncomingCall(ASender: TObject;
-  const AddrFrom: WideString; LineId: Integer);
+procedure TFormMainWindow.AbtoPhone_OnIncomingCall(ASender: TObject; const AddrFrom: WideString; LineId: Integer);
 var
   lExist: Boolean;
   i, X: Integer;
@@ -393,13 +428,11 @@ begin
 
   if gIsCallEstablish then
   begin
-    X := MessageDlg('Dzwoni ' + CallerId + ', przerwaæ poprzedni¹ rozmowê?',
-      mtConfirmation, mbYesNo, 0);
+    X := MessageDlg('Dzwoni ' + CallerId + ', przerwaæ poprzedni¹ rozmowê?', mtConfirmation, mbYesNo, 0);
   end
   else
   begin
-    X := MessageDlg('Dzwoni ' + CallerId + ', odebraæ?', mtConfirmation,
-      mbYesNo, 0);
+    X := MessageDlg('Dzwoni ' + CallerId + ', odebraæ?', mtConfirmation, mbYesNo, 0);
   end;
 
   if X = mrYes then
@@ -427,7 +460,7 @@ begin
       end;
       gIsCallEstablish := True;
       gCallEstablishPage := PageControl.ActivePageIndex;
-      gFrameCalls[gCallEstablishPage -1].IsCallEstablish := True;
+      gFrameCalls[gCallEstablishPage - 1].IsCallEstablish := True;
 
       gAbtoPhone.AnswerCall;
     end;
@@ -436,8 +469,7 @@ begin
     gAbtoPhone.RejectCall;
 end;
 
-procedure TFormMainWindow.AbtoPhone_OnRegistered(ASender: TObject;
-  const Msg: WideString);
+procedure TFormMainWindow.AbtoPhone_OnRegistered(ASender: TObject; const Msg: WideString);
 var
   lMessage: string;
 begin
@@ -455,6 +487,9 @@ begin
       gLoginWindow := nil;
     end;
 
+    GetDatabaseContacts;
+    FillForm;
+
     Self.Enabled := True;
     Self.Activate;
   end
@@ -464,8 +499,7 @@ begin
   end;
 end;
 
-procedure TFormMainWindow.AbtoPhone_OnTextMessageReceived(ASender: TObject;
-  const address, message: WideString);
+procedure TFormMainWindow.AbtoPhone_OnTextMessageReceived(ASender: TObject; const address, message: WideString);
 var
   lExist: Boolean;
   i: Integer;
@@ -501,15 +535,21 @@ begin
   end;
 end;
 
-procedure TFormMainWindow.AbtoPhone_OnClearedCall(ASender: TObject;
-  const Msg: WideString; Status, LineId: Integer);
+procedure TFormMainWindow.AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideString; Status, LineId: Integer);
 begin
   gIsCallEstablish := false;
+
+  Self.Width := 730;
+  ButtonResize.Caption := '>>>';
+  isFullSize := True;
+  Left := (Screen.Width - Width) div 2;
+  Top := (Screen.Height - Height) div 2;
 end;
 
-procedure TFormMainWindow.AbtoPhone_OnEstablishedCall(ASender: TObject;
-  const Msg: WideString; LineId: Integer);
+procedure TFormMainWindow.AbtoPhone_OnEstablishedCall(ASender: TObject; const Msg: WideString; LineId: Integer);
 begin
   gIsCallEstablish := True;
 end;
 end.
+
+
