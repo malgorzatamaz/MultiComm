@@ -2,7 +2,7 @@ object AddEditForm: TAddEditForm
   Left = 0
   Top = 0
   Caption = 'AddEditForm'
-  ClientHeight = 241
+  ClientHeight = 242
   ClientWidth = 454
   Color = clBtnFace
   Constraints.MaxHeight = 280
@@ -22,7 +22,7 @@ object AddEditForm: TAddEditForm
     Left = 5
     Top = 3
     Width = 444
-    Height = 152
+    Height = 174
     Margins.Left = 5
     Margins.Right = 5
     Margins.Bottom = 5
@@ -85,7 +85,7 @@ object AddEditForm: TAddEditForm
     TabOrder = 0
     DesignSize = (
       444
-      152)
+      174)
     object EditUserName: TEdit
       Left = 11
       Top = 14
@@ -128,6 +128,7 @@ object AddEditForm: TAddEditForm
       Width = 200
       Height = 21
       Anchors = []
+      ReadOnly = True
       TabOrder = 2
     end
     object ButtonSelectImage: TSpeedButton
@@ -149,9 +150,9 @@ object AddEditForm: TAddEditForm
   end
   object Panel1: TPanel
     Left = 0
-    Top = 192
+    Top = 182
     Width = 454
-    Height = 49
+    Height = 60
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
@@ -160,7 +161,7 @@ object AddEditForm: TAddEditForm
       Left = 5
       Top = 5
       Width = 220
-      Height = 39
+      Height = 50
       Margins.Left = 5
       Margins.Top = 5
       Margins.Right = 5
@@ -177,27 +178,26 @@ object AddEditForm: TAddEditForm
       Left = 229
       Top = 5
       Width = 220
-      Height = 39
+      Height = 50
       Margins.Left = 5
       Margins.Top = 5
       Margins.Right = 5
       Margins.Bottom = 5
       Action = ActionAdd
       Align = alRight
+      Caption = 'Zapisz'
       ExplicitLeft = 241
       ExplicitHeight = 0
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 160
+    Top = 182
     Width = 454
-    Height = 32
+    Height = 0
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitTop = 163
-    ExplicitHeight = 26
   end
   object ActionListAddEdit: TActionList
     Left = 213
@@ -222,8 +222,8 @@ object AddEditForm: TAddEditForm
   object ADOConnection: TADOConnection
     ConnectionString = 
       'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
-      'fo=False;Initial Catalog=Contacts;Data Source=DESKTOP-736GSHR\SE' +
-      'RVER'
+      'fo=False;Initial Catalog=Contacts;Data Source=notebook15\SQLEXPR' +
+      'ESS'
     Provider = 'SQLOLEDB.1'
     Left = 373
     Top = 155

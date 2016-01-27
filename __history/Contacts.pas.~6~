@@ -1,0 +1,16 @@
+unit Contacts;
+
+interface
+
+type
+TContact = record
+    ImageIndex: string;
+    UserName: string;
+    CallerId: string;
+  end;
+
+var
+  gContacts: array of TContact;
+implementation
+
+end.

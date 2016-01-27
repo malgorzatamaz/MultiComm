@@ -99,10 +99,6 @@
             <Form>FormMainWindow</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Settings_Wnd_OLD.pas">
-            <Form>FormSettings</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="Contacts_Wnd.pas">
             <Form>FormContactsList</Form>
             <FormType>dfm</FormType>
@@ -114,7 +110,7 @@
             <Form>AddEditForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="Contacts.pas"/>
+        <DCCReference Include="Common_Code.pas"/>
         <DCCReference Include="CallEstablish_Code.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

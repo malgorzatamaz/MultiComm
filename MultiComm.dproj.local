@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\Add_Edit_Wnd.dfm=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.824,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.523,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas=C:\Users\malgo\Documents\GitHub\MultiComm\CallEstablish_Code.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.955,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.808,C:\Users\malgo\Documents\GitHub\MultiComm\Contacts.pas=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\Add_Edit_Wnd.pas=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.824,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.592,C:\Users\malgo\Documents\GitHub\MultiComm\Chat_Frm.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.523,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.955,=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.146,C:\Users\malgo\Documents\GitHub\MultiComm\Add_Edit_Wnd.dfm=C:\Users\malgo\Documents\GitHub\MultiComm\Unit1.dfm</Transaction>
+    <Transaction>2016-01-27 09:13:50.217,C:\Users\next\Downloads\MultiComm-develop\MultiComm-develop\Common_Code.pas=C:\Users\next\Downloads\MultiComm-develop\MultiComm-develop\Contacts.pas</Transaction>
+    <Transaction>2016-01-27 09:23:07.825,C:\Users\next\Downloads\MultiComm-develop\MultiComm-develop\Settings_Wnd_OLD.pas=</Transaction>
   </Transactions>
 </BorlandProject>

@@ -93,20 +93,26 @@ end;
 
 procedure TFrameCall.ActionCallExecute(Sender: TObject);
 begin
-  AbtoPhone.StartCall(UserName + '@iptel.org');
-  fIsCallEstablish := True;
-  ButtonCall.Visible := False;
-  ButtonHangUp.Visible := True;
-  gIsCallEstablish := True;
+  if not gIsCallEstablish then
+  begin
+    AbtoPhone.StartCall(UserName + '@iptel.org');
+    fIsCallEstablish := True;
+    ButtonCall.Visible := False;
+    ButtonHangUp.Visible := True;
+    gIsCallEstablish := True;
+  end;
 end;
 
 procedure TFrameCall.ActionHangUpExecute(Sender: TObject);
 begin
-  AbtoPhone.HangUpLastCall;
-  fIsCallEstablish := False;
-  ButtonCall.Visible := True;
-  ButtonHangUp.Visible := False;
-  gIsCallEstablish := False;
+  if gIsCallEstablish then
+  begin
+    AbtoPhone.HangUpLastCall;
+    fIsCallEstablish := False;
+    ButtonCall.Visible := True;
+    ButtonHangUp.Visible := False;
+    gIsCallEstablish := False;
+  end;
 end;
 
 procedure TFrameCall.ActionMuteExecute(Sender: TObject);
