@@ -27,6 +27,7 @@ type
     procedure ActionAddExecute(Sender: TObject);
     procedure ActionEditExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
 
@@ -76,7 +77,6 @@ begin
     FormMainWindow.ADOConnectionLoad.Connected := true;
     with FormMainWindow.ADOQuery do
     begin
-      Close;
       Sql.Clear;
       Sql.Add('exec DeleteContact  ' + gContacts[index].UserName);
       number := ExecSql;
@@ -136,6 +136,12 @@ end;
 procedure TFormContactsList.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Free;
+end;
+
+procedure TFormContactsList.FormCreate(Sender: TObject);
+begin
+  Left:=(Screen.Width-Width)  div 2;
+  Top:=(Screen.Height-Height) div 2;
 end;
 
 end.

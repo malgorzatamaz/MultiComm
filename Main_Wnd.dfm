@@ -221,8 +221,7 @@ object FormMainWindow: TFormMainWindow
   object ADOConnectionLoad: TADOConnection
     ConnectionString = 
       'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
-      'fo=False;User ID=sa;Initial Catalog=Contacts;Data Source=noteboo' +
-      'k15\SQLEXPRESS'
+      'fo=False;User ID=sa;Initial Catalog=Contacts;Data Source=BESTIA'
     Provider = 'SQLOLEDB.1'
     Left = 359
     Top = 143

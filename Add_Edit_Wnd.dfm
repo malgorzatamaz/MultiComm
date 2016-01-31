@@ -2,7 +2,7 @@ object AddEditForm: TAddEditForm
   Left = 0
   Top = 0
   Caption = 'AddEditForm'
-  ClientHeight = 242
+  ClientHeight = 241
   ClientWidth = 454
   Color = clBtnFace
   Constraints.MaxHeight = 280
@@ -15,6 +15,7 @@ object AddEditForm: TAddEditForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object GridPanel1: TGridPanel
@@ -150,7 +151,7 @@ object AddEditForm: TAddEditForm
   end
   object Panel1: TPanel
     Left = 0
-    Top = 182
+    Top = 181
     Width = 454
     Height = 60
     Align = alBottom
@@ -222,8 +223,7 @@ object AddEditForm: TAddEditForm
   object ADOConnection: TADOConnection
     ConnectionString = 
       'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
-      'fo=False;Initial Catalog=Contacts;Data Source=notebook15\SQLEXPR' +
-      'ESS'
+      'fo=False;Initial Catalog=Contacts;Data Source=BESTIA'
     Provider = 'SQLOLEDB.1'
     Left = 373
     Top = 155
