@@ -34,6 +34,7 @@ type
     procedure ActionAddExecute(Sender: TObject);
     procedure ActionEditExecute(Sender: TObject);
     function GetImageType(FileName: string): TImageType;
+    procedure FormCreate(Sender: TObject);
   public
     gAdd: Boolean;
     gCurrentItem: integer;
@@ -55,15 +56,13 @@ implementation
 
 {$R *.dfm}
 
-
 procedure TAddEditForm.ActionAddExecute(Sender: TObject);
 var
   number: integer;
-  cItem: TListItem;
+  lItem: TListItem;
   lImage: TGraphic;
   lType: TImageType;
   lBitmap: TBitmap;
-  lScale, lHeight, lWidth: Real;
   phoneConfig: Variant;
 begin
   phoneConfig := gAbtoPhone.Config;
@@ -72,7 +71,17 @@ begin
     ADOConnection.Connected := True;
     if (EditImage.Text <> '') then
     begin
+<<<<<<< HEAD
       lBitmap := TBitmap.Create;
+=======
+      if EditImage.Text = '' then
+      begin
+        EditImage.Text := ExtractFilePath(Application.ExeName) + 'Images\anonim.png';
+      end;
+
+      ADOConnection.Connected := True;
+
+>>>>>>> origin/develop
       lType := GetImageType(EditImage.Text);
       case lType of
         ifBMP:
@@ -85,6 +94,7 @@ begin
       lImage.LoadFromFile(EditImage.Text);
     end;
 
+<<<<<<< HEAD
     with ADOQuery do
     begin
       Sql.Clear;
@@ -98,36 +108,59 @@ begin
       if number < 0 then
       begin
         ShowMessage('U¿ytkownik ju¿ istnieje!');
+=======
+      lImage.LoadFromFile(EditImage.Text);
+
+      with ADOQuery do
+      begin
+        Close;
+        Sql.Clear;
+        Sql.Text := 'exec AddContact :userName, :callerId, :type, :image, :username';
+        Parameters[0].Value := EditUserName.Text;
+        Parameters[1].Value := EditCallerId.Text;
+        Parameters[2].Value := lType;
+        Parameters[3].Assign(lImage);
+        Parameters[4].Value := phoneConfig.RegUser;
+
+        number := ExecSql;
+
+        if (number < 0) then
+        begin
+          ShowMessage('U¿ytkownik ju¿ istnieje!');
+        end;
+>>>>>>> origin/develop
       end;
     end;
   end;
 
+<<<<<<< HEAD
   if (number > 0) then
   begin
     cItem := ParentForm.ListViewContacts.Items.Add();
+=======
+    lItem := ParentForm.ListViewContacts.Items.Add();
+    lItem.Caption := EditCallerId.Text;
+
+>>>>>>> origin/develop
     SetLength(gContacts, Length(gContacts) + 1);
-    gContacts[Length(gContacts) - 1].UserName := EditUserName.Text;
-    gContacts[Length(gContacts) - 1].CallerId := EditCallerId.Text;
-    cItem.Caption := EditCallerId.Text;
+    gContacts[High(gContacts)].UserName := EditUserName.Text;
+    gContacts[High(gContacts)].CallerId := EditCallerId.Text;
 
     if Assigned(lImage) then
     begin
       FormMainWindow.ImageList.SetSize(100, 100);
 
-      lScale := lImage.Height / lImage.Width;
-      if lImage.Width > 100 then
-      begin
-        lWidth := (100 * lScale);
-      end
-      else
-      begin
-        lWidth := lImage.Width;
+      lBitmap := TBitmap.Create;
+      try
+        lBitmap.Assign(lImage);
+        ResizeBitmap(lBitmap, 100, 100);
+        lBitmap.SetSize(100, 100);
+        FormMainWindow.ImageList.Add(lBitmap, nil);
+      finally
+        lBitmap.Free;
       end;
-      if lImage.Height > 100 then
-        lHeight := 100
-      else
-        lHeight := lImage.Height;
 
+<<<<<<< HEAD
       lBitmap.Assign(lImage);
       lBitmap.SetSize(100, 100);
       FormMainWindow.ImageList.Add(lBitmap, nil);
@@ -135,9 +168,17 @@ begin
       gContacts[Length(gContacts) - 1].ImageIndex := cItem.ImageIndex;
     end;
 
+=======
+      lItem.ImageIndex := FormMainWindow.ImageList.Count - 1;
+      gContacts[Length(gContacts) - 1].ImageIndex := lItem.ImageIndex;
+    end;
+
+  except
+    ShowMessage('Nieoczekiwany wyj¹tek przy dodwaniu u¿ytkowanika.');
+>>>>>>> origin/develop
   end;
+
   lImage.Free;
-  lBitmap.Free;
   Close;
   Free;
 end;
@@ -150,35 +191,20 @@ end;
 
 procedure TAddEditForm.ActionEditExecute(Sender: TObject);
 var
-  number: integer;
   cItem: TListItem;
   lImage: TGraphic;
-  lField: TField;
-  lStream: TStream;
   lType: TImageType;
   lBitmap: TBitmap;
-  vGraphicClass: TGraphicClass;
-  lScale, lHeight, lWidth: Real;
 begin
-  if ((EditUserName.Text <> '') and (EditCallerId.Text <> '')) then
-  begin
-    ADOConnection.Connected := True;
-    if (EditImage.Text <> '') then
+  try
+    if ((EditUserName.Text <> '') and (EditCallerId.Text <> '')) then
     begin
-      lBitmap := TBitmap.Create;
-      lType := GetImageType(EditImage.Text);
-      case lType of
-        ifBMP:
-          lImage := TBitmap.Create;
-        ifJPG:
-          lImage := TJPEGImage.Create;
-        ifPNG:
-          lImage := TPNGImage.Create;
+      if EditImage.Text = '' then
+      begin
+        EditImage.Text := ExtractFilePath(Application.ExeName) + 'Images\anonim.png';
       end;
-      lImage.LoadFromFile(EditImage.Text);
-    end;
-  end;
 
+<<<<<<< HEAD
   with ADOQuery do
   begin
     Sql.Clear;
@@ -189,18 +215,46 @@ begin
     Parameters[3].Assign(lImage);
     ExecSql;
   end;
+=======
+      ADOConnection.Connected := True;
+      if (EditImage.Text <> '') then
+      begin
+        lBitmap := TBitmap.Create;
+        lType := GetImageType(EditImage.Text);
+        case lType of
+          ifBMP:
+            lImage := TBitmap.Create;
+          ifJPG:
+            lImage := TJPEGImage.Create;
+          ifPNG:
+            lImage := TPNGImage.Create;
+        end;
+        lImage.LoadFromFile(EditImage.Text);
+      end;
+>>>>>>> origin/develop
 
-  if Assigned(lImage) then
-  begin
-    lScale := lImage.Height / lImage.Width;
-    if lImage.Width > 100 then
-    begin
-      lWidth := (100 * lScale);
-    end
-    else
-    begin
-      lWidth := lImage.Width;
+      with ADOQuery do
+      begin
+        Close;
+        Sql.Clear;
+        Sql.Text := 'exec UpdateContact :userName, :callerId, :type, :image';
+        Parameters[0].Value := EditUserName.Text;
+        Parameters[1].Value := EditCallerId.Text;
+        Parameters[2].Value := lType;
+        Parameters[3].Assign(lImage);
+
+        ExecSql;
+      end;
     end;
+
+    if Assigned(lImage) then
+    begin
+      lBitmap.Assign(lImage);
+      ResizeBitmap(lBitmap, 100, 100);
+      lBitmap.SetSize(100, 100);
+      FormMainWindow.ImageList.Replace(gContacts[gCurrentItem].ImageIndex, lBitmap, nil);
+    end;
+<<<<<<< HEAD
     if lImage.Height > 100 then
       lHeight := 100
     else
@@ -209,13 +263,18 @@ begin
     lBitmap.Assign(lImage);
     lBitmap.SetSize(100, 100);
     FormMainWindow.ImageList.Replace(gContacts[gCurrentItem].ImageIndex, lBitmap, nil);
+=======
+
+    cItem := ParentForm.ListViewContacts.Items[gCurrentItem];
+    cItem.Caption := EditCallerId.Text;
+    lImage.Free;
+    lBitmap.Free;
+    Close;
+    Free;
+  finally
+    ShowMessage('Problem przy zapisywaniu kontaktu')
+>>>>>>> origin/develop
   end;
-  cItem := ParentForm.ListViewContacts.Items[gCurrentItem];
-  cItem.Caption := EditCallerId.Text;
-  lImage.Free;
-  lBitmap.Free;
-  Close;
-  Free;
 end;
 
 procedure TAddEditForm.ActionSelectImageExecute(Sender: TObject);
@@ -233,6 +292,12 @@ begin
     EditImage.Text := openDialog.Files[0];
 
   openDialog.Free;
+end;
+
+procedure TAddEditForm.FormCreate(Sender: TObject);
+begin
+  Left := (Screen.Width - Width) div 2;
+  Top := (Screen.Height - Height) div 2;
 end;
 
 function TAddEditForm.GetImageType(FileName: string): TImageType;

@@ -80,7 +80,6 @@ implementation
 
 {$R *.dfm}
 
-
 procedure TFormMainWindow.ActionResizeExecute(Sender: TObject);
 begin
   if gIsCallEstablish then
@@ -156,18 +155,18 @@ end;
 
 procedure TFormMainWindow.GetDatabaseContacts;
 var
-  lContactsNumber: Integer;
   i, lTypeValue: integer;
   lImageType: TImageType;
   lImage: TGraphic;
   lBitmap: TBitmap;
-  lScale, lHeight, lWidth: Double;
   phoneConfig: Variant;
   lUserName: string;
 begin
   phoneConfig := AbtoPhone.Config;
   lUserName := phoneConfig.RegUser;
+
   ADOConnectionLoad.Connected := true;
+
   ADOQuery.Connection := ADOConnectionLoad;
   ADOQuery.Active := true;
   ADOQuery.Sql.Text := 'exec SelectContacts ''' + lUserName + '''';
@@ -200,21 +199,8 @@ begin
       if FormMainWindow.ImageList.Count = 0 then
         FormMainWindow.ImageList.SetSize(100, 100);
 
-      lScale := lImage.Height / lImage.Width;
-      if lImage.Width > 100 then
-      begin
-        lWidth := (100 * lScale);
-      end
-      else
-      begin
-        lWidth := lImage.Width;
-      end;
-      if lImage.Height > 100 then
-        lHeight := 100
-      else
-        lHeight := lImage.Height;
-
       lBitmap.Assign(lImage);
+      ResizeBitmap(lBitmap, 100, 100);
       lBitmap.SetSize(100, 100);
       gContacts[Length(gContacts) - 1].ImageIndex := FormMainWindow.ImageList.Add(lBitmap, nil);
     end;
@@ -230,6 +216,12 @@ var
   i: integer;
   cItem: TListItem;
 begin
+<<<<<<< HEAD
+=======
+  GetDatabaseContacts;
+  FillForm;
+
+>>>>>>> origin/develop
   lContactsListWindow := TFormContactsList.Create(Self);
   lContactsListWindow.ListViewContacts.SmallImages := ImageList;
   FillForm;
@@ -362,8 +354,6 @@ begin
 end;
 
 procedure TFormMainWindow.FormClose(Sender: TObject; var Action: TCloseAction);
-var
-  i: Integer;
 begin
   if gIsCallEstablish then
     gAbtoPhone.HangUpLastCall;
@@ -553,6 +543,7 @@ procedure TFormMainWindow.AbtoPhone_OnEstablishedCall(ASender: TObject; const Ms
 begin
   gIsCallEstablish := True;
 end;
+
 end.
 
 

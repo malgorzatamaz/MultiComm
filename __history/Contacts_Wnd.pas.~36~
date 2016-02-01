@@ -1,12 +1,20 @@
 unit Contacts_Wnd;
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> origin/develop
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+<<<<<<< HEAD
   Vcl.Buttons, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ImgList,
   Common_Code;
+=======
+  Vcl.Buttons, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ImgList, Common_Code;
+>>>>>>> origin/develop
 
 type
   TFormContactsList = class(TForm)
@@ -28,6 +36,7 @@ type
     procedure ActionAddExecute(Sender: TObject);
     procedure ActionEditExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
+<<<<<<< HEAD
   private
     { Private declarations }
 
@@ -36,6 +45,15 @@ type
     { Public declarations }
 
 
+=======
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+
+  public
+    { Public declarations }
+
+>>>>>>> origin/develop
   end;
 
 implementation
@@ -52,8 +70,13 @@ begin
   AddEditWnd.ParentForm := self;
   with AddEditWnd do
   begin
+<<<<<<< HEAD
     BtnSave.Action := ActionAdd;
     BtnSave.Caption := 'Zapisz';
+=======
+    BtnSave.Action := ActionAdd; //ActionListAddEdit.Actions[0]
+    BtnSave.Caption := 'Zapisz';
+>>>>>>> origin/develop
     gAdd := True;
   end;
   AddEditWnd.Caption := 'Dodaj u¿ytkownika';
@@ -79,6 +102,10 @@ begin
     FormMainWindow.ADOConnectionLoad.Connected := true;
     with FormMainWindow.ADOQuery do
     begin
+<<<<<<< HEAD
+=======
+      Close;
+>>>>>>> origin/develop
       Sql.Clear;
       Sql.Add('exec DeleteContact  ' + gContacts[index].UserName);
       number := ExecSql;
@@ -87,6 +114,7 @@ begin
         ShowMessage('U¿ytkownik zosta³ usuniêty!');
       end;
     end;
+<<<<<<< HEAD
 
     for i := index to Length(gContacts) - 1 do
     begin
@@ -94,12 +122,24 @@ begin
     end;
     SetLength(gContacts, Length(gContacts) - 1);
 
+=======
+    for i := index to Length(gContacts) - 1 do
+    begin
+      gContacts[index] := gContacts[index + 1];
+    end;
+
+    SetLength(gContacts, Length(gContacts) - 1);
+>>>>>>> origin/develop
     ListViewContacts.Clear;
     for i := 0 to High(gContacts) do
     begin
       cItem := ListViewContacts.Items.Add();
       cItem.Caption := gContacts[i].CallerId;
+<<<<<<< HEAD
       cItem.ImageIndex := gContacts[i].ImageIndex;
+=======
+      cItem.ImageIndex := 0;
+>>>>>>> origin/develop
     end;
   end;
 end;
@@ -117,7 +157,12 @@ begin
 
     with AddEditWnd do
     begin
+<<<<<<< HEAD
       BtnSave.Action := ActionEdit;
+=======
+      BtnSave.Action := ActionEdit; //ActionListAddEdit.Actions[1];
+
+>>>>>>> origin/develop
       BtnSave.Caption := 'Zapisz';
       gAdd := false;
       gCurrentItem := lIndex;
@@ -140,6 +185,17 @@ begin
   Free;
 end;
 
+<<<<<<< HEAD
 end.
 
-
+
+=======
+procedure TFormContactsList.FormCreate(Sender: TObject);
+begin
+  Left:=(Screen.Width-Width)  div 2;
+  Top:=(Screen.Height-Height) div 2;
+end;
+
+end.
+
+>>>>>>> origin/develop

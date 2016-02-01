@@ -13,6 +13,7 @@ object FormContactsList: TFormContactsList
   Font.Style = []
   OldCreateOrder = False
   OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object pnl2: TPanel
@@ -58,6 +59,8 @@ object FormContactsList: TFormContactsList
         Action = ActionEdit
         Align = alLeft
         Caption = 'Edytuj'
+        ExplicitLeft = 64
+        ExplicitTop = 32
       end
       object ButtonAdd: TSpeedButton
         AlignWithMargins = True
@@ -72,6 +75,8 @@ object FormContactsList: TFormContactsList
         Action = ActionAdd
         Align = alLeft
         Caption = 'Dodaj'
+        ExplicitLeft = -75
+        ExplicitTop = 16
       end
       object ButtonDelete: TSpeedButton
         Left = 315
@@ -82,6 +87,8 @@ object FormContactsList: TFormContactsList
         Action = ActionDelete
         Align = alLeft
         Caption = 'Usu'#324
+        ExplicitLeft = 459
+        ExplicitTop = 24
       end
     end
     object ListViewContacts: TListView
@@ -103,8 +110,8 @@ object FormContactsList: TFormContactsList
     end
   end
   object ActionListContacts: TActionList
-    Left = 464
-    Top = 112
+    Left = 160
+    Top = 64
     object ActionAdd: TAction
       Caption = 'ActionAdd'
       OnExecute = ActionAddExecute

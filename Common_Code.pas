@@ -7,8 +7,7 @@ uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.C
   Vcl.ExtCtrls, Vcl.Buttons, System.Actions, Vcl.ActnList, Vcl.Menus, Vcl.ComCtrls,
   Vcl.ImgList, Vcl.Styles,  Vcl.Imaging.pngimage, Vcl.Imaging.jpeg;
 
-
-function ScaleBmp(bitmp: TBitmap;w,h: Real): Boolean;
+procedure ResizeBitmap(Bitmap: TBitmap; const pNewWidth, pNewHeight: integer);
 
 type
 TContact = record           //
@@ -25,32 +24,12 @@ var
 
 implementation
 
-function ScaleBmp(bitmp: TBitmap;w,h: Real): Boolean;
-var
-  TmpBmp: TBitmap;
-  ARect: TRect;
-  hi, wi: Integer;
+procedure ResizeBitmap(Bitmap: TBitmap; const pNewWidth, pNewHeight: integer);
 begin
-  Result := False;
-  try
-    TmpBmp := TBitmap.Create;
-    try
-      h := bitmp.Height;
-      w := bitmp.Width;
-      hi := StrToInt(FormatFloat('#', h)) + bitmp.Height;
-      wi := StrToInt(FormatFloat('#', w)) + bitmp.Width;
-      TmpBmp.Width := wi;
-      TmpBmp.Height := hi;
-      ARect := Rect(0, 0, wi, hi);
-      TmpBmp.Canvas.StretchDraw(ARect, Bitmp);
-      bitmp.Assign(TmpBmp);
-    finally
-      TmpBmp.Free;
-    end;
-    Result := True;
-  except
-    Result := False;
-  end;
+  Bitmap.Canvas.StretchDraw(
+    Rect(0, 0, pNewWidth, pNewHeight),
+    Bitmap);
+  Bitmap.SetSize(pNewWidth, pNewHeight);
 end;
 
 
