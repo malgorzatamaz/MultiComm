@@ -108,8 +108,8 @@ object FrameCall: TFrameCall
         Font.Style = []
         ParentFont = False
         OnClick = LabelMinusClick
-        ExplicitWidth = 17
-        ExplicitHeight = 56
+        ExplicitLeft = 117
+        ExplicitTop = 6
       end
       object TrackBarVolume: TTrackBar
         AlignWithMargins = True
@@ -238,6 +238,8 @@ object FrameCall: TFrameCall
         SizeStyle = ssAuto
       end>
     TabOrder = 1
+    ExplicitTop = 249
+    ExplicitHeight = 239
     object ListBoxMessages: TListBox
       AlignWithMargins = True
       Left = 10
@@ -325,14 +327,17 @@ object FrameCall: TFrameCall
       end
     end
   end
-  object Panel1: TPanel
+  object pnl1: TPanel
     Left = 0
     Top = 0
     Width = 451
     Height = 41
     Align = alTop
     BevelOuter = bvNone
+    ParentBackground = False
     TabOrder = 2
+    ExplicitLeft = -24
+    ExplicitTop = -15
     object ButtonCloseCall: TSpeedButton
       Left = 413
       Top = 0
@@ -410,19 +415,6 @@ object FrameCall: TFrameCall
         1715131212111111100F0F0F0F0F0F0F101112151B2B43434343}
       ExplicitLeft = 504
     end
-    object LabelName: TLabel
-      AlignWithMargins = True
-      Left = 10
-      Top = 10
-      Width = 52
-      Height = 21
-      Margins.Left = 10
-      Margins.Top = 10
-      Margins.Bottom = 10
-      Align = alLeft
-      Caption = 'LabelName'
-      ExplicitTop = 7
-    end
   end
   object ImageList: TImageList
     ColorDepth = cd32Bit
@@ -433,7 +425,7 @@ object FrameCall: TFrameCall
     Left = 249
     Top = 7
     Bitmap = {
-      494C01010A0018004C0040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A001800500040004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000000010000C000000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

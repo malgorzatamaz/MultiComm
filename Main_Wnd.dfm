@@ -1,6 +1,7 @@
 object FormMainWindow: TFormMainWindow
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'MultiComm'
   ClientHeight = 559
@@ -8,6 +9,7 @@ object FormMainWindow: TFormMainWindow
   Color = clMenu
   Constraints.MinHeight = 530
   Constraints.MinWidth = 730
+  DefaultMonitor = dmMainForm
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -13
@@ -15,7 +17,7 @@ object FormMainWindow: TFormMainWindow
   Font.Style = []
   Menu = MainMenu
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poMainFormCenter
   Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
@@ -26,7 +28,7 @@ object FormMainWindow: TFormMainWindow
     AlignWithMargins = True
     Left = 3
     Top = 3
-    Width = 722
+    Width = 715
     Height = 553
     ActivePage = TabSheetContatcs
     Align = alLeft
@@ -60,7 +62,7 @@ object FormMainWindow: TFormMainWindow
       object PanelContacts: TPanel
         Left = 0
         Top = 0
-        Width = 714
+        Width = 707
         Height = 522
         Align = alClient
         BevelOuter = bvNone
@@ -78,7 +80,7 @@ object FormMainWindow: TFormMainWindow
           AlignWithMargins = True
           Left = 3
           Top = 3
-          Width = 708
+          Width = 701
           Height = 516
           Align = alClient
           BevelEdges = []
@@ -120,9 +122,9 @@ object FormMainWindow: TFormMainWindow
   end
   object PanelVideo: TPanel
     AlignWithMargins = True
-    Left = 748
+    Left = 741
     Top = 20
-    Width = 556
+    Width = 563
     Height = 509
     Margins.Left = 20
     Margins.Top = 20
@@ -220,8 +222,9 @@ object FormMainWindow: TFormMainWindow
   end
   object ADOConnectionLoad: TADOConnection
     ConnectionString = 
-      'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
-      'fo=False;User ID=sa;Initial Catalog=Contacts;Data Source=BESTIA'
+      'Provider=SQLOLEDB.1;Password=Pqbvcnc11;Persist Security Info=Tru' +
+      'e;User ID=sa;Initial Catalog=Contacts;Data Source=NOTEBOOK15\SQL' +
+      'EXPRESS'
     Provider = 'SQLOLEDB.1'
     Left = 359
     Top = 143

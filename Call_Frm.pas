@@ -30,10 +30,9 @@ type
     ActionHangUp: TAction;
     Grid: TGridPanel;
     EditMessage: TEdit;
-    Panel1: TPanel;
-    ButtonCloseCall: TSpeedButton;
     ButtonSendMessage: TButton;
-    LabelName: TLabel;
+    pnl1: TPanel;
+    ButtonCloseCall: TSpeedButton;
     procedure ActionSendMessageExecute(Sender: TObject);
     procedure ActionCallExecute(Sender: TObject);
     procedure LabelMinusClick(Sender: TObject);
@@ -71,7 +70,6 @@ var
 implementation
 
 {$R *.dfm}
-
 
 uses
   Main_Wnd;
@@ -183,12 +181,11 @@ begin
   ButtonSendMessage.Caption := '';
   TrackBarVolume.Position := 5;
   ButtonCloseCall.Caption := '';
-  LabelName.Caption := UserId;
 end;
 
 procedure TFrameCall.EditMessageKeyPress(Sender: TObject; var Key: Char);
 begin
-  if Key = #$D then  // Enter
+  if Key = #$D then
     ActionSendMessageExecute(sender);
 end;
 

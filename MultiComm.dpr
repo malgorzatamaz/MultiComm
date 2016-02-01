@@ -19,7 +19,6 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  TStyleManager.TrySetStyle('Iceberg Classico');
   Application.CreateForm(TFormMainWindow, FormMainWindow);
   Application.CreateForm(TAddEditForm, AddEditForm);
   Application.Run;

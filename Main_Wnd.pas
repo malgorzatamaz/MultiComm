@@ -64,9 +64,9 @@ type
     isFullSize: Boolean;
     procedure OpenCallFrm(UserName, CallerId: string);
     procedure LoadConfig();
-    procedure GetDatabaseContacts();
     function ReturnNameFromAddress(const clAddress: string): string;
   public
+    procedure GetDatabaseContacts();
   end;
 
 var
@@ -164,14 +164,12 @@ var
 begin
   phoneConfig := AbtoPhone.Config;
   lUserName := phoneConfig.RegUser;
-
-  ADOConnectionLoad.Connected := true;
-
   ADOQuery.Connection := ADOConnectionLoad;
+  ADOConnectionLoad.Connected := true;
   ADOQuery.Active := true;
   ADOQuery.Sql.Text := 'exec SelectContacts ''' + lUserName + '''';
   ADOQuery.Open;
-
+  try
   SetLength(gContacts, 0);
   i := 0;
   while (not ADOQuery.Eof) do
@@ -182,7 +180,6 @@ begin
     lTypeValue := Ord(ADOQuery.FieldByName('ImageType').AsInteger);
     lImageType := TImageType(lTypeValue);
 
-    lBitmap := TBitmap.Create;
     case lImageType of
       ifBMP:
         lImage := TBitmap.Create;
@@ -199,13 +196,20 @@ begin
       if FormMainWindow.ImageList.Count = 0 then
         FormMainWindow.ImageList.SetSize(100, 100);
 
-      lBitmap.Assign(lImage);
-      ResizeBitmap(lBitmap, 100, 100);
-      lBitmap.SetSize(100, 100);
-      gContacts[Length(gContacts) - 1].ImageIndex := FormMainWindow.ImageList.Add(lBitmap, nil);
+      lBitmap := TBitmap.Create;
+      try
+        lBitmap.Assign(lImage);
+        ResizeBitmap(lBitmap, 100, 100);
+        gContacts[Length(gContacts) - 1].ImageIndex := FormMainWindow.ImageList.Add(lBitmap, nil);
+      finally
+        FreeAndNil(lBitmap);
+      end;
+
     end;
     Inc(i);
     ADOQuery.Next;
+  end;
+  finally
     ADOQuery.Close;
   end;
 end;
@@ -216,12 +220,9 @@ var
   i: integer;
   cItem: TListItem;
 begin
-<<<<<<< HEAD
-=======
   GetDatabaseContacts;
   FillForm;
 
->>>>>>> origin/develop
   lContactsListWindow := TFormContactsList.Create(Self);
   lContactsListWindow.ListViewContacts.SmallImages := ImageList;
   FillForm;

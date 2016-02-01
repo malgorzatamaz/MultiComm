@@ -29,13 +29,6 @@ type
     procedure ActionEditExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-  private
-    { Private declarations }
-
-
-  public
-    { Public declarations }
-
 
   end;
 
@@ -89,10 +82,11 @@ begin
       end;
     end;
 
-    for i := index to Length(gContacts) - 1 do
+    for i := index to High(gContacts) - 1 do
     begin
       gContacts[i] := gContacts[i + 1];
     end;
+
     SetLength(gContacts, Length(gContacts) - 1);
 
     ListViewContacts.Clear;
@@ -126,7 +120,6 @@ begin
       EditUserName.Text := gContacts[lIndex].UserName;
       EditUserName.readonly := true;
     end;
-
     AddEditWnd.Caption := 'Edytuj u¿ytkownika';
     AddEditWnd.Show;
   end
@@ -138,7 +131,7 @@ end;
 
 procedure TFormContactsList.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Free;
+  FormMainWindow.GetDatabaseContacts;
 end;
 
 procedure TFormContactsList.FormCreate(Sender: TObject);
