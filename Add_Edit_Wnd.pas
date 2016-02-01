@@ -66,45 +66,44 @@ var
   lScale, lHeight, lWidth: Real;
   phoneConfig: Variant;
 begin
-  try
-    phoneConfig := gAbtoPhone.Config;
-    if ((EditUserName.Text <> '') and (EditCallerId.Text <> '')) then
+  phoneConfig := gAbtoPhone.Config;
+  if ((EditUserName.Text <> '') and (EditCallerId.Text <> '') and (EditImage.Text <> '') ) then
+  begin
+    ADOConnection.Connected := True;
+    if (EditImage.Text <> '') then
     begin
-      ADOConnection.Connected := True;
-      if (EditImage.Text <> '') then
-      begin
-        lBitmap := TBitmap.Create;
-        lType := GetImageType(EditImage.Text);
-        case lType of
-          ifBMP:
-            lImage := TBitmap.Create;
-          ifJPG:
-            lImage := TJPEGImage.Create;
-          ifPNG:
-            lImage := TPNGImage.Create;
-        end;
-        lImage.LoadFromFile(EditImage.Text);
+      lBitmap := TBitmap.Create;
+      lType := GetImageType(EditImage.Text);
+      case lType of
+        ifBMP:
+          lImage := TBitmap.Create;
+        ifJPG:
+          lImage := TJPEGImage.Create;
+        ifPNG:
+          lImage := TPNGImage.Create;
       end;
-
-      with ADOQuery do
-      begin
-        Close;
-        Sql.Clear;
-        Sql.Text := 'exec AddContact :userName, :callerId, :type, :image, :username';
-        Parameters[0].Value := EditUserName.Text;
-        Parameters[1].Value := EditCallerId.Text;
-        Parameters[2].Value := lType;
-        Parameters[3].Assign(lImage);
-        Parameters[4].Value := phoneConfig.RegUser;
-        number := ExecSql;
-
-        if (number < 0) then
-        begin
-          ShowMessage('U¿ytkownik ju¿ istnieje!');
-        end;
-      end;
+      lImage.LoadFromFile(EditImage.Text);
     end;
 
+    with ADOQuery do
+    begin
+      Sql.Clear;
+      Sql.Text := 'exec AddContact :userName, :callerId, :type, :image, :username';
+      Parameters[0].Value := EditUserName.Text;
+      Parameters[1].Value := EditCallerId.Text;
+      Parameters[2].Value := lType;
+      Parameters[3].Assign(lImage);
+      Parameters[4].Value := phoneConfig.RegUser;
+      number := ExecSql;
+      if number < 0 then
+      begin
+        ShowMessage('U¿ytkownik ju¿ istnieje!');
+      end;
+    end;
+  end;
+
+  if (number > 0) then
+  begin
     cItem := ParentForm.ListViewContacts.Items.Add();
     SetLength(gContacts, Length(gContacts) + 1);
     gContacts[Length(gContacts) - 1].UserName := EditUserName.Text;
@@ -130,13 +129,12 @@ begin
         lHeight := lImage.Height;
 
       lBitmap.Assign(lImage);
-      lBitmap.SetSize(100,100);
+      lBitmap.SetSize(100, 100);
       FormMainWindow.ImageList.Add(lBitmap, nil);
       cItem.ImageIndex := FormMainWindow.ImageList.Count - 1;
       gContacts[Length(gContacts) - 1].ImageIndex := cItem.ImageIndex;
     end;
-  except
-    ShowMessage('Wype³nij wszystkie pola');
+
   end;
   lImage.Free;
   lBitmap.Free;
@@ -183,7 +181,6 @@ begin
 
   with ADOQuery do
   begin
-    Close;
     Sql.Clear;
     Sql.Text := 'exec UpdateContact :userName, :callerId, :type, :image';
     Parameters[0].Value := EditUserName.Text;
@@ -210,7 +207,7 @@ begin
       lHeight := lImage.Height;
 
     lBitmap.Assign(lImage);
-    lBitmap.SetSize(100,100);
+    lBitmap.SetSize(100, 100);
     FormMainWindow.ImageList.Replace(gContacts[gCurrentItem].ImageIndex, lBitmap, nil);
   end;
   cItem := ParentForm.ListViewContacts.Items[gCurrentItem];

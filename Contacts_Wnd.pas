@@ -1,11 +1,12 @@
 unit Contacts_Wnd;
-
+
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  Vcl.Buttons, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ImgList, Common_Code;
+  Vcl.Buttons, Vcl.ComCtrls, System.Actions, Vcl.ActnList, Vcl.ImgList,
+  Common_Code;
 
 type
   TFormContactsList = class(TForm)
@@ -30,8 +31,10 @@ type
   private
     { Private declarations }
 
+
   public
     { Public declarations }
+
 
   end;
 
@@ -49,8 +52,8 @@ begin
   AddEditWnd.ParentForm := self;
   with AddEditWnd do
   begin
-    BtnSave.Action := ActionAdd; //ActionListAddEdit.Actions[0]
-    BtnSave.Caption := 'Zapisz';
+    BtnSave.Action := ActionAdd;
+    BtnSave.Caption := 'Zapisz';
     gAdd := True;
   end;
   AddEditWnd.Caption := 'Dodaj u¿ytkownika';
@@ -76,7 +79,6 @@ begin
     FormMainWindow.ADOConnectionLoad.Connected := true;
     with FormMainWindow.ADOQuery do
     begin
-      Close;
       Sql.Clear;
       Sql.Add('exec DeleteContact  ' + gContacts[index].UserName);
       number := ExecSql;
@@ -85,18 +87,19 @@ begin
         ShowMessage('U¿ytkownik zosta³ usuniêty!');
       end;
     end;
+
     for i := index to Length(gContacts) - 1 do
     begin
-      gContacts[index] := gContacts[index + 1];
+      gContacts[i] := gContacts[i + 1];
     end;
-
     SetLength(gContacts, Length(gContacts) - 1);
+
     ListViewContacts.Clear;
     for i := 0 to High(gContacts) do
     begin
       cItem := ListViewContacts.Items.Add();
       cItem.Caption := gContacts[i].CallerId;
-      cItem.ImageIndex := 0;
+      cItem.ImageIndex := gContacts[i].ImageIndex;
     end;
   end;
 end;
@@ -110,12 +113,11 @@ begin
   begin
     AddEditWnd := TAddEditForm.Create(self);
     AddEditWnd.ParentForm := self;
+    AddEditWnd.EditImage.Text := 'Wybierz œcie¿kê do edycji awatara';
     lIndex := ListViewContacts.Selected.Index;
-
     with AddEditWnd do
     begin
-      BtnSave.Action := ActionEdit; //ActionListAddEdit.Actions[1];
-
+      BtnSave.Action := ActionEdit;
       BtnSave.Caption := 'Zapisz';
       gAdd := false;
       gCurrentItem := lIndex;
@@ -140,3 +142,4 @@ end;
 
 end.
 
+

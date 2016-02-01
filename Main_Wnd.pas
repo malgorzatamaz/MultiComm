@@ -141,9 +141,12 @@ procedure TFormMainWindow.ActionCloseCallExecute(Sender: TObject);
 var
   lIndex: Integer;
 begin
-  lIndex := PageControl.ActivePageIndex;
-  PageControl.ActivePageIndex := lIndex - 1;
-  PageControl.Pages[lIndex].Free;
+  if not gIsCallEstablish then
+  begin
+    lIndex := PageControl.ActivePageIndex;
+    PageControl.ActivePageIndex := lIndex - 1;
+    PageControl.Pages[lIndex].Free;
+  end;
 end;
 
 procedure TFormMainWindow.ActionCloseExecute(Sender: TObject);
@@ -217,6 +220,7 @@ begin
     end;
     Inc(i);
     ADOQuery.Next;
+    ADOQuery.Close;
   end;
 end;
 
@@ -227,15 +231,13 @@ var
   cItem: TListItem;
 begin
   lContactsListWindow := TFormContactsList.Create(Self);
-  GetDatabaseContacts;
-  FillForm;
-
   lContactsListWindow.ListViewContacts.SmallImages := ImageList;
+  FillForm;
   for i := 0 to High(gContacts) do
   begin
     cItem := lContactsListWindow.ListViewContacts.Items.Add();
     cItem.Caption := gContacts[i].CallerId;
-    cItem.ImageIndex := i + 1;
+    cItem.ImageIndex := gContacts[i].ImageIndex;
   end;
   lContactsListWindow.Show;
 end;
@@ -304,6 +306,7 @@ begin
     gFrameCalls[j].Name := 'FrameCall' + IntToStr(j);
     gFrameCalls[j].PageIndex := gTabSheets[i].PageIndex;
     gFrameCalls[j].UserName := UserName;
+    gFrameCalls[j].UserId := CallerId;
     gFrameCalls[j].Align := alClient;
     gFrameCalls[j].Load(gAbtoPhone);
     gFrameCalls[j].Parent := gTabSheets[i];

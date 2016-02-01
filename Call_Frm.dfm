@@ -421,7 +421,7 @@ object FrameCall: TFrameCall
       Margins.Bottom = 10
       Align = alLeft
       Caption = 'LabelName'
-      ExplicitHeight = 13
+      ExplicitTop = 7
     end
   end
   object ImageList: TImageList

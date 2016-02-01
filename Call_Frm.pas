@@ -80,7 +80,6 @@ procedure TFrameCall.AbtoPhone_OnClearedCall(ASender: TObject; const Msg: WideSt
 begin
   fIsCallEstablish := False;
   gIsCallEstablish := False;
-
   ButtonCall.Visible := True;
   ButtonHangUp.Visible := False;
 end;
@@ -89,7 +88,6 @@ procedure TFrameCall.AbtoPhone_OnEstablishedCall(ASender: TObject; const Msg: Wi
 begin
   fIsCallEstablish := True;
   gIsCallEstablish := True;
-
   ButtonCall.Visible := False;
   ButtonHangUp.Visible := True;
 end;
@@ -185,15 +183,13 @@ begin
   ButtonSendMessage.Caption := '';
   TrackBarVolume.Position := 5;
   ButtonCloseCall.Caption := '';
-  LabelName.Caption := fCallerId;
+  LabelName.Caption := UserId;
 end;
 
 procedure TFrameCall.EditMessageKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #$D then  // Enter
-
-
-    ActionSendMessageExecute(sender);
+    ActionSendMessageExecute(sender);
 end;
 
 procedure TFrameCall.LabelMinusClick(Sender: TObject);
@@ -214,7 +210,7 @@ begin
   AbtoPhone.OnEstablishedCall := AbtoPhone_OnEstablishedCall;
   AbtoPhone.OnClearedCall := AbtoPhone_OnClearedCall;
   gShowSelf := False;
-  TrackBarVolume.Position := 5;
+  TrackBarVolume.Position := 10;
   TrackBarVolume.Position := AbtoPhone.PlaybackVolume;
 end;
 

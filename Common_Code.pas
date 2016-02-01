@@ -22,6 +22,7 @@ TContact = record           //
 
 var
   gContacts: array of TContact;
+
 implementation
 
 function ScaleBmp(bitmp: TBitmap;w,h: Real): Boolean;
